@@ -10,7 +10,5 @@ public class PawfectApplication {
 		SpringApplication.run(PawfectApplication.class, args);
 		
 		
-		
 	}
-
 }
