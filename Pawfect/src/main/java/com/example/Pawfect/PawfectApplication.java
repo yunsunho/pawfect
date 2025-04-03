@@ -9,6 +9,5 @@ public class PawfectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PawfectApplication.class, args);
 		
-		
 	}
 }
