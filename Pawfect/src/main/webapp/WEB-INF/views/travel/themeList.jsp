@@ -11,17 +11,8 @@
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/theme.css">
 </head>
-<body>
 
-<div class="filter-bar">
-  <button>관광지</button>
-  <button>문화시설</button>
-  <button class="active">행사/공연/축제</button>
-  <button>레포츠</button>
-  <button>숙박</button>
-  <button>쇼핑</button>
-  <button>음식점</button>
-</div>
+<body>
 
 <div class="sort-box">
   <select>
