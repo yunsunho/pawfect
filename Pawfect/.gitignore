@@ -39,6 +39,9 @@ application-*.properties
 application-*.yml
 
 ###
+pom.xml
+
+###
 .DS_Store
 ._.DS_Store
 **/.DS_Store
