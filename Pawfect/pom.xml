@@ -68,11 +68,6 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ojdbc11</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -96,7 +91,6 @@
 		-->
 		
 		<!-- JSP -->
-		<!--
 		<dependency>
 		    <groupId>org.apache.tomcat.embed</groupId>
 		    <artifactId>tomcat-embed-jasper</artifactId>
@@ -109,7 +103,6 @@
 		    <groupId>org.glassfish.web</groupId>
 		    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
 		</dependency>
-		-->
 		
 		<dependency>
 			 <groupId>org.mybatis.spring.boot</groupId>
