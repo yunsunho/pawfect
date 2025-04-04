@@ -1,7 +1,6 @@
-package com.example.Pawfect.controller;
+package com.example.Pawfect.controller.travel;
 
 import java.net.URI;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -27,7 +25,7 @@ public class TourController {
     	// 인코딩 안 된 원래 키 (공공데이터 포털에서 복사해온 원형)
     	String serviceKey = "/leCaqoLYYVmeyAYkuNsvs1fQEtCoHSfMZcTebr+oeVEfbrdqhUUTM4oEUKfwpX3r+hpC+XFc7hsktUcHW1OAg==";
     	String encoded = URLEncoder.encode(serviceKey, "UTF-8");
-    	System.out.println("👉 인코딩 결과: " + encoded);
+    	System.out.println("인코딩 결과: " + encoded);
         int totalPages = 3;
         List<Map<String, String>> tourList = new ArrayList<>();
 
@@ -44,12 +42,12 @@ public class TourController {
                     + "&arrange=O"
                     + "&_type=json";
 
-            // 👉 여기부터 추가
             HttpHeaders headers = new HttpHeaders();
             headers.add("User-Agent", "Mozilla/5.0");
             
             HttpEntity<String> entity = new HttpEntity<>(headers);
             URI uri = new URI(url);
+            
             ResponseEntity<String> response = restTemplate.exchange(
                 uri,
                 HttpMethod.GET,
@@ -57,8 +55,8 @@ public class TourController {
                 String.class
             );
 
-            String json = response.getBody(); // ✅ JSON 응답이 여기 들어옴
-            System.out.println("📦 응답 확인:\n" + json); // 디버깅용
+            String json = response.getBody();
+            System.out.println("응답 확인:\n" + json);
 
             JsonNode items = mapper.readTree(json)
                     .path("response").path("body").path("items").path("item");
@@ -74,8 +72,6 @@ public class TourController {
                 ));
             }
         }
-
-
         model.addAttribute("tourList", tourList);
         return "tourlist";
     }
