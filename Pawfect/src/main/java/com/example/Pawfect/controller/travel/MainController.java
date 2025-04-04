@@ -1,4 +1,4 @@
-package com.example.Pawfect.controller;
+package com.example.Pawfect.controller.travel;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -10,6 +10,6 @@ public class MainController {
 
     @GetMapping("/main")
     public String mainPage() {
-        return "main"; // main.jsp 또는 main.html이 렌더링됨
+        return "travel/main"; // main.jsp 또는 main.html이 렌더링됨
     }
 }
