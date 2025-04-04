@@ -19,15 +19,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
-public class TourController {
-    @GetMapping("/tourlist")
-    public String getAllTourList(Model model) throws Exception {
+public class ThemeController {
+    @GetMapping("/themeList")
+    public String getAllThemeList(Model model) throws Exception {
     	// 인코딩 안 된 원래 키 (공공데이터 포털에서 복사해온 원형)
     	String serviceKey = "/leCaqoLYYVmeyAYkuNsvs1fQEtCoHSfMZcTebr+oeVEfbrdqhUUTM4oEUKfwpX3r+hpC+XFc7hsktUcHW1OAg==";
     	String encoded = URLEncoder.encode(serviceKey, "UTF-8");
     	System.out.println("인코딩 결과: " + encoded);
         int totalPages = 3;
-        List<Map<String, String>> tourList = new ArrayList<>();
+        List<Map<String, String>> ThemeList = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper mapper = new ObjectMapper();
@@ -62,7 +62,7 @@ public class TourController {
                     .path("response").path("body").path("items").path("item");
 
             for (JsonNode item : items) {
-                tourList.add(Map.of(
+                ThemeList.add(Map.of(
                         "contentid", item.path("contentid").asText(),
                         "title", item.path("title").asText(),
                         "addr1", item.path("addr1").asText(),
@@ -72,8 +72,8 @@ public class TourController {
                 ));
             }
         }
-        model.addAttribute("tourList", tourList);
-        return "tourlist";
+        model.addAttribute("themeList", ThemeList);
+        return "travel/themeList";
     }
 }
 
