@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.Pawfect.mapper.UserMapper">
+    
+    <!-- 1. 아이디로 유저 조회 (로그인) -->
+    <select id="findByUserId" parameterType="string" resultType="com.example.Pawfect.dto.UserDto">
+        SELECT * FROM user WHERE userId = #{userId}
+    </select>
+
+    <!-- 2. 회원가입 - 유저 삽입 -->
+    <insert id="insertUser" parameterType="com.example.Pawfect.dto.UserDto">
+        INSERT INTO user (
+            userId, userName, userTel, userNickname,
+            userImage, petName, petType, pwd, email, isAdmin, userStatus
+        )
+        VALUES (
+            #{userId}, #{userName}, #{userTel}, #{userNickname},
+            #{userImage}, #{petName}, #{petType}, #{pwd}, #{email}, #{isAdmin}, #{userStatus}
+        )
+    </insert>
+
+    <!-- 3. 이메일 중복 체크 -->
+    <select id="countByEmail" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM user WHERE email = #{email}
+    </select>
+
+    <!-- 4. 이메일로 아이디 찾기 -->
+    <select id="findUserIdByEmail" parameterType="string" resultType="string">
+        SELECT userId FROM user WHERE email = #{email}
+    </select>
+
+    <!-- 5. 비밀번호 재설정 -->
+    <update id="updatePassword">
+        UPDATE user
+        SET pwd = #{pwd}
+        WHERE userId = #{userId}
+    </update>
+
+</mapper>
