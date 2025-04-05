@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/theme.css">
 </head>
-
 <body>
 
 <div class="sort-box">
@@ -35,6 +34,8 @@
     </div>
   </c:forEach>
 </div>
+<div id="pagination" class="pagination"></div>
 
+<script src="/js/theme.js"></script>	
 </body>
 </html>
