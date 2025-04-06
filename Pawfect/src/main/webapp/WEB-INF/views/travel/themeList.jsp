@@ -23,16 +23,16 @@
 </div>
 
 <div class="theme-container">
-  <c:forEach var="theme" items="${themeList}">
-    <div class="theme-card">
-      <img src="${theme.firstimage}" alt="이미지 없음">
-      <div class="bookmark">🔖</div>
-      <div class="theme-info">
-        <h3>${theme.title}</h3>
-        <p>${theme.addr1}</p>
-      </div>
+  <a href="/detail/${theme.contentid}">
+   <div class="theme-card">
+     <img src="${theme.firstimage}" alt="이미지 없음">
+     <div class="bookmark">🔖</div>
+     <div class="theme-info">
+       <h3>${theme.title}</h3>
+       <p>${theme.addr1}</p>
+     </div>
     </div>
-  </c:forEach>
+  </a>
 </div>
 <div id="pagination" class="pagination"></div>
 
