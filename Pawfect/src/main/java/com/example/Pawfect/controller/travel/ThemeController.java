@@ -26,8 +26,9 @@ public class ThemeController {
 
     // 👉 테마 리스트 뷰 이동
     @GetMapping("/themeList")
-    public String themeListPage(Model model) {
+    public String themeListPage(@RequestParam(defaultValue = "12") int contentTypeId, Model model) {
         model.addAttribute("currentPage", "theme");
+        model.addAttribute("initialContentTypeId", contentTypeId); // JS에서 초기 설정에 사용
         return "travel/themeList";
     }
 

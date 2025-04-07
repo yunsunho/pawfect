@@ -17,25 +17,28 @@
 
 <div class="sort-box">
   <select>
-    <option selected>가나다순</option>
-    <option>리뷰순</option>
-    <option>별점순</option>
-    <option>북마크순</option>
+    <option selected value="O">가나다순</option>
+    <option value="">리뷰순</option>
+    <option value="">별점순</option>
+    <option value="">북마크순</option>
   </select>
 </div>
 
 <div class="theme-container">
   <c:forEach var="theme" items="${themeList}">
-    <a href="/detail/${theme.contentid}?contentTypeId=${theme.contenttypeid}" class="theme-card">
-      <img src="${theme.firstimage}" alt="이미지 없음">
+    <div class="theme-card">
+      <a href="/detail/${item.contentid}?contentTypeId=${item.contenttypeid}" class="theme-link">
+        <img src="${theme.firstimage}" alt="이미지 없음">
+        <div class="theme-info">
+          <h3>${theme.title}</h3>
+          <p>${theme.addr1}</p>
+        </div>
+      </a>
       <div class="bookmark">🔖</div>
-      <div class="theme-info">
-        <h3>${theme.title}</h3>
-        <p>${theme.addr1}</p>
-      </div>
-    </a>
+    </div>
   </c:forEach>
 </div>
+
 
 
 <div id="pagination" class="pagination"></div>
