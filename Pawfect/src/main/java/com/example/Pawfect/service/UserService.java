@@ -25,18 +25,23 @@ public class UserService {
         user.setPwd(encodedPwd);
         userMapper.insertUser(user);
     }
-
-    // 3. 이메일 중복 체크
+    
+    // 3. 아이디 중복 체크
+    public boolean isUserIdDuplicated(String userId) {
+        return userMapper.countByUserId(userId) > 0;
+    }
+    
+    // 4. 이메일 중복 체크
     public boolean isEmailDuplicated(String email) {
         return userMapper.countByEmail(email) > 0;
     }
-
-    // 4. 아이디 찾기 (이메일로 userId 반환)
+    
+    // 5. 아이디 찾기 (이메일로 userId 반환)
     public String findUserIdByEmail(String email) {
         return userMapper.findUserIdByEmail(email);
     }
 
-    // 5. 비밀번호 재설정
+    // 6. 비밀번호 재설정
     public void resetPassword(String userId, String newPassword) {
         String encodedPwd = passwordEncoder.encode(newPassword);
         userMapper.updatePassword(userId, encodedPwd);

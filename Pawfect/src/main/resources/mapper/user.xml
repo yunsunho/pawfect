@@ -22,17 +22,22 @@
         )
     </insert>
 
-    <!-- 3. 이메일 중복 체크 -->
+	<!-- 3. 아이디 중복 체크 -->
+    <select id="countByUserId" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM user WHERE userId = #{userId}
+    </select>
+    
+    <!-- 4. 이메일 중복 체크 -->
     <select id="countByEmail" parameterType="string" resultType="int">
         SELECT COUNT(*) FROM user WHERE email = #{email}
     </select>
 
-    <!-- 4. 이메일로 아이디 찾기 -->
+    <!-- 5. 이메일로 아이디 찾기 -->
     <select id="findUserIdByEmail" parameterType="string" resultType="string">
         SELECT userId FROM user WHERE email = #{email}
     </select>
 
-    <!-- 5. 비밀번호 재설정 -->
+    <!-- 6. 비밀번호 재설정 -->
     <update id="updatePassword">
         UPDATE user
         SET pwd = #{pwd}

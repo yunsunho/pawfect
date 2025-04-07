@@ -1,0 +1,174 @@
+/* signup.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: #fffaf0;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.signup-container {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 40px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 15px;
+}
+
+/* 타이틀 검정색으로 변경 */
+.signup-container h2 {
+  text-align: center;
+  color: #000;
+  margin-bottom: 30px;
+}
+
+/* 조건 안내 박스 */
+.condition-box {
+  background-color: #fff8e1;
+  border: 1px solid #f4c542;
+  border-radius: 12px;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.condition-box p {
+  margin: 6px 0;
+  line-height: 1.5;
+}
+
+.condition-box strong {
+  color: #d35400;
+}
+
+/* 필수입력 * 표시 */
+.required-star {
+  color: red;
+  margin-right: 4px;
+  font-weight: bold;
+}
+
+/* 기본 폼 그룹 */
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #f4c542;
+  box-shadow: 0 0 0 2px rgba(244, 197, 66, 0.2);
+}
+
+/* 인풋 + 버튼 정렬용 */
+.input-with-btn {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-with-btn input {
+  flex: 1;
+}
+
+.input-with-btn button {
+  white-space: nowrap;
+  background-color: #f4c542;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  height: 42px;
+}
+
+.input-with-btn button:hover {
+  background-color: #e6b800;
+}
+
+/* 기존 인증코드 입력칸 전용 버튼 (위치 절대값) */
+.check-btn {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  padding: 8px 12px;
+  font-size: 12px;
+  background: #f4c542;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.check-btn:hover {
+  background: #e6b800;
+}
+
+/* 가입/취소 버튼 */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.submit-btn,
+.cancel-btn {
+  width: 48%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.submit-btn {
+  background: #f4c542;
+  color: #fff;
+}
+
+.submit-btn:hover {
+  background: #e0ab00;
+}
+
+.cancel-btn {
+  background: #ddd;
+  color: #444;
+}
+
+.cancel-btn:hover {
+  background: #bbb;
+}
+
+/* 메시지 */
+.result-message {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* 인증코드 입력 여백 */
+#auth-code-section input {
+  margin-bottom: 10px;
+}
