@@ -28,6 +28,7 @@ public class ThemeController {
     @GetMapping("/themeList")
     public String themeListPage(@RequestParam(defaultValue = "12") int contentTypeId, Model model) {
         model.addAttribute("currentPage", "theme");
+        model.addAttribute("showSubmenu", true);
         model.addAttribute("initialContentTypeId", contentTypeId); // JS에서 초기 설정에 사용
         return "travel/themeList";
     }
@@ -152,7 +153,7 @@ public class ThemeController {
 
         model.addAttribute("detail", detail);
         model.addAttribute("images", images);
-        model.addAttribute("currentPage", "theme");  
+        // model.addAttribute("currentPage", "theme");  
 
         return "travel/detail";
     }

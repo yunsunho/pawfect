@@ -17,7 +17,7 @@
   </div>
 </header>
 
-<c:if test="${currentPage eq 'theme'}">
+<c:if test="${showSubmenu eq true}">
   <div class="theme-submenu">
     <a class="theme-tab active">관광지</a>
     <a class="theme-tab">문화시설</a>
