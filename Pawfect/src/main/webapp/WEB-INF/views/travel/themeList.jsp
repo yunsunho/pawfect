@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page pageEncoding="UTF-8" %>
 <c:set var="currentPage" value="theme" />
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 <!DOCTYPE html>
 <html>
@@ -11,8 +11,9 @@
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/theme.css">
 </head>
-
 <body>
+
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 <div class="sort-box">
   <select>
@@ -25,16 +26,19 @@
 
 <div class="theme-container">
   <c:forEach var="theme" items="${themeList}">
-    <div class="theme-card">
+    <a href="/detail/${theme.contentid}" class="theme-card">
       <img src="${theme.firstimage}" alt="이미지 없음">
       <div class="bookmark">🔖</div>
       <div class="theme-info">
         <h3>${theme.title}</h3>
         <p>${theme.addr1}</p>
       </div>
-    </div>
+    </a>
   </c:forEach>
 </div>
 
+<div id="pagination" class="pagination"></div>
+
+<script src="/js/theme.js"></script>	
 </body>
 </html>
