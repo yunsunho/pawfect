@@ -1,66 +1,75 @@
-/* signup.css */
-
+/* 기본 레이아웃 */
 body {
   font-family: 'Arial', sans-serif;
   background: #fffaf0;
   margin: 0;
   padding: 0;
   color: #333;
+
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
+/* 폼 전체 컨테이너 */
 .signup-container {
-  max-width: 500px;
-  margin: 60px auto;
+  width: 1000px;
+  max-width: 1000px;
+  min-height: 600px;
+  max-height: 90vh;
   padding: 40px;
   background: #ffffff;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   border-radius: 15px;
+  overflow-y: auto;
 }
 
-/* 타이틀 검정색으로 변경 */
+/* 제목 */
 .signup-container h2 {
   text-align: center;
   color: #000;
   margin-bottom: 30px;
 }
 
-/* 조건 안내 박스 */
-.condition-box {
-  background-color: #fff8e1;
-  border: 1px solid #f4c542;
-  border-radius: 12px;
-  padding: 15px 20px;
-  margin-bottom: 20px;
-  font-size: 14px;
-  color: #333;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+/* 2단 배치 */
+.signup-2col {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 
-.condition-box p {
-  margin: 6px 0;
-  line-height: 1.5;
+.signup-left,
+.signup-right {
+  flex: 1;
+  min-width: 300px;
 }
 
-.condition-box strong {
-  color: #d35400;
+/* 반응형: 모바일에선 1단으로 전환 */
+@media (max-width: 768px) {
+  .signup-2col {
+    flex-direction: column;
+  }
 }
 
-/* 필수입력 * 표시 */
+/* 필수표시 * */
 .required-star {
   color: red;
-  margin-right: 4px;
-  font-weight: bold;
+  margin-right: 3px;
 }
 
-/* 기본 폼 그룹 */
+/* 라벨 + 인풋 */
 .form-group {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   position: relative;
+  min-height: 80px;
 }
 
 .form-group label {
+  display: block;
   font-weight: bold;
   margin-bottom: 6px;
 }
@@ -80,52 +89,29 @@ body {
   box-shadow: 0 0 0 2px rgba(244, 197, 66, 0.2);
 }
 
-/* 인풋 + 버튼 정렬용 */
+/* input + button 구성 */
 .input-with-btn {
   display: flex;
-  gap: 8px;
   align-items: center;
-}
-
-.input-with-btn input {
-  flex: 1;
+  gap: 10px;
 }
 
 .input-with-btn button {
-  white-space: nowrap;
-  background-color: #f4c542;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 10px 14px;
+  padding: 8px 14px;
   font-size: 13px;
-  cursor: pointer;
-  height: 42px;
-}
-
-.input-with-btn button:hover {
-  background-color: #e6b800;
-}
-
-/* 기존 인증코드 입력칸 전용 버튼 (위치 절대값) */
-.check-btn {
-  position: absolute;
-  right: 0;
-  top: 28px;
-  padding: 8px 12px;
-  font-size: 12px;
   background: #f4c542;
   border: none;
   color: #fff;
   border-radius: 6px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
-.check-btn:hover {
+.input-with-btn button:hover {
   background: #e6b800;
 }
 
-/* 가입/취소 버튼 */
+/* 버튼 영역 */
 .form-actions {
   display: flex;
   justify-content: space-between;
@@ -163,12 +149,104 @@ body {
 
 /* 메시지 */
 .result-message {
-  margin-top: 5px;
+  min-height: 18px;
   font-size: 14px;
   color: #666;
+  display: block;
 }
 
-/* 인증코드 입력 여백 */
-#auth-code-section input {
-  margin-bottom: 10px;
+/* 조건 체크 리스트 */
+.check-list {
+  font-size: 13px;
+  margin: 5px 0 0 5px;
+  list-style: none;
+  padding: 0;
+}
+
+.check-list li.valid {
+  color: green;
+}
+
+.check-list li.invalid {
+  color: red;
+}
+
+.check-list li.valid::before {
+  content: '✔';
+  margin-right: 5px;
+  color: green;
+}
+
+.check-list li.invalid::before {
+  content: '✗';
+  margin-right: 5px;
+  color: red;
+}
+
+/* 이메일 타이머 */
+#email-timer {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #d35400;
+}
+
+.timer-message {
+  margin-left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #d35400;
+  white-space: nowrap;
+  min-height: 20px;
+}
+
+/* 상태 아이콘 (✔) */
+.status-icon {
+  margin-left: 5px;
+  font-size: 18px;
+  color: green;
+  vertical-align: middle;
+}
+
+/* 전화번호 입력 */
+.tel-input {
+  display: flex;
+  gap: 6px;
+}
+
+.tel-input input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* 로딩 스피너 */
+.spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border-left-color: #f4c542;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 닉네임 경고 문구 */
+.nickname-warning {
+  font-size: 0.85em;
+  color: #000;
+  margin-top: 4px;
+}
+
+.text-red {
+  color: red;
+  font-weight: bold;
 }

@@ -17,6 +17,16 @@ public class UserService {
     public UserDto getUserById(String userId) {
         return userMapper.findByUserId(userId);
     }
+    
+    public boolean authenticate(String userId, String pwd) {
+        // 사용자 정보를 DB에서 가져옴
+        UserDto user = userMapper.findByUserId(userId);
+        // 사용자 비밀번호가 존재하고, 입력된 비밀번호와 비교
+        if (user != null && passwordEncoder.matches(pwd, user.getPwd())) {
+            return true; // 비밀번호 일치
+        }
+        return false; // 비밀번호 불일치
+    }
 
     // 2. 회원가입
     public void registerUser(UserDto user) {

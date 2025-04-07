@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -24,7 +25,7 @@ public class MailService {
     // 인증 메일 전송 + DB 저장
     public void sendVerificationEmail(String toEmail) {
         String authCode = createAuthCode();
-        String subject = "[Pawfect Tour] 이메일 인증을 완료해주세요 🐾";
+        String subject = "[Pawfect Tour] 이메일 인증을 완료해주세요.";
 
         String content = """
             <div style="font-family: Arial, sans-serif;">
@@ -67,7 +68,10 @@ public class MailService {
         return minutes <= 5;
     }
 
+    // 인증코드 생성 (6자리 숫자)
     private String createAuthCode() {
-        return UUID.randomUUID().toString().substring(0, 8);
+        Random random = new Random();
+        int code = 100000 + random.nextInt(900000); // 100000 ~ 999999
+        return String.valueOf(code);
     }
 }

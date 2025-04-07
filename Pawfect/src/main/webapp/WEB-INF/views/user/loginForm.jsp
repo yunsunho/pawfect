@@ -16,7 +16,12 @@
 
   <!-- 로그인 실패 메시지 -->
   <c:if test="${not empty param.error}">
-    <p class="error-message">${param.message}</p>
+    <p class="error-message">${param.message}</p> 
+  </c:if>
+
+  <!-- 회원가입 성공 메시지 -->
+  <c:if test="${not empty param.message and empty param.error}">
+    <p class="success-message">${param.message}</p> 
   </c:if>
 
   <form action="/login" method="post">

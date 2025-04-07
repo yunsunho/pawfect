@@ -24,6 +24,4 @@ public interface UserMapper {
 
     // 6. 비밀번호 재설정 - 이메일 + userId 일치 시 비번 변경
     void updatePassword(@Param("userId") String userId, @Param("pwd") String pwd);
-
-
 }

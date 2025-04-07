@@ -4,6 +4,8 @@ import com.example.Pawfect.auth.CustomUserDetailsService;
 import com.example.Pawfect.auth.LoginFailureHandler;
 import com.example.Pawfect.auth.LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +21,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
+    
+	@Autowired
+	private LoginSuccessHandler loginSuccessHandler;
+	private LoginFailureHandler loginFailureHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -32,8 +38,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/", "/main",
-                    "/user/loginForm", "/user/signupForm",
-                    "/user/findIdForm", "/user/findPwForm",
+                    "/loginForm", "/signupForm",
+                    "/findIdForm", "/findPwForm",
                     "/css/**", "/js/**", "/images/**"
                 ).permitAll()
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
@@ -46,12 +52,12 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
             )
             .formLogin(login -> login
-                .loginPage("/user/loginForm")           
+                .loginPage("/loginForm")           
                 .loginProcessingUrl("/user/login")      
                 .usernameParameter("userId")            
                 .passwordParameter("pwd")
-                .successHandler(new LoginSuccessHandler()) 
-                .failureHandler(new LoginFailureHandler()) 
+                .successHandler(loginSuccessHandler) 
+                .failureHandler(loginFailureHandler) 
                 .permitAll()
             )
             .logout(logout -> logout

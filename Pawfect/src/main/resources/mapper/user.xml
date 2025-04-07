@@ -14,11 +14,11 @@
     <insert id="insertUser" parameterType="com.example.Pawfect.dto.UserDto">
         INSERT INTO user (
             userId, userName, userTel, userNickname,
-            userImage, petName, petType, pwd, email, isAdmin, userStatus
+            userImage, petName, petType, pwd, email,admin, userStatus
         )
         VALUES (
             #{userId}, #{userName}, #{userTel}, #{userNickname},
-            #{userImage}, #{petName}, #{petType}, #{pwd}, #{email}, #{isAdmin}, #{userStatus}
+            #{userImage}, #{petName}, #{petType}, #{pwd}, #{email}, #{admin}, #{userStatus}
         )
     </insert>
 
