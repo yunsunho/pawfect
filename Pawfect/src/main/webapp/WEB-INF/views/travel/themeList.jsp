@@ -26,7 +26,7 @@
 
 <div class="theme-container">
   <c:forEach var="theme" items="${themeList}">
-    <a href="/detail/${theme.contentid}" class="theme-card">
+    <a href="/detail/${theme.contentid}?contentTypeId=${theme.contenttypeid}" class="theme-card">
       <img src="${theme.firstimage}" alt="이미지 없음">
       <div class="bookmark">🔖</div>
       <div class="theme-info">
@@ -36,6 +36,7 @@
     </a>
   </c:forEach>
 </div>
+
 
 <div id="pagination" class="pagination"></div>
 

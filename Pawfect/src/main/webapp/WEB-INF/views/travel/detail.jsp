@@ -15,7 +15,7 @@
   <!-- 📸 이미지 슬라이드 -->
   <div class="slider">
     <c:forEach var="img" items="${images}">
-	  <img src="${img.originimgurl}" alt="슬라이드 이미지">
+	  <img src="${img}" alt="슬라이드 이미지">
 	</c:forEach>
   </div>
 
