@@ -31,6 +31,13 @@
   gap: 20px;
 }
 
+.theme-container a.theme-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer; 
+}
+
 .theme-card {
   background: white;
   border-radius: 10px;
@@ -60,6 +67,7 @@
   right: 10px;
   font-size: 24px;
   cursor: pointer;
+  pointer-events: none;
 }
 
 .pagination {
@@ -78,4 +86,5 @@
   background: #f4c542;
   font-weight: bold;
 }
+
 

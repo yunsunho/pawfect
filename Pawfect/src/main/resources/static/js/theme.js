@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const arrangeMap = {
     '제목순': 'O',
-    '리뷰순': 'R',
-	'별점순': 'S',
-	'북마크순': 'B'
+    '리뷰순': '',
+	'별점순': '',
+	'북마크순': ''
   };
 
   let selectedContentTypeId = 12; // 기본 관광지

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page pageEncoding="UTF-8" %>
 <c:set var="currentPage" value="theme" />
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 <!DOCTYPE html>
 <html>
@@ -13,6 +13,8 @@
 </head>
 <body>
 
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
+
 <div class="sort-box">
   <select>
     <option selected>가나다순</option>
@@ -23,17 +25,18 @@
 </div>
 
 <div class="theme-container">
-  <a href="/detail/${theme.contentid}">
-   <div class="theme-card">
-     <img src="${theme.firstimage}" alt="이미지 없음">
-     <div class="bookmark">🔖</div>
-     <div class="theme-info">
-       <h3>${theme.title}</h3>
-       <p>${theme.addr1}</p>
-     </div>
-    </div>
-  </a>
+  <c:forEach var="theme" items="${themeList}">
+    <a href="/detail/${theme.contentid}" class="theme-card">
+      <img src="${theme.firstimage}" alt="이미지 없음">
+      <div class="bookmark">🔖</div>
+      <div class="theme-info">
+        <h3>${theme.title}</h3>
+        <p>${theme.addr1}</p>
+      </div>
+    </a>
+  </c:forEach>
 </div>
+
 <div id="pagination" class="pagination"></div>
 
 <script src="/js/theme.js"></script>	
