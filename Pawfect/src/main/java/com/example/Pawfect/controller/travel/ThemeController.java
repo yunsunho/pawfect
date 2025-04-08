@@ -89,73 +89,72 @@ public class ThemeController {
     }
 
     // 👉 상세 페이지 요청 처리
-    @GetMapping("/detail/{contentId}")
-    public String getDetailInfo(
-            @PathVariable String contentId,
-            @RequestParam("contentTypeId") String contentTypeId,
-            Model model) throws Exception {
-
-        String encodedKey = URLEncoder.encode(serviceKey, "UTF-8");
-
-        // 🔹 이미지 API
-        String imageUrl = "https://apis.data.go.kr/B551011/KorPetTourService/detailImage?"
-                + "serviceKey=" + encodedKey
-                + "&MobileOS=ETC&MobileApp=PawfectTour"
-                + "&contentId=" + contentId
-                + "&imageYN=Y&_type=json";
-        
-        // System.out.println("🖼️ 호출되는 이미지 API URL: " + imageUrl);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ObjectMapper mapper = new ObjectMapper();
-
-        ResponseEntity<String> imageResponse = restTemplate.exchange(
-                new URI(imageUrl),
-                HttpMethod.GET,
-                new HttpEntity<>(new HttpHeaders()),
-                String.class
-        );
-
-        JsonNode imageItems = mapper.readTree(imageResponse.getBody())
-                .path("response").path("body").path("items").path("item");
-
-        List<String> images = new ArrayList<>();
-        for (JsonNode item : imageItems) {
-            images.add(item.path("originimgurl").asText());
-        }
-
-        // 🔹 상세 정보 API - contentTypeId도 같이 포함
-        String detailUrl = "https://apis.data.go.kr/B551011/KorPetTourService/detailIntro?"
-                + "serviceKey=" + encodedKey
-                + "&MobileOS=ETC&MobileApp=PawfectTour"
-                + "&contentId=" + contentId
-                + "&contentTypeId=" + contentTypeId
-                + "&_type=json";
-        System.out.println("🖼️ 호출되는 이미지 API URL: " + detailUrl);
-        
-        ResponseEntity<String> detailResponse = restTemplate.exchange(
-                new URI(detailUrl),
-                HttpMethod.GET,
-                new HttpEntity<>(new HttpHeaders()),
-                String.class
-        );
-        
-        JsonNode detailItem = mapper.readTree(detailResponse.getBody())
-                .path("response").path("body").path("items").path("item").get(0);
-
-        Map<String, String> detail = Map.of(
-                "title", detailItem.path("title").asText(),
-                "addr1", detailItem.path("addr1").asText(),
-                "overview", detailItem.path("overview").asText(),
-                "mapx", detailItem.path("mapx").asText(),
-                "mapy", detailItem.path("mapy").asText()
-        );
-
-        model.addAttribute("detail", detail);
-        model.addAttribute("images", images);
-        // model.addAttribute("currentPage", "theme");  
-
-        return "travel/detail";
-    }
+//    @GetMapping("/detail/{contentId}")
+//    public String getDetailInfo(
+//            @PathVariable String contentId,
+//            @RequestParam("contentTypeId") String contentTypeId,
+//            Model model) throws Exception {
+//
+//        String encodedKey = URLEncoder.encode(serviceKey, "UTF-8");
+//
+//        // 🔹 이미지 API
+//        String imageUrl = "https://apis.data.go.kr/B551011/KorPetTourService/detailImage?"
+//                + "serviceKey=" + encodedKey
+//                + "&MobileOS=ETC&MobileApp=PawfectTour"
+//                + "&contentId=" + contentId
+//                + "&imageYN=Y&_type=json";
+//        
+//        // System.out.println("🖼️ 호출되는 이미지 API URL: " + imageUrl);
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        ResponseEntity<String> imageResponse = restTemplate.exchange(
+//                new URI(imageUrl),
+//                HttpMethod.GET,
+//                new HttpEntity<>(new HttpHeaders()),
+//                String.class
+//        );
+//
+//        JsonNode imageItems = mapper.readTree(imageResponse.getBody())
+//                .path("response").path("body").path("items").path("item");
+//
+//        List<String> images = new ArrayList<>();
+//        for (JsonNode item : imageItems) {
+//            images.add(item.path("originimgurl").asText());
+//        }
+//
+//        // 🔹 상세 정보 API - contentTypeId도 같이 포함
+//        String detailUrl = "https://apis.data.go.kr/B551011/KorPetTourService/detailIntro?"
+//                + "serviceKey=" + encodedKey
+//                + "&MobileOS=ETC&MobileApp=PawfectTour"
+//                + "&contentId=" + contentId
+//                + "&contentTypeId=" + contentTypeId
+//                + "&_type=json";
+//        
+//        ResponseEntity<String> detailResponse = restTemplate.exchange(
+//                new URI(detailUrl),
+//                HttpMethod.GET,
+//                new HttpEntity<>(new HttpHeaders()),
+//                String.class
+//        );
+//        
+//        JsonNode detailItem = mapper.readTree(detailResponse.getBody())
+//                .path("response").path("body").path("items").path("item").get(0);
+//
+//        Map<String, String> detail = Map.of(
+//                "title", detailItem.path("title").asText(),
+//                "addr1", detailItem.path("addr1").asText(),
+//                "overview", detailItem.path("overview").asText(),
+//                "mapx", detailItem.path("mapx").asText(),
+//                "mapy", detailItem.path("mapy").asText()
+//        );
+//
+//        model.addAttribute("detail", detail);
+//        model.addAttribute("images", images);
+//        // model.addAttribute("currentPage", "theme");  
+//
+//        return "travel/detail";
+//    }
 
 }

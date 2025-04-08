@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.createElement('div');
         card.className = 'theme-card';
 		card.innerHTML = `
-		<a href="/detail/${item.contentid}?contentTypeId=${item.contenttypeid}" class="theme-link">
+		<a href="/detail/${item.contentid}/${item.contenttypeid}" class="theme-link">
 		    <img src="${item.firstimage || '/img/no-image.jpg'}" alt="이미지 없음">
 		    <div class="theme-info">
 		      <h3>${item.title}</h3>
