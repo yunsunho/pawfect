@@ -7,17 +7,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDto {
-    private String userId;
-    private String userName;
-    private String userTel;
-    private String userNickname;
-    private String userImage;
-    private Timestamp userRegdate;
-    private String petName;
-    private int petType;
-    private String pwd;
-    private String email;
+	private String userId;
+	private String userName;
+	private String userTel;
+	private String userNickname;
+	private String userImage;
+	private Timestamp userRegdate;
+	private String petName;
+	private int petType;
+	private String pwd;
+	private String email;
 
-    private boolean admin;         
-    private String userStatus;       // ACTIVE, BANNED, WITHDRAWN
+	private boolean admin;
+	private String userStatus; // ACTIVE, BANNED, WITHDRAWN
 }

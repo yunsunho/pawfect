@@ -10,50 +10,49 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserMapper userMapper;
-    private final BCryptPasswordEncoder passwordEncoder;
+	private final UserMapper userMapper;
+	private final BCryptPasswordEncoder passwordEncoder;
+	private final EmailVeriService emailVeriService;
 
-    // 1. 로그인 - 아이디로 유저 조회
-    public UserDto getUserById(String userId) {
-        return userMapper.findByUserId(userId);
-    }
-    
-    public boolean authenticate(String userId, String pwd) {
-        // 사용자 정보를 DB에서 가져옴
-        UserDto user = userMapper.findByUserId(userId);
-        // 사용자 비밀번호가 존재하고, 입력된 비밀번호와 비교
-        if (user != null && passwordEncoder.matches(pwd, user.getPwd())) {
-            return true; // 비밀번호 일치
-        }
-        return false; // 비밀번호 불일치
-    }
+	// 1. 아이디로 유저 조회
+	public UserDto getUserById(String userId) {
+		return userMapper.findByUserId(userId);
+	}
 
-    // 2. 회원가입
-    public void registerUser(UserDto user) {
-        // 비밀번호 암호화
-        String encodedPwd = passwordEncoder.encode(user.getPwd());
-        user.setPwd(encodedPwd);
-        userMapper.insertUser(user);
-    }
-    
-    // 3. 아이디 중복 체크
-    public boolean isUserIdDuplicated(String userId) {
-        return userMapper.countByUserId(userId) > 0;
-    }
-    
-    // 4. 이메일 중복 체크
-    public boolean isEmailDuplicated(String email) {
-        return userMapper.countByEmail(email) > 0;
-    }
-    
-    // 5. 아이디 찾기 (이메일로 userId 반환)
-    public String findUserIdByEmail(String email) {
-        return userMapper.findUserIdByEmail(email);
-    }
+	// 2. 사용자 인증 (아이디 + 비밀번호) -> 인증 성공 시 UserDto 반환
+	public UserDto authenticateAndGetUser(String userId, String pwd) {
+		UserDto user = userMapper.findByUserId(userId);
+		if (user != null && passwordEncoder.matches(pwd, user.getPwd())) {
+			return user;
+		}
+		return null;
+	}
 
-    // 6. 비밀번호 재설정
-    public void resetPassword(String userId, String newPassword) {
-        String encodedPwd = passwordEncoder.encode(newPassword);
-        userMapper.updatePassword(userId, encodedPwd);
-    }
+	// 3. 비밀번호만 검증 (아이디는 이미 확인된 경우)
+	public boolean isPasswordCorrect(UserDto user, String rawPwd) {
+		return passwordEncoder.matches(rawPwd, user.getPwd());
+	}
+
+	// 4. 회원가입
+	public void registerUser(UserDto user) {
+		boolean isEmailVerified = emailVeriService.isEmailVerified(user.getEmail());
+		if (!isEmailVerified) {
+			throw new RuntimeException("이메일 인증이 완료되지 않았습니다.");
+		}
+
+		String encodedPwd = passwordEncoder.encode(user.getPwd());
+		user.setPwd(encodedPwd);
+
+		userMapper.insertUser(user);
+	}
+
+	// 5. 아이디 중복 체크
+	public boolean isUserIdDuplicated(String userId) {
+		return userMapper.countByUserId(userId) > 0;
+	}
+
+	// 6. 이메일 중복 체크
+	public boolean isEmailDuplicated(String email) {
+		return userMapper.countByEmail(email) > 0;
+	}
 }

@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EmailVeriDto {
-    private String email;
-    private String code;
-    private boolean isVerified;
-    private Timestamp createdAt;
+	private String email;
+	private String code;
+	private boolean isVerified;
+	private Timestamp createdAt;
 }

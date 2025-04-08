@@ -4,44 +4,38 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.Pawfect.mapper.UserMapper">
-    
-    <!-- 1. 아이디로 유저 조회 (로그인) -->
-    <select id="findByUserId" parameterType="string" resultType="com.example.Pawfect.dto.UserDto">
-        SELECT * FROM user WHERE userId = #{userId}
-    </select>
 
-    <!-- 2. 회원가입 - 유저 삽입 -->
-    <insert id="insertUser" parameterType="com.example.Pawfect.dto.UserDto">
-        INSERT INTO user (
-            userId, userName, userTel, userNickname,
-            userImage, petName, petType, pwd, email,admin, userStatus
-        )
-        VALUES (
-            #{userId}, #{userName}, #{userTel}, #{userNickname},
-            #{userImage}, #{petName}, #{petType}, #{pwd}, #{email}, #{admin}, #{userStatus}
-        )
-    </insert>
+	<!-- 로그인용 아이디로 유저 조회 -->
+	<select id="findByUserId" parameterType="string"
+		resultType="com.example.Pawfect.dto.UserDto">
+		SELECT *
+		FROM user
+		WHERE userId = #{userId}
+	</select>
 
-	<!-- 3. 아이디 중복 체크 -->
-    <select id="countByUserId" parameterType="string" resultType="int">
-        SELECT COUNT(*) FROM user WHERE userId = #{userId}
-    </select>
-    
-    <!-- 4. 이메일 중복 체크 -->
-    <select id="countByEmail" parameterType="string" resultType="int">
-        SELECT COUNT(*) FROM user WHERE email = #{email}
-    </select>
+	<!-- 회원가입 - 사용자 INSERT -->
+	<insert id="insertUser"
+		parameterType="com.example.Pawfect.dto.UserDto">
+		INSERT INTO user (
+		userId, userName, userTel, userNickname,
+		userImage, petName, petType, pwd, email, admin, userStatus
+		)
+		VALUES (
+		#{userId}, #{userName}, #{userTel}, #{userNickname},
+		#{userImage}, #{petName}, #{petType}, #{pwd}, #{email}, #{admin}, #{userStatus}
+		)
+	</insert>
 
-    <!-- 5. 이메일로 아이디 찾기 -->
-    <select id="findUserIdByEmail" parameterType="string" resultType="string">
-        SELECT userId FROM user WHERE email = #{email}
-    </select>
+	<!-- 아이디 중복 확인 -->
+	<select id="countByUserId" parameterType="string"
+		resultType="int">
+		SELECT COUNT(*) FROM user WHERE userId = #{userId}
+	</select>
 
-    <!-- 6. 비밀번호 재설정 -->
-    <update id="updatePassword">
-        UPDATE user
-        SET pwd = #{pwd}
-        WHERE userId = #{userId}
-    </update>
+	<!-- 이메일 중복 확인 -->
+	<select id="countByEmail" parameterType="string"
+		resultType="int">
+		SELECT COUNT(*) FROM user WHERE email = #{email}
+	</select>
 
 </mapper>

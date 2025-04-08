@@ -1,36 +1,41 @@
 package com.example.Pawfect.controller.user;
 
-import com.example.Pawfect.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequiredArgsConstructor
 public class LoginController {
-    private final UserService userService;
 
-    // 1. 로그인 폼
-    @GetMapping("/loginForm")
-    public String loginForm(@RequestParam(value = "error", required = false) String error,
-                            @RequestParam(value = "message", required = false) String message,
-                            Model model) {
-        model.addAttribute("error", error);
-        model.addAttribute("message", message);
-        return "user/loginForm";
-    }
-    
-    // 1-1. 로그인 처리 (POST 방식 추가)
-    @PostMapping("/login")
-    public String login(@RequestParam("userId") String userId,
-                        @RequestParam("pwd") String pwd, 
-                        Model model) {
-        if (userService.authenticate(userId, pwd)) {
-            return "redirect:/main"; // 성공 시 main 페이지로 리디렉션
-        } else {
-            model.addAttribute("error", "아이디 또는 비밀번호가 틀렸습니다.");
-            return "user/loginForm"; // 실패 시 로그인 폼으로 돌아감
-        }
-    }
+	@GetMapping("/loginForm")
+	public String loginForm(@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "message", required = false) String message, Model model) {
+		model.addAttribute("error", error);
+		model.addAttribute("message", message);
+		return "user/loginForm";
+	}
+
+	// 로그인 결과 처리 (실패 메시지)
+	@GetMapping("/loginResult")
+	public String loginResult(@RequestParam("status") String status, @RequestParam(required = false) String error,
+			Model model) {
+
+		String message;
+
+		if ("failure".equals(status)) {
+			message = switch (error) {
+			case "userNotFound" -> "존재하지 않는 아이디입니다. 다시 확인해주세요.";
+			case "invalidCredentials" -> "일치하지 않는 비밀번호입니다. 다시 확인해주세요.";
+			case "accountBanned" -> "정지된 계정입니다.";
+			case "accountWithdrawn" -> "탈퇴한 계정입니다.";
+			default -> "로그인 실패! 다시 시도해주세요.";
+			};
+		} else {
+			message = null;
+		}
+
+		model.addAttribute("status", status);
+		model.addAttribute("message", message);
+		return "user/loginResult";
+	}
 }
