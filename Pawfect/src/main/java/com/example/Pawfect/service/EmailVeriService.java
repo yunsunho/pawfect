@@ -94,7 +94,7 @@ public class EmailVeriService {
 
 			helper.setTo(toEmail);
 			helper.setSubject(subject);
-			helper.setText(htmlContent, true); // HTML 사용
+			helper.setText(htmlContent, true); 
 			mailSender.send(message);
 		} catch (MessagingException e) {
 			throw new RuntimeException("이메일 전송 실패: " + e.getMessage(), e);
