@@ -52,6 +52,9 @@
       <c:if test="${not empty detail.tel}">
         <li><strong>문의처:</strong> ${detail.tel}</li>
       </c:if>
+      <c:if test="${not empty detail.homepage}">
+        <li><strong>홈페이지:</strong> ${detail.homepage}</li>
+      </c:if>
       <c:if test="${not empty pet.chkpetfacility}">
         <li><strong>반려동물 시설:</strong> ${pet.chkpetfacility}</li>
       </c:if>

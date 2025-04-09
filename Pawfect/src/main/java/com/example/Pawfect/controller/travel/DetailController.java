@@ -35,7 +35,7 @@ public class DetailController {
                 + "serviceKey=" + encodedKey
                 + "&MobileOS=ETC&MobileApp=Pawfect"
                 + "&contentId=" + contentId
-                + "&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y"
+                + "&defaultYN=Y&firstImageYN=N&areacodeYN=N&catcodeYN=N"
                 + "&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&_type=json";
         System.out.println("commonUrl" + commonUrl);
         ResponseEntity<String> commonResponse = restTemplate.exchange(
@@ -56,6 +56,7 @@ public class DetailController {
         } else {
         	Map<String, String> detailMap = new HashMap<>();
             detailMap.put("title", common.path("title").asText());
+            detailMap.put("homepage", common.path("homepage").asText());
             detailMap.put("addr1", common.path("addr1").asText());
             detailMap.put("overview", common.path("overview").asText());
             detailMap.put("tel", common.path("tel").asText());
@@ -105,7 +106,6 @@ public class DetailController {
         petInfo.put("chkpetrestaurant", petNode.path("chkpetrestaurant").asText());
         petInfo.put("petnotic", petNode.path("petnotic").asText());
         petInfo.put("petetc", petNode.path("petetc").asText());
-
         model.addAttribute("pet", petInfo);
         
         // 페이지 렌더링

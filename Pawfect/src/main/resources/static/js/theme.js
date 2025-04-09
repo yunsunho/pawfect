@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		      <h3>${item.title}</h3>
 		      <p>${item.addr1}</p>
 		    </div>
-		  </a>
-		  <div class="bookmark">🔖</div>
+			<div class="bookmark">🔖</div>
+		  </a>		  
 		`;
         container.appendChild(card);
       });
