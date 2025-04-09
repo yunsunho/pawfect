@@ -60,7 +60,7 @@ public class SecurityConfig {
 						.loginProcessingUrl("/login")
 						.usernameParameter("userId")
 						.passwordParameter("pwd")
-						.defaultSuccessUrl("/loginResult?status=success", true)
+						.defaultSuccessUrl("/loginResult?status=success", false)
 						.failureHandler(loginFailureHandler)
 						.permitAll())
 				.logout(logout -> logout
