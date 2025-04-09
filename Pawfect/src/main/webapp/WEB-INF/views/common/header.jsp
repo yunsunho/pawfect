@@ -13,7 +13,7 @@
   <div class="icons">
     <span class="icon">📍</span>
     <span class="icon notification">🔔</span>
-    <span class="icon user">👤</span>
+    <a href="/mypage" class="icon user">👤</a> <!-- 👈 마이페이지 이동 -->
   </div>
 </header>
 
