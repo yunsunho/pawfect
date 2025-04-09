@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.Pawfect.mapper.BoardMapper">
+    <insert id="insertPost" parameterType="com.example.Pawfect.dto.PostDto" useGeneratedKeys="true" keyProperty="postId">
+	  INSERT INTO post (userId, postType, postTitle, postContent)
+	  VALUES (#{userId}, #{postType}, #{postTitle}, #{postContent})
+	</insert>
+	
+	<update id="updatePost" parameterType="com.example.Pawfect.dto.PostDto">
+	  UPDATE post
+	  SET postType = #{postType},
+	      postTitle = #{postTitle},
+	      postContent = #{postContent}
+	  WHERE postId = #{postId}
+	</update>
+
+	<delete id="deletePost" parameterType="int">
+	  DELETE FROM post WHERE postId = #{postId}
+	</delete>
+
+	
+    <select id="getAllPosts" resultType="com.example.Pawfect.dto.PostDto">
+        SELECT * FROM post ORDER BY postId DESC
+    </select>
+
+    <select id="getPostById" parameterType="int" resultType="com.example.Pawfect.dto.PostDto">
+        SELECT * FROM post WHERE postId = #{postId}
+    </select>
+    
+    <select id="getPostCount" parameterType="map" resultType="int">
+	  SELECT COUNT(*) FROM post
+	  <where>
+	    <if test="startDate != null and endDate != null">
+	      postRegdate BETWEEN #{startDate} AND #{endDate}
+	    </if>
+	  </where>
+	</select>
+	
+	<update id="incrementViewCount" parameterType="int">
+	  UPDATE post SET postViewCount = postViewCount + 1 WHERE postId = #{postId}
+	</update>
+
+
+	<select id="getPostList" parameterType="map" resultType="com.example.Pawfect.dto.PostDto">
+	  SELECT 
+	    p.postId,
+	    p.postType,
+	    p.postTitle,
+	    u.userNickname AS writer,
+	    p.postRegdate,
+	    p.postViewCount,
+	    IFNULL(l.likeCount, 0) AS likeCount,
+	    IFNULL(c.commentCount, 0) AS commentCount
+	  FROM post p
+	  JOIN user u ON p.userId = u.userId
+	  LEFT JOIN (
+	    SELECT postId, COUNT(*) AS likeCount
+	    FROM post_likes
+	    GROUP BY postId
+	  ) l ON p.postId = l.postId
+	  LEFT JOIN (
+	    SELECT postId, COUNT(*) AS commentCount
+	    FROM comment
+	    GROUP BY postId
+	  ) c ON p.postId = c.postId
+	  <where>
+	    <if test="startDate != null and endDate != null">
+	      p.postRegdate BETWEEN #{startDate} AND #{endDate}
+	    </if>
+	  </where>
+	  ORDER BY
+	    <choose>
+	      <when test="sort == 'latest'">p.postRegdate DESC</when>
+	      <when test="sort == 'view'">p.postViewCount DESC</when>
+	      <when test="sort == 'comment'">commentCount DESC</when>
+	      <when test="sort == 'like'">likeCount DESC</when>
+	      <otherwise>p.postRegdate DESC</otherwise>
+	    </choose>
+	  LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+</mapper>
