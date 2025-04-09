@@ -34,7 +34,7 @@
 		</form>
 
 		<div class="login-links">
-			<a href="/user/findIdForm">아이디 찾기</a> | <a href="/user/findPwForm">비밀번호
+			<a href="/user/findId">아이디 찾기</a> | <a href="/user/findPwd">비밀번호
 				찾기</a> | <a href="/signup">회원가입</a>
 		</div>
 	</div>

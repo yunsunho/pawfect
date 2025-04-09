@@ -24,13 +24,14 @@ public class EmailVeriService {
 	// 이메일 인증 코드 전송 + DB 저장
 	public void sendVerificationEmail(String toEmail) {
 		String authCode = createAuthCode();
-		String subject = "[Pawfect Tour] 이메일 인증을 완료해주세요.";
+		String subject = "[Pawfect Tour] 이메일 인증을 완료해주세요!";
 
 		String content = """
 				<div style="font-family: Arial, sans-serif;">
-				  <h2>Pawfect 회원가입 인증</h2>
-				  <p>아래 인증 코드를 입력해주세요:</p>
-				  <h3 style="color: #f4c542;">""" + authCode + "</h3>" + "<p>※ 인증 코드는 5분 후 만료됩니다.</p></div>";
+				  <h2>Pawfect Tour 회원가입 인증코드</h2>
+				  <p>아래 인증 코드를 입력해주세요 :</p>
+				  <h3 style="color: #ffbf00;">""" + authCode + "</h3>" 
+				  + "<p>※ 인증 코드는 5분 후 만료됩니다.</p></div>";
 
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
@@ -63,7 +64,7 @@ public class EmailVeriService {
 		}
 
 		long minutes = Duration.between(verification.getCreatedAt().toInstant(), Instant.now()).toMinutes();
-		return minutes <= 5; // 인증 코드 유효 시간 5분 
+		return minutes <= 5; // 인증 코드 유효 시간 5분
 	}
 
 	// 인증코드 생성 (6자리 숫자)
@@ -83,5 +84,20 @@ public class EmailVeriService {
 		EmailVeriDto verification = emailVeriMapper.findByEmail(email);
 
 		return verification != null && verification.getCode().equals(code);
+	}
+
+	// 일반 HTML 메일 전송용 (아이디/임시 비밀번호 찾기에 사용)
+	public void sendMail(String toEmail, String subject, String htmlContent) {
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+			helper.setTo(toEmail);
+			helper.setSubject(subject);
+			helper.setText(htmlContent, true); // HTML 사용
+			mailSender.send(message);
+		} catch (MessagingException e) {
+			throw new RuntimeException("이메일 전송 실패: " + e.getMessage(), e);
+		}
 	}
 }
