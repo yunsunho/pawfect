@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
+<link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/signup.css">
 <style>
 .signup-2col {
@@ -160,7 +161,6 @@
 				</div>
 			</div>
 
-			<!-- 버튼 -->
 			<div class="form-actions">
 				<button type="button" class="cancel-btn"
 					onclick="location.href='/main'">가입취소</button>

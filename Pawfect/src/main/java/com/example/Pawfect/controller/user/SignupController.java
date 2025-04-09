@@ -32,25 +32,25 @@ public class SignupController {
 				|| user.getEmail().isBlank()) {
 
 			model.addAttribute("error", "모든 필수 정보를 입력해주세요.");
-			return "user/signupForm"; // 실패 시 폼으로 돌아감
+			return "user/signupForm"; 
 		}
 		
 		// 아이디 중복 확인
 		if (userService.isUserIdDuplicated(user.getUserId())) {
 			model.addAttribute("error", "이미 사용 중인 아이디입니다.");
-			return "user/signupForm"; // 실패 시 폼으로 돌아감
+			return "user/signupForm"; 
 		}
 		
 		// 이메일 중복 확인
 		if (userService.isEmailDuplicated(user.getEmail())) {
 			model.addAttribute("error", "이미 사용 중인 이메일입니다.");
-			return "user/signupForm"; // 실패 시 폼으로 돌아감
+			return "user/signupForm"; 
 		}
 		
 		// 이메일 인증 여부 확인
 		if (!emailVeriService.isEmailVerified(user.getEmail())) {
 			model.addAttribute("error", "이메일 인증을 완료해야 합니다.");
-			return "user/signupForm"; // 실패 시 폼으로 돌아감
+			return "user/signupForm";
 		}
 		
 		// 회원가입 처리
