@@ -104,7 +104,7 @@ public class DetailController {
         petTour.put("acmpyTypeCd", petNode.path("acmpyTypeCd").asText());
         petTour.put("relaPosesFclty", petNode.path("relaPosesFclty").asText());
         petTour.put("relaFrnshPrdlst", petNode.path("relaFrnshPrdlst").asText());
-        petTour.put("etcAcmpyInfo", petNode.path("etcAcmpyInfo").asText());
+        petTour.put("etcAcmpyInfo", petNode.path("etcAcmpyInfo").asText().replaceAll("\n", "<br>"));
         petTour.put("relaPurcPrdlst", petNode.path("relaPurcPrdlst").asText());
         petTour.put("acmpyPsblCpam", petNode.path("acmpyPsblCpam").asText());
         petTour.put("relaRntlPrdlst", petNode.path("relaRntlPrdlst").asText());
