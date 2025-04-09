@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.Pawfect.mapper.MyPageMapper">
+
+	<!-- 사용자 기본 정보 -->
+	<select id="getUserSummary"
+		resultType="com.example.Pawfect.dto.MyPageUserDto">
+		SELECT userId, userNickname, userImage, userRegdate
+		FROM user
+		WHERE userId = #{userId}
+	</select>
+
+	<!-- 북마크 리스트 -->
+	<select id="getBookmarks"
+		resultType="com.example.Pawfect.dto.BookmarkDto">
+		SELECT
+		p.contentId,
+		p.title,
+		p.addr1,
+		p.addr2,
+		p.firstImage2,
+		p.mapX,
+		p.mapY,
+		b.bookmarkRegdate
+		FROM bookmark b
+		JOIN place p ON b.contentId = p.contentId
+		WHERE b.userId = #{userId}
+		ORDER BY b.bookmarkRegdate DESC
+	</select>
+
+	<!-- 내가 쓴 게시글 -->
+	<select id="getMyPosts"
+		resultType="com.example.Pawfect.dto.PostDto">
+		SELECT *
+		FROM post
+		WHERE userId = #{userId}
+		ORDER BY postRegdate DESC
+	</select>
+
+	<!-- 내가 쓴 댓글 -->
+	<select id="getMyComments"
+		resultType="com.example.Pawfect.dto.CommentDto">
+		SELECT *
+		FROM comment
+		WHERE userId = #{userId}
+		ORDER BY comRegdate DESC
+	</select>
+
+	<!-- 내가 보낸 문의 -->
+	<select id="getMyInquiries"
+		resultType="com.example.Pawfect.dto.InquiryDto">
+		SELECT *
+		FROM inquiry
+		WHERE userId = #{userId}
+		ORDER BY inquiryRegdate DESC
+	</select>
+
+</mapper>
