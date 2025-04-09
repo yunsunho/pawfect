@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", function() {
+	const modal = document.getElementById("login-error-modal");
+
+	if (modal) {
+		modal.style.display = "block";
+		const cleanUrl = window.location.origin + window.location.pathname;
+		window.history.replaceState({}, document.title, cleanUrl);
+	}
+
 	const loginForm = document.querySelector("form");
 	const userIdInput = document.getElementById("userId");
 	const pwdInput = document.getElementById("pwd");

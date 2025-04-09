@@ -1,6 +1,7 @@
 package com.example.Pawfect.config;
 
 import com.example.Pawfect.auth.CustomUserDetailsService;
+import com.example.Pawfect.auth.LoginSuccessHandler;
 import com.example.Pawfect.auth.LoginFailureHandler;
 
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +23,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
 	private final CustomUserDetailsService customUserDetailsService;
+	private final LoginSuccessHandler loginSuccessHandler;
 	private final LoginFailureHandler loginFailureHandler;
 	
 	@Bean
@@ -54,15 +55,18 @@ public class SecurityConfig {
 								"/board/write", "/board/comment", "/board/like",
 								"/travel/bookmark/**", "/travel/review/**").authenticated()
 						.anyRequest().permitAll())
-				.formLogin(
-						login -> login
-						.loginPage("/loginForm")
-						.loginProcessingUrl("/login")
-						.usernameParameter("userId")
-						.passwordParameter("pwd")
-						.defaultSuccessUrl("/loginResult?status=success", false)
-						.failureHandler(loginFailureHandler)
-						.permitAll())
+				.formLogin(login -> login
+					    .loginPage("/loginForm")
+					    .loginProcessingUrl("/login")
+					    .usernameParameter("userId")
+					    .passwordParameter("pwd")
+					    .successHandler(loginSuccessHandler)
+					    .failureHandler(loginFailureHandler)
+					    .permitAll())
+				.sessionManagement(session -> session
+				        .sessionFixation().migrateSession()  
+				        .maximumSessions(1) 
+				        .maxSessionsPreventsLogin(false))
 				.logout(logout -> logout
 						.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 						.logoutSuccessUrl("/main")

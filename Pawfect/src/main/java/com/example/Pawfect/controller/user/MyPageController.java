@@ -1,14 +1,15 @@
 package com.example.Pawfect.controller.user;
 
+import com.example.Pawfect.auth.CustomUserDetails;
 import com.example.Pawfect.dto.*;
 import com.example.Pawfect.service.MyPageService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -18,11 +19,12 @@ public class MyPageController {
 	private final MyPageService myPageService;
 
 	@GetMapping("/mypage")
-	public String showMyPage(Model model, HttpSession session) {
-		String userId = (String) session.getAttribute("userId");
-		if (userId == null) {
+	public String showMyPage(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+		if (userDetails == null) {
 			return "redirect:/loginForm";
 		}
+
+		String userId = userDetails.getUser().getUserId();
 
 		MyPageUserDto user = myPageService.getUserSummary(userId);
 		List<BookmarkDto> bookmarks = myPageService.getBookmarks(userId);
