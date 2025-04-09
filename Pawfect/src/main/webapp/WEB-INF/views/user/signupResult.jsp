@@ -14,7 +14,7 @@
 		<c:when test="${param.status == 'success'}">
 			<script type="text/javascript">
 				alert(decodeURIComponent("${param.message}"));
-				window.location.href = "/loginForm"; // 로그인 페이지로 이동
+				window.location.href = "/loginForm"; 
 			</script>
 		</c:when>
 
@@ -22,7 +22,7 @@
 		<c:when test="${param.status == 'failure'}">
 			<script type="text/javascript">
 				alert(decodeURIComponent("${param.message}"));
-				window.location.href = "/signup"; // 회원가입 페이지로 이동
+				window.location.href = "/signup"; 
 			</script>
 		</c:when>
 
