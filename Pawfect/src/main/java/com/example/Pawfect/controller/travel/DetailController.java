@@ -37,7 +37,6 @@ public class DetailController {
                 + "&contentId=" + contentId
                 + "&defaultYN=Y&firstImageYN=N&areacodeYN=N&catcodeYN=N"
                 + "&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&_type=json";
-        System.out.println("commonUrl" + commonUrl);
         ResponseEntity<String> commonResponse = restTemplate.exchange(
                 new URI(commonUrl), HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class);
 
@@ -54,17 +53,17 @@ public class DetailController {
                 "mapy", "0"
             ));
         } else {
-        	Map<String, String> detailMap = new HashMap<>();
-            detailMap.put("title", common.path("title").asText());
-            detailMap.put("homepage", common.path("homepage").asText());
-            detailMap.put("addr1", common.path("addr1").asText());
-            detailMap.put("overview", common.path("overview").asText());
-            detailMap.put("tel", common.path("tel").asText());
-            detailMap.put("mapx", common.path("mapx").asText());
-            detailMap.put("mapy", common.path("mapy").asText());
-            model.addAttribute("detail", detailMap);
+        	Map<String, String> detailCommon = new HashMap<>();
+        	detailCommon.put("title", common.path("title").asText());
+        	detailCommon.put("homepage", common.path("homepage").asText());
+        	detailCommon.put("addr1", common.path("addr1").asText());
+        	detailCommon.put("overview", common.path("overview").asText());
+        	detailCommon.put("tel", common.path("tel").asText());
+        	detailCommon.put("mapx", common.path("mapx").asText());
+        	detailCommon.put("mapy", common.path("mapy").asText());
+            model.addAttribute("common", detailCommon);
         }   
-
+        
         // ✅ 이미지 API
         String imageUrl = "https://apis.data.go.kr/B551011/KorPetTourService/detailImage?"
                 + "serviceKey=" + encodedKey
@@ -100,13 +99,56 @@ public class DetailController {
         JsonNode petNode = mapper.readTree(petResponse.getBody())
                 .path("response").path("body").path("items").path("item").get(0);
 
-        Map<String, String> petInfo = new HashMap<>();
-        petInfo.put("chkpetfacility", petNode.path("chkpetfacility").asText());
-        petInfo.put("chkpetroom", petNode.path("chkpetroom").asText());
-        petInfo.put("chkpetrestaurant", petNode.path("chkpetrestaurant").asText());
-        petInfo.put("petnotic", petNode.path("petnotic").asText());
-        petInfo.put("petetc", petNode.path("petetc").asText());
-        model.addAttribute("pet", petInfo);
+        Map<String, String> petTour = new HashMap<>();
+        petTour.put("relaAcdntRiskMtr", petNode.path("relaAcdntRiskMtr").asText());
+        petTour.put("acmpyTypeCd", petNode.path("acmpyTypeCd").asText());
+        petTour.put("relaPosesFclty", petNode.path("relaPosesFclty").asText());
+        petTour.put("relaFrnshPrdlst", petNode.path("relaFrnshPrdlst").asText());
+        petTour.put("etcAcmpyInfo", petNode.path("etcAcmpyInfo").asText());
+        petTour.put("relaPurcPrdlst", petNode.path("relaPurcPrdlst").asText());
+        petTour.put("acmpyPsblCpam", petNode.path("acmpyPsblCpam").asText());
+        petTour.put("relaRntlPrdlst", petNode.path("relaRntlPrdlst").asText());
+        petTour.put("acmpyNeedMtr", petNode.path("acmpyNeedMtr").asText());
+        model.addAttribute("pet", petTour);
+        
+        // ✅ 소개 정보 (detailIntro)
+        String introUrl = "http://apis.data.go.kr/B551011/KorPetTourService/detailIntro?"
+                + "serviceKey=" + encodedKey
+                + "&contentId=" + contentId
+                + "&contentTypeId=" + contentTypeId
+                + "&MobileOS=ETC&MobileApp=Pawfect"                
+                + "&_type=json";
+
+        ResponseEntity<String> introResponse = restTemplate.exchange(
+                new URI(introUrl), HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class);
+
+        JsonNode introNode = mapper.readTree(petResponse.getBody())
+                .path("response").path("body").path("items").path("item").get(0);
+        
+        Map<String, String> detailIntro = new HashMap<>();
+
+        switch (contentTypeId) {
+            case "12": // 관광지
+            	detailIntro.put("infocenter", introNode.path("infocenter").asText());
+            	detailIntro.put("usetime", introNode.path("usetime").asText());
+                break;
+            case "32": // 숙박
+            	detailIntro.put("roomcount", introNode.path("roomcount").asText());
+            	detailIntro.put("checkintime", introNode.path("checkintime").asText());
+            	detailIntro.put("checkouttime", introNode.path("checkouttime").asText());
+                break;
+            case "39": // 음식점
+            	detailIntro.put("firstmenu", introNode.path("firstmenu").asText());
+            	detailIntro.put("treatmenu", introNode.path("treatmenu").asText());
+                break;
+            // 그 외 타입도 필요한 만큼 추가
+            default:
+            	detailIntro.put("etc", "해당 타입의 상세정보 없음");
+                break;
+        }
+
+        model.addAttribute("Intro", detailIntro);
+
         
         // 페이지 렌더링
         return "travel/detail";
