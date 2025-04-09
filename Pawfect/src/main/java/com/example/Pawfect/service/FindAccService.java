@@ -30,6 +30,7 @@ public class FindAccService {
                     + "<p>※ 타인에게 노출되지 않도록 주의해주세요.</p></div>";
 
         emailVeriService.sendMail(dto.getEmail(), subject, content);
+        
         return true;
     }
 }
