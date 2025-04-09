@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>${detail.title} - 상세정보</title>
+  <title>${common.title} - 상세정보</title>
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/detail.css">
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=53058506472e68663c191f4ba75fc7b0"></script>
@@ -16,12 +16,12 @@
   <!-- 🏷️ 제목 + 주소 -->
   <div class="place-header">
     <h1><c:choose>
-	  <c:when test="${not empty detail.title}">${detail.title}</c:when>
+	  <c:when test="${not empty common.title}">${common.title}</c:when>
 	  <c:otherwise>제목 없음</c:otherwise>
 	</c:choose></h1>
 
 	<p><c:choose>
-	  <c:when test="${not empty detail.addr1}">${detail.addr1}</c:when>
+	  <c:when test="${not empty common.addr1}">${common.addr1}</c:when>
 	  <c:otherwise>주소 없음</c:otherwise>
 	</c:choose></p>
 
@@ -39,7 +39,7 @@
   
    <div class="overview">
      <h3>상세정보</h3>
-     <p>${detail.overview}</p>
+     <p>${common.overview}</p>
    </div>
    <div class="map-container">
      <div id="map" style="width:100%; height:300px;"></div>
@@ -49,27 +49,34 @@
   <div class="extra-info">
     <h3>이용 안내</h3>
     <ul>
-      <c:if test="${not empty detail.tel}">
-        <li><strong>문의처:</strong> ${detail.tel}</li>
+      <c:if test="${not empty common.tel}">
+        <li><strong>문의처:</strong> ${common.tel}</li>
       </c:if>
-      <c:if test="${not empty detail.homepage}">
-        <li><strong>홈페이지:</strong> ${detail.homepage}</li>
+      <c:if test="${not empty common.homepage}">
+        <li><strong>홈페이지:</strong> ${common.homepage}</li>
       </c:if>
-      <c:if test="${not empty pet.chkpetfacility}">
-        <li><strong>반려동물 시설:</strong> ${pet.chkpetfacility}</li>
+	  <c:if test="${not empty pet.acmpyTypeCd}">
+		  <li><strong>동반 유형:</strong> ${pet.acmpyTypeCd}</li>
+	  </c:if>
+	  <c:if test="${not empty pet.relaPosesFclty}">
+		<li><strong>보유 시설:</strong> ${pet.relaPosesFclty}</li>
+	  </c:if>
+	  <c:if test="${not empty pet.relaFrnshPrdlst}">
+	    <li><strong>제공 물품:</strong> ${pet.relaFrnshPrdlst}</li>
       </c:if>
-      <c:if test="${not empty pet.chkpetroom}">
-        <li><strong>객실 동반:</strong> ${pet.chkpetroom}</li>
-      </c:if>
-      <c:if test="${not empty pet.chkpetrestaurant}">
-        <li><strong>식당 동반:</strong> ${pet.chkpetrestaurant}</li>
-      </c:if>
-      <c:if test="${not empty pet.petnotic}">
-        <li><strong>유의 사항:</strong> ${pet.petnotic}</li>
-      </c:if>
-      <c:if test="${not empty pet.petetc}">
-        <li><strong>기타 안내:</strong> ${pet.petetc}</li>
-      </c:if>
+	  <c:if test="${not empty pet.etcAcmpyInfo}">
+	    <li><strong>기타 동반 정보:</strong> ${pet.etcAcmpyInfo}</li>
+	  </c:if>
+	  <c:if test="${not empty pet.acmpyPsblCpam}">
+	    <li><strong>동반 가능:</strong> ${pet.acmpyPsblCpam}</li>
+	  </c:if>
+	  <c:if test="${not empty pet.relaRntlPrdlst}">
+	    <li><strong>대여 물품:</strong> ${pet.relaRntlPrdlst}</li>
+	  </c:if>
+	  <c:if test="${not empty pet.acmpyNeedMtr}">
+	    <li><strong>필요 준비물:</strong> ${pet.acmpyNeedMtr}</li>
+	  </c:if>
+      
     </ul>
   </div>
 
@@ -83,8 +90,8 @@
 </div>
 <script>
   window.onload = function() {
-    var mapX = parseFloat('${detail.mapx}');
-    var mapY = parseFloat('${detail.mapy}');
+    var mapX = parseFloat('${common.mapx}');
+    var mapY = parseFloat('${common.mapy}');
 
     var mapContainer = document.getElementById('map');
     var mapOption = {
