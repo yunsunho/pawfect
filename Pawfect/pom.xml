@@ -105,6 +105,12 @@
 			 <artifactId>mybatis-spring-boot-starter</artifactId>
 			 <version>3.0.4</version>
 		</dependency>
+		
+		<!-- Spring Mail 라이브러리 -->
+		<dependency>
+			 <groupId>org.springframework.boot</groupId>
+			 <artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
