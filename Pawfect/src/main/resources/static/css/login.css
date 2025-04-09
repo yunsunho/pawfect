@@ -1,0 +1,108 @@
+/* 전체 배경 스타일 일치 */
+body {
+  background-color: #fffaf0;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  overflow: hidden;
+}
+
+/* 로그인 컨테이너 */
+.login-container {
+  width: 400px;
+  margin: 100px auto;
+  padding: 40px;
+  background: #ffffff;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 로그인 타이틀 */
+.login-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* 입력 그룹 */
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 라벨 */
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+/* 인풋 필드 */
+.form-group input {
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: box-shadow 0.2s ease;
+}
+
+.form-group input:focus {
+  border-color: #f4c542;
+  box-shadow: 0 0 0 2px rgba(244, 197, 66, 0.2);
+}
+
+/* 로그인 버튼 */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #f4c542;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #111;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.login-btn:hover {
+  background-color: #e6b931;
+}
+
+/* 하단 링크 */
+.login-links {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.login-links a {
+  color: #333;
+  text-decoration: none;
+  margin: 0 8px;
+}
+
+.login-links a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.success-message {
+  color: green;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center;
+}
