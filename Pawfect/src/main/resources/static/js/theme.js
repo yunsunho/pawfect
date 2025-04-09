@@ -1,9 +1,9 @@
 // theme.js (추가/수정)
 
 document.addEventListener('DOMContentLoaded', () => {
-  const tabs = document.querySelectorAll('.theme-tab');
   const container = document.querySelector('.theme-container');
   const sortSelect = document.querySelector('.sort-box select');
+  const tabs = document.querySelectorAll('.theme-tab');
 
   const contentTypeMap = {
     '관광지': 12,
@@ -18,12 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const arrangeMap = {
     '제목순': 'O',
     '리뷰순': '',
-	'별점순': '',
-	'북마크순': ''
+    '별점순': '',
+    '북마크순': ''
   };
 
-  let selectedContentTypeId = 12; // 기본 관광지
-  let selectedArrange = 'O'; // 기본 제목순
+  // 초기 contentTypeId는 서버에서 전달한 값 사용
+  let selectedContentTypeId = parseInt(new URLSearchParams(location.search).get("contentTypeId")) || 12;
+  let selectedArrange = 'O';
   let currentPage = 1;
 
   const fetchAndRender = async () => {
@@ -37,14 +38,16 @@ document.addEventListener('DOMContentLoaded', () => {
       data.forEach(item => {
         const card = document.createElement('div');
         card.className = 'theme-card';
-        card.innerHTML = `
-          <img src="${item.firstimage || '/img/no-image.jpg'}" alt="이미지 없음">
-          <div class="bookmark">🔖</div>
-          <div class="theme-info">
-            <h3>${item.title}</h3>
-            <p>${item.addr1}</p>
-          </div>
-        `;
+		card.innerHTML = `
+		<a href="/detail/${item.contentid}/${item.contenttypeid}" class="theme-link">
+		    <img src="${item.firstimage || '/img/no-image.jpg'}" alt="이미지 없음">
+		    <div class="theme-info">
+		      <h3>${item.title}</h3>
+		      <p>${item.addr1}</p>
+		    </div>
+			<div class="bookmark">🔖</div>
+		  </a>		  
+		`;
         container.appendChild(card);
       });
 
