@@ -19,7 +19,9 @@
 			<!-- 좌측 메뉴 -->
 			<div class="mypage-sidebar">
 				<ul>
-					<li class="active">기본 정보</li>
+					<li class="active">My 프로필</li>
+					<li><a href="#">회원정보 수정</a></li>
+					<li><a href="#">비밀번호 변경</a></li>
 					<li><a href="#">북마크 리스트</a></li>
 					<li><a href="#">커뮤니티 활동내역</a></li>
 					<li><a href="#">1:1 문의</a></li>
@@ -30,7 +32,7 @@
 			<div class="mypage-main">
 				<div class="profile-box">
 					<img
-						src="${user.userImage != null ? user.userImage : '/images/default_profile.png'}"
+						src="${user.userImage != null ? user.userImage : '/images/default_profile.jpg'}"
 						class="profile-img" alt="프로필 이미지" />
 					<h3 class="nickname">${user.userNickname}</h3>
 					<p class="reg-date">

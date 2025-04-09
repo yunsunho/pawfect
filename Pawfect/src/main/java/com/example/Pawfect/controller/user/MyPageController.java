@@ -38,6 +38,6 @@ public class MyPageController {
 		model.addAttribute("comments", comments);
 		model.addAttribute("inquiries", inquiries);
 
-		return "user/mypage";
+		return "mypage/mypage";
 	}
 }
