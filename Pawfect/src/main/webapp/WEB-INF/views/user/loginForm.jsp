@@ -39,7 +39,6 @@
 		</div>
 	</div>
 
-	<script src="/js/login.js"></script>
-
 </body>
+<script src="/js/login.js"></script>
 </html>
