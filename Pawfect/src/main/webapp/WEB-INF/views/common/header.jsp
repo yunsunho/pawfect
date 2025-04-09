@@ -17,8 +17,7 @@
   </div>
 </header>
 
-<!-- 하단 테마 메뉴: 테마 페이지에서만 표시 -->
-<c:if test="${currentPage eq 'theme'}">
+<c:if test="${showSubmenu eq true}">
   <div class="theme-submenu">
     <a class="theme-tab active">관광지</a>
     <a class="theme-tab">문화시설</a>

@@ -15,30 +15,22 @@
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
+<!-- 정렬 셀렉트박스 -->
 <div class="sort-box">
   <select>
-    <option selected>가나다순</option>
-    <option>리뷰순</option>
-    <option>별점순</option>
-    <option>북마크순</option>
+    <option selected value="O">가나다순</option>
+    <option value="">리뷰순</option>
+    <option value="">별점순</option>
+    <option value="">북마크순</option>
   </select>
 </div>
 
-<div class="theme-container">
-  <c:forEach var="theme" items="${themeList}">
-    <a href="/detail/${theme.contentid}" class="theme-card">
-      <img src="${theme.firstimage}" alt="이미지 없음">
-      <div class="bookmark">🔖</div>
-      <div class="theme-info">
-        <h3>${theme.title}</h3>
-        <p>${theme.addr1}</p>
-      </div>
-    </a>
-  </c:forEach>
-</div>
+<!-- 여기서 JS가 카드들을 추가함 -->
+<div class="theme-container"></div>
 
 <div id="pagination" class="pagination"></div>
 
-<script src="/js/theme.js"></script>	
+<script src="/js/theme.js"></script>
 </body>
 </html>
+

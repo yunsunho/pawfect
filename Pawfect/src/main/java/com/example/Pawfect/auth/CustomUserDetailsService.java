@@ -13,26 +13,23 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserMapper userMapper;
+	private final UserMapper userMapper;
 
-    @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        // 아이디가 DB에 존재하지 않을 경우
-        UserDto user = userMapper.findByUserId(userId);
-        if (user == null) {
-            throw new UsernameNotFoundException("존재하지 않는 아이디입니다.");
-        }
+	@Override
+	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+		UserDto user = userMapper.findByUserId(userId);
+		if (user == null) {
+			throw new UsernameNotFoundException("존재하지 않는 아이디입니다.");
+		}
 
-        // 정지된 계정
-        if ("BANNED".equalsIgnoreCase(user.getUserStatus())) {
-            throw new DisabledException("정지된 계정입니다.");
-        }
+		if ("BANNED".equalsIgnoreCase(user.getUserStatus())) {
+			throw new DisabledException("정지된 계정입니다.");
+		}
 
-        // 탈퇴된 계정
-        if ("WITHDRAWN".equalsIgnoreCase(user.getUserStatus())) {
-            throw new DisabledException("탈퇴된 계정입니다.");
-        }
+		if ("WITHDRAWN".equalsIgnoreCase(user.getUserStatus())) {
+			throw new DisabledException("탈퇴된 계정입니다.");
+		}
 
-        return new CustomUserDetails(user);
-    }
+		return new CustomUserDetails(user);
+	}
 }
