@@ -33,7 +33,7 @@ public class ProfileController {
 		return result ? "success" : "fail";
 	}
 
-	// 프로필 이미지 수정 
+	// 프로필 이미지 수정
 	@PostMapping("/profile/image")
 	@ResponseBody
 	public String updateProfileImage(@AuthenticationPrincipal CustomUserDetails userDetails,
@@ -44,9 +44,9 @@ public class ProfileController {
 
 		String userId = userDetails.getUser().getUserId();
 
-		// 파일 저장할 실제 경로 
+		// 파일 저장할 실제 경로
 		String uploadDir = "/images/upload/profile/";
-		String realPath = "C:/Pawfect/src/main/resources/static" + uploadDir; 
+		String realPath = new File("src/main/resources/static" + uploadDir).getAbsolutePath();
 
 		try {
 			// UUID + 원본 파일명으로 고유 파일명 생성
@@ -60,12 +60,12 @@ public class ProfileController {
 			// 파일 저장
 			file.transferTo(saveFile);
 
-			// DB에 상대 경로 저장 
+			// DB에 상대 경로 저장
 			String dbPath = uploadDir + filename;
 			myPageService.updateProfileImage(userId, dbPath);
 
 			return "success";
-
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "fail";

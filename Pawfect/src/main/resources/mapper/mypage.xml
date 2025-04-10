@@ -8,9 +8,14 @@
 	<!-- 사용자 기본 정보 -->
 	<select id="getUserSummary"
 		resultType="com.example.Pawfect.dto.MyPageUserDto">
-		SELECT userId, userNickname, userImage, userRegdate
-		FROM
-		user
+		SELECT
+		userId,
+		userNickname,
+		userImage,
+		userRegdate,
+		petName,
+		petType
+		FROM user
 		WHERE userId = #{userId}
 	</select>
 
@@ -72,9 +77,9 @@
 		petName
 		= #{petName},
 		petType = #{petType},
-		nickResetAt = NOW() -- 닉네임 수정 시 변경일
-		갱신
-		WHERE userId = #{userId}
+		nickResetAt = NOW()
+		WHERE userId =
+		#{userId}
 	</update>
 
 	<!-- 닉네임 변경 가능 여부 (30일 제한) -->
@@ -90,11 +95,12 @@
 		FROM user
 		WHERE userId = #{userId}
 	</select>
-	
+
 	<!-- 프로필 이미지 경로 업데이트 -->
 	<update id="updateProfileImage">
 		UPDATE user
 		SET userImage = #{imagePath}
-		WHERE userId = #{userId}
+		WHERE userId =
+		#{userId}
 	</update>
 </mapper>

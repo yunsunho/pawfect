@@ -6,14 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
-<link rel="stylesheet" href="/css/common.css" />
-<link rel="stylesheet" href="/css/mypage.css" />
+<link rel="stylesheet" href="/css/common.css"/>
+<link rel="stylesheet" href="/css/mypage.css"/>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/mypage.js"></script>
 </head>
 <body>
 
-	<jsp:include page="../common/header.jsp" />
+	<jsp:include page="../common/header.jsp"/>
 
 	<div class="mypage-wrapper">
 		<div class="mypage-container">
@@ -23,7 +23,7 @@
 				<!-- 좌측 메뉴 -->
 				<div class="mypage-sidebar">
 					<ul>
-						<li class="active" data-tab="profile"> 프로필</li>
+						<li class="active" data-tab="profile">내 프로필</li>
 						<li data-tab="info">내 정보</li>
 						<li data-tab="password">비밀번호 변경</li>
 						<li data-tab="bookmark">북마크 리스트</li>
