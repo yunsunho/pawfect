@@ -114,12 +114,12 @@ body {
 	background-color: #ddd;
 }
 
-.profile-box {
+/* main-box {
 	background-color: #f9f9f9;
 	padding: 30px;
 	border-radius: 14px;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
+} */
 
 .input-group {
 	display: flex;
@@ -161,9 +161,9 @@ body {
 
 .box {
 	background-color: #fffef5;
-	padding: 20px; /* 위아래 좌우 동일 */
+	padding: 20px; 
 	border-radius: 10px;
-	margin-bottom: 20px; /* 박스 사이 여백 */
+	margin-bottom: 20px; 
 }
 
 .join-date-box {
@@ -175,12 +175,43 @@ body {
 	font-weight: bold;
 	font-size: 14px;
 	color: #333;
-	margin-top: 20px; /* ✅ 위쪽 여백 동일하게 */
+	margin-top: 20px; 
 }
-
 
 .save-btn-row {
 	display: flex;
 	justify-content: flex-end;
 	margin-top: 25px;
+}
+
+/* 로딩 스피너 */
+.spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border-left-color: #f4c542;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 이메일 타이머 */
+#email-timer {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #d35400;
+}
+
+.timer-message {
+  margin-left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #d35400;
+  white-space: nowrap;
+  min-height: 20px;
 }

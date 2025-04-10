@@ -10,11 +10,14 @@
 		resultType="com.example.Pawfect.dto.MyPageUserDto">
 		SELECT
 		userId,
+		userName,
 		userNickname,
 		userImage,
 		userRegdate,
 		petName,
-		petType
+		petType,
+		email,
+		userTel
 		FROM user
 		WHERE userId = #{userId}
 	</select>
@@ -102,5 +105,13 @@
 		SET userImage = #{imagePath}
 		WHERE userId =
 		#{userId}
+	</update>
+
+	<update id="updateUserInfo">
+		UPDATE user
+		SET
+		email = #{email},
+		userTel = #{userTel}
+		WHERE userId = #{userId}
 	</update>
 </mapper>

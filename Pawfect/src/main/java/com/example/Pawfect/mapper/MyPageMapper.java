@@ -30,4 +30,8 @@ public interface MyPageMapper {
 	
 	// 프로필 이미지 경로 업데이트
 	int updateProfileImage(String userId, String imagePath);
+	
+	// 내 정보 업데이트 메서드
+	int updateUserInfo(InfoUpdateDto dto);
+
 }

@@ -51,4 +51,9 @@ public class MyPageService {
 	public boolean updateProfileImage(String userId, String imagePath) {
 	    return myPageMapper.updateProfileImage(userId, imagePath) > 0;
 	}
+	
+	// 이메일/전화번호 정보 수정
+	public boolean updateUserInfo(InfoUpdateDto dto) {
+	    return myPageMapper.updateUserInfo(dto) > 0; 
+	}
 }

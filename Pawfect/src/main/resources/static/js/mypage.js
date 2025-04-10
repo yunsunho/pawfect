@@ -8,6 +8,8 @@ function loadTab(tabName) {
 			// 프로필 탭이면 이벤트 바인딩
 			if (tabName === "profile") {
 				initProfileTabEvents();
+			} else if (tabName === "info") {
+				initInfoTabEvents();
 			}
 		})
 		.catch((err) => console.error("탭 로딩 실패", err));
@@ -31,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 });
 
-// 프로필 탭 기능 바인딩
+// 프로필 탭 기능 
 function initProfileTabEvents() {
 	const profileImgBtn = document.getElementById("editProfileImgBtn");
 	const profileImgInput = document.getElementById("profileImageInput");
@@ -101,7 +103,7 @@ function initProfileTabEvents() {
 			nicknameBtn.textContent = "수정";
 		}
 	});
-	
+
 	// 반려동물 정보 수정
 	const petBtn = document.getElementById("editPetBtn");
 	const petNameInput = document.getElementById("petName");
@@ -147,20 +149,30 @@ function initProfileTabEvents() {
 		}
 	});
 
-	// 저장 버튼
+	// 내 프로필 저장 버튼
 	const saveBtn = document.getElementById("btnSaveProfile");
 	saveBtn?.addEventListener("click", () => {
-		petTypeSelect.removeAttribute("disabled"); // ensure value is sent
+		const email = emailInput.value.trim();
+		const userTel = userTelHidden.value.trim();
+
+		if (email === "") {
+			showModal("이메일은 필수 입력 항목입니다.");
+			return;
+		}
+
+		// 이메일이 수정된 경우에만 인증 여부 확인
+		const isEmailEdited = !emailInput.readOnly || btnSendCode.style.display === "inline-block";
+		if (isEmailEdited && !emailVerified) {
+			showModal("이메일 인증을 완료해주세요.");
+			return;
+		}
 
 		const data = {
-			userNickname: nicknameInput.value,
-			petName: petNameInput.value,
-			petType: parseInt(petTypeSelect.value)
+			email: email,
+			userTel: userTel
 		};
 
-		petTypeSelect.setAttribute("disabled", true);
-
-		fetch("/mypage/profile", {
+		fetch("/mypage/info/update", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(data)
@@ -168,8 +180,7 @@ function initProfileTabEvents() {
 			.then(res => res.text())
 			.then(result => {
 				if (result === "success") {
-					showModal("성공적으로 수정되었습니다.");
-					setTimeout(() => loadTab("profile"), 1000);
+					showModal("회원 정보가 성공적으로 수정되었습니다.");
 				} else {
 					showModal("수정에 실패했습니다. 다시 시도해주세요.");
 				}
@@ -179,6 +190,263 @@ function initProfileTabEvents() {
 				showModal("오류가 발생했습니다.");
 			});
 	});
+
+}
+
+let emailTimer = null;
+let timeLeft = 300;
+
+// 내 정보 탭 기능
+function initInfoTabEvents() {
+	const emailInput = document.getElementById("email");
+	emailInput.dataset.originalEmail = emailInput.value;
+	
+	const btnSendCode = document.getElementById("btnSendCode");
+	const btnVerifyCode = document.getElementById("btnVerifyCode");
+	const emailCodeBox = document.getElementById("emailCodeBox");
+	const emailCodeInput = document.getElementById("emailCode");
+	const emailStatus = document.getElementById("emailStatus");
+	const emailResult = document.getElementById("emailResult");
+	const emailSpinner = document.getElementById("emailSpinner");
+	const emailTimerEl = document.getElementById("emailTimer");
+	const emailEditBtn = document.getElementById("editEmailBtn");
+
+	let emailVerified = false;
+
+	// 이메일 수정 전: 비활성화
+	emailInput.setAttribute("readonly", true);
+	emailInput.setAttribute("tabindex", "-1");
+	emailInput.style.pointerEvents = "none";
+
+	btnSendCode.style.display = "none"; // 인증 버튼은 처음에 숨김
+
+	emailEditBtn?.addEventListener("click", () => {
+		emailInput.removeAttribute("readonly");
+		emailInput.removeAttribute("tabindex");
+		emailInput.style.pointerEvents = "auto";
+		emailInput.focus();
+		emailEditBtn.style.display = "none";
+		btnSendCode.style.display = "inline-block";
+		emailVerified = false;
+	});
+
+	// 전화번호 관련
+	const tel1 = document.getElementById("userTel1");
+	const tel2 = document.getElementById("userTel2");
+	const tel3 = document.getElementById("userTel3");
+	const userTelHidden = document.getElementById("userTel");
+	const telEditBtn = document.getElementById("editTelBtn");
+
+	// 전화번호 분리 초기화
+	if (userTelHidden.value) {
+		const parts = userTelHidden.value.split("-");
+		if (parts.length === 3) {
+			tel1.value = parts[0];
+			tel2.value = parts[1];
+			tel3.value = parts[2];
+		}
+	}
+
+	[tel1, tel2, tel3].forEach(el => {
+		el.setAttribute("readonly", true);
+		el.setAttribute("tabindex", "-1");
+		el.style.pointerEvents = "none";
+	});
+
+	let telEditMode = false;
+	telEditBtn?.addEventListener("click", () => {
+		if (!telEditMode) {
+			telEditMode = true;
+			[tel1, tel2, tel3].forEach(el => {
+				el.removeAttribute("readonly");
+				el.removeAttribute("tabindex");
+				el.style.pointerEvents = "auto";
+			});
+			tel1.focus();
+			telEditBtn.textContent = "확인";
+		} else {
+			telEditMode = false;
+			[tel1, tel2, tel3].forEach(el => {
+				el.setAttribute("readonly", true);
+				el.setAttribute("tabindex", "-1");
+				el.style.pointerEvents = "none";
+			});
+			telEditBtn.textContent = "수정";
+			updateFullTel();
+			showModal("전화번호가 수정되었습니다.");
+		}
+	});
+
+	[tel1, tel2, tel3].forEach(input => {
+		input.addEventListener("input", () => {
+			input.value = input.value.replace(/[^0-9]/g, "");
+			updateFullTel();
+		});
+	});
+
+	function updateFullTel() {
+		const v1 = tel1.value.trim();
+		const v2 = tel2.value.trim();
+		const v3 = tel3.value.trim();
+		const full = v1 && v2 && v3 ? `${v1}-${v2}-${v3}` : "";
+		userTelHidden.value = full;
+	}
+
+	// 이메일 인증 전송
+	btnSendCode?.addEventListener("click", () => {
+		const email = emailInput.value.trim();
+		emailStatus.textContent = "";
+		emailResult.textContent = "";
+
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			emailStatus.textContent = "이메일 형식을 다시 확인해주세요.";
+			emailStatus.style.color = "red";
+			return;
+		}
+
+		fetch("/checkEmail?email=" + encodeURIComponent(email))
+			.then(res => res.text())
+			.then(data => {
+				if (data.includes("이미 사용 중인 이메일입니다.")) {
+					emailStatus.textContent = data;
+					emailStatus.style.color = "red";
+					return;
+				}
+
+				btnSendCode.disabled = true;
+				emailSpinner.style.display = "inline-block";
+
+				fetch("/email-verification/send", {
+					method: "POST",
+					headers: { "Content-Type": "application/x-www-form-urlencoded" },
+					body: new URLSearchParams({ email })
+				})
+					.then(res => res.text())
+					.then(msg => {
+						emailStatus.textContent = "📩 인증 이메일이 전송되었습니다. 메일함을 확인해주세요!";
+						emailStatus.style.color = "green";
+						emailCodeBox.style.display = "flex";
+						emailCodeInput.value = "";
+						startEmailTimer();
+					})
+					.catch(() => {
+						emailStatus.textContent = "오류 발생";
+						emailStatus.style.color = "red";
+					})
+					.finally(() => {
+						btnSendCode.disabled = false;
+						emailSpinner.style.display = "none";
+					});
+			})
+			.catch(() => {
+				emailStatus.textContent = "오류 발생";
+				emailStatus.style.color = "red";
+			});
+	});
+
+	// 이메일 인증 코드 검증
+	btnVerifyCode?.addEventListener("click", () => {
+		const email = emailInput.value.trim();
+		const code = emailCodeInput.value.trim();
+
+		emailResult.textContent = "";
+
+		if (!code) {
+			emailResult.textContent = "인증 코드를 입력해주세요.";
+			emailResult.style.color = "red";
+			return;
+		}
+
+		fetch("/email-verification/verify", {
+			method: "POST",
+			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+			body: new URLSearchParams({ email, code })
+		})
+			.then(res => res.text())
+			.then(msg => {
+				if (msg.includes("완료")) {
+					clearInterval(emailTimer);
+					emailTimerEl.innerText = "";
+					emailResult.textContent = "인증 완료되었습니다!";
+					emailResult.style.color = "green";
+					emailVerified = true;
+					showModal("이메일이 수정되었습니다.");
+				} else {
+					emailResult.textContent = "인증 코드가 일치하지 않습니다.";
+					emailResult.style.color = "red";
+					emailVerified = false;
+				}
+			});
+	});
+
+	// 내 정보 저장 버튼
+	const saveBtn = document.getElementById("btnSaveInfo");
+
+	saveBtn?.addEventListener("click", () => {
+		const email = emailInput.value.trim();
+		const userTel = userTelHidden.value.trim();
+
+		// 필수: 이메일이 비어있으면 막기
+		if (email === "") {
+			showModal("이메일은 필수 입력 항목입니다.");
+			return;
+		}
+
+		// 이메일이 실제로 수정됐는지 비교
+		const originalEmail = emailInput.dataset.originalEmail;
+		const isEmailEdited = email !== originalEmail;
+
+		// 수정은 했는데 인증 안 된 경우 막기
+		if (isEmailEdited && !emailVerified) {
+			showModal("이메일 인증을 완료해주세요.");
+			return;
+		}
+
+		const data = {
+			email: email,
+			userTel: userTel
+		};
+
+		fetch("/mypage/info/update", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(data)
+		})
+			.then(res => res.text())
+			.then(result => {
+				if (result === "success") {
+					showModal("회원 정보가 성공적으로 수정되었습니다.");
+					// 수정 성공하면 원래 이메일값도 갱신
+					emailInput.dataset.originalEmail = email;
+				} else {
+					showModal("수정에 실패했습니다. 다시 시도해주세요.");
+				}
+			})
+			.catch(err => {
+				console.error("에러 발생:", err);
+				showModal("오류가 발생했습니다.");
+			});
+	});
+}
+
+// 타이머 시작
+function startEmailTimer() {
+	let timeLeft = 300;
+	const timerEl = document.getElementById("emailTimer");
+	clearInterval(emailTimer);
+
+	emailTimer = setInterval(() => {
+		if (timeLeft <= 0) {
+			clearInterval(emailTimer);
+			timerEl.textContent = "⏰ 인증 시간이 만료되었습니다.";
+			timerEl.style.color = "red";
+			return;
+		}
+		const min = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+		const sec = String(timeLeft % 60).padStart(2, '0');
+		timerEl.textContent = `남은 시간: ${min}:${sec}`;
+		timeLeft--;
+	}, 1000);
 }
 
 function showModal(message) {
@@ -192,4 +460,4 @@ function showModal(message) {
 function closeModal() {
 	const modal = document.getElementById("commonModal");
 	if (modal) modal.style.display = "none";
-}
+} 
