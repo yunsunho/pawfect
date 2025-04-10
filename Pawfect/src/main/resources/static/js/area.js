@@ -34,12 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 초기 contentTypeId는 서버에서 전달한 값 사용
   let selectedAreaCode = parseInt(new URLSearchParams(location.search).get("areaCode")) || "";
+  let selectedSigunguCode = "";
   let selectedArrange = 'O';
   let currentPage = 1;
 
   const fetchAndRender = async () => {
     try {
-      const response = await fetch(`/api/areaData?areaCode=${selectedAreaCode}&arrange=${selectedArrange}&pageNo=${currentPage}`);
+      const response = await fetch(`/api/areaData?areaCode=${selectedAreaCode}&sigunguCode=${selectedSigunguCode || ""}&arrange=${selectedArrange}&pageNo=${currentPage}`);
       const result = await response.json();
       const data = result.list;
       const totalPages = result.totalPages;
@@ -118,18 +119,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 초기 로드
   fetchAndRender();
+  
+  let sigunguData = {};
 
-  areaTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      areaTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      selectedAreaCode= tab.dataset.area;
-	  currentPage = 1;
-      fetchAndRender();
-    });
-  });
-  
-  
+  fetch("/data/sigunguData.json")
+    .then(res => res.json())
+    .then(data => {
+      sigunguData = data;
+      console.log("시군구 데이터 불러옴", sigunguData);
+
+      // 💡 시군구 데이터 로딩 완료 후에만 탭 클릭 이벤트 연결
+      areaTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          areaTabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          selectedAreaCode = tab.dataset.area;
+          selectedSigunguCode = "";
+          currentPage = 1;
+          renderSigunguSubmenu(selectedAreaCode);
+          fetchAndRender();
+        });
+      });
+
+    })
+    .catch(err => console.error("시군구 데이터 로딩 실패:", err));
+
+
+  function renderSigunguSubmenu(areaCode) {
+    const sigunguMenu = document.querySelector(".sigungu-submenu");
+    sigunguMenu.innerHTML = ""; // 초기화
+
+    const sigunguList = sigunguData[areaCode];
+    if (!sigunguList) {
+      sigunguMenu.style.display = "none";
+      return;
+    }
+
+	sigunguList.forEach((item) => {
+	  const btn = document.createElement("a");
+	  btn.className = "sigungu-tab";
+	  btn.textContent = item.name;
+	  btn.dataset.sigungu = item.code;
+
+	  btn.addEventListener("click", () => {
+	    document.querySelectorAll(".sigungu-tab").forEach(t => t.classList.remove("active"));
+	    btn.classList.add("active");
+	    selectedSigunguCode = btn.dataset.sigungu;
+	    currentPage = 1;
+	    fetchAndRender();
+	  });
+
+	  sigunguMenu.appendChild(btn);
+	});
+
+    sigunguMenu.style.display = "flex"; // 혹은 block
+  }
+
 
   sortSelect.addEventListener('change', () => {
     const selectedText = sortSelect.options[sortSelect.selectedIndex].text;
@@ -139,5 +184,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 진입 시 관광지 + 제목순으로 시작
-  fetchAndRender();
+  // fetchAndRender();
 });

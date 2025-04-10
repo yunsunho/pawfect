@@ -128,7 +128,39 @@ body {
   font-weight: bold;
   border-bottom: 3px solid #111;
 }
+.sigungu-submenu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  justify-content: center;
+}
 
+.sigungu-tab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.sigungu-tab:hover {
+  background-color: #ffcf91;
+  border-color: #ffa94d;
+}
+
+.sigungu-tab.active {
+  background-color: #ff922b;
+  color: #fff;
+  border-color: #ff922b;
+}
 /* 모달 스타일 */
 .modal {
     display: none;

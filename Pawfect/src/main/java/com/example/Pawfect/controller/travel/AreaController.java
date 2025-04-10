@@ -34,9 +34,10 @@ public class AreaController {
     @GetMapping("/api/areaData")
     @ResponseBody
     public Map<String, Object> getAreaData(
-    		@RequestParam(defaultValue = "") String areaCode,
-            @RequestParam(defaultValue = "O") String arrange,
-            @RequestParam(defaultValue = "1") int pageNo) throws Exception {
+    		@RequestParam(required = false) String areaCode,
+    	    @RequestParam(required = false) String sigunguCode,
+    	    @RequestParam(defaultValue = "O") String arrange,
+    	    @RequestParam(defaultValue = "1") int pageNo) throws Exception {
 
         String encoded = URLEncoder.encode(serviceKey, "UTF-8");
         List<Map<String, String>> areaList = new ArrayList<>();
@@ -49,6 +50,7 @@ public class AreaController {
                 + "&MobileApp=PawfectTour"
                 + "&arrange=" + arrange
                 + "&areaCode=" + areaCode
+                + (sigunguCode != null && !sigunguCode.isEmpty() ? "&sigunguCode=" + sigunguCode : "")
                 + "&_type=json";
 
         RestTemplate restTemplate = new RestTemplate();
