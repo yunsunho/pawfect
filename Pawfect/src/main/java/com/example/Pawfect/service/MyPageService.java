@@ -10,7 +10,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MyPageService {
-
 	private final MyPageMapper myPageMapper;
 
 	// 사용자 기본 정보 조회
@@ -36,5 +35,20 @@ public class MyPageService {
 	// 내가 보낸 문의
 	public List<InquiryDto> getMyInquiries(String userId) {
 		return myPageMapper.getMyInquiries(userId);
+	}
+
+	// 프로필 정보 수정 (닉네임, 반려동물)
+	public boolean updateProfile(ProfileUpdateDto dto) {
+		return myPageMapper.updateProfile(dto) > 0;
+	}
+
+	// 닉네임 변경 가능 여부 (30일 제한)
+	public boolean canEditNickname(String userId) {
+		return myPageMapper.canEditNickname(userId);
+	}
+
+	// 프로필 이미지 경로 업데이트
+	public boolean updateProfileImage(String userId, String imagePath) {
+	    return myPageMapper.updateProfileImage(userId, imagePath) > 0;
 	}
 }

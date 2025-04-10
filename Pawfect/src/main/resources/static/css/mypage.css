@@ -1,5 +1,5 @@
 body {
-	background-color: #ecf2f9; 
+	background-color: #ecf2f9;
 	font-family: 'Arial', sans-serif;
 	margin: 0;
 	padding: 0;
@@ -81,29 +81,106 @@ body {
 	min-height: 460px;
 }
 
-/* 공통 프로필 스타일 */
-.profile-img {
+/* 내 프로필 스타일 */
+.center-box {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.profile-img-box {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.profile-img-box img.profile-img {
 	width: 120px;
 	height: 120px;
 	border-radius: 50%;
 	object-fit: cover;
-	border: 3px solid #ddd;
-	margin-bottom: 15px;
-}
-
-.nickname {
-	font-size: 22px;
-	font-weight: bold;
+	border: 2px solid #ccc;
 	margin-bottom: 10px;
 }
 
-.info-hint-box {
-	background-color: #fff2e0;
-	padding: 12px 20px;
-	border-radius: 8px;
+.edit-btn {
+	padding: 6px 14px;
+	background-color: #eee;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.edit-btn:hover {
+	background-color: #ddd;
+}
+
+.profile-box {
+	background-color: #f9f9f9;
+	padding: 30px;
+	border-radius: 14px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.input-group {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+
+.input-group label{
+	margin-top: 10px;
+}
+
+.input-label {
+	width: 80px; 
+	font-weight: bold;
+}
+
+.profile-tab input, .profile-tab select {
+	padding: 8px 12px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	text-align: left;
 	font-size: 14px;
-	color: #444;
+}
+
+.profile-tab label {
 	display: inline-block;
-	margin-top: 16px;
-	font-weight: 500;
+	font-weight: bold;
+	margin-right: 6px; 
+	margin-bottom: 10px;
+}
+
+.nickname-hint {
+	color: #d30000;
+	font-size: 13px;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+.box {
+	background-color: #fffef5;
+	padding: 20px; /* 위아래 좌우 동일 */
+	border-radius: 10px;
+	margin-bottom: 20px; /* 박스 사이 여백 */
+}
+
+.join-date-box {
+	background-color: #fffef5;
+	padding: 15px; 
+	border-radius: 10px;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+	font-size: 14px;
+	color: #333;
+	margin-top: 20px; /* ✅ 위쪽 여백 동일하게 */
+}
+
+
+.save-btn-row {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 25px;
 }

@@ -4,21 +4,22 @@ import com.example.Pawfect.auth.CustomUserDetails;
 import com.example.Pawfect.dto.*;
 import com.example.Pawfect.service.MyPageService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/mypage")
 public class MyPageController {
 
 	private final MyPageService myPageService;
 
-	@GetMapping("/mypage")
+	@GetMapping("")
 	public String showMyPage(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
 		if (userDetails == null) {
 			return "redirect:/loginForm";
@@ -39,5 +40,22 @@ public class MyPageController {
 		model.addAttribute("inquiries", inquiries);
 
 		return "mypage/mypage";
+	}
+
+	@GetMapping("/tab/profile")
+	public String loadProfileTab(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+		if (userDetails == null) {
+			return "redirect:/loginForm";
+		}
+
+		String userId = userDetails.getUser().getUserId();
+
+		MyPageUserDto user = myPageService.getUserSummary(userId);
+		boolean canEditNickname = myPageService.canEditNickname(userId);
+
+		model.addAttribute("user", user);
+		model.addAttribute("canEditNickname", canEditNickname);
+
+		return "mypage/mypage_profile";
 	}
 }

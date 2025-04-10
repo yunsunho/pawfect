@@ -23,7 +23,7 @@
 				<!-- 좌측 메뉴 -->
 				<div class="mypage-sidebar">
 					<ul>
-						<li class="active" data-tab="profile">My 프로필</li>
+						<li class="active" data-tab="profile"> 프로필</li>
 						<li data-tab="info">내 정보</li>
 						<li data-tab="password">비밀번호 변경</li>
 						<li data-tab="bookmark">북마크 리스트</li>
@@ -32,8 +32,7 @@
 					</ul>
 				</div>
 
-				<div class="mypage-main" id="mypage-content-area">
-				</div>
+				<div class="mypage-main" id="mypage-content-area"></div>
 			</div>
 		</div>
 	</div>

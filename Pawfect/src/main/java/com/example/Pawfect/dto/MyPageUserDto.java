@@ -11,4 +11,6 @@ public class MyPageUserDto {
     private String userNickname;
     private String userImage;
     private Timestamp userRegdate;
+    private String petName;
+    private Integer petType;
 }
