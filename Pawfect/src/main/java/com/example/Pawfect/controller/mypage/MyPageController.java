@@ -1,4 +1,4 @@
-package com.example.Pawfect.controller.user;
+package com.example.Pawfect.controller.mypage;
 
 import com.example.Pawfect.auth.CustomUserDetails;
 import com.example.Pawfect.dto.*;

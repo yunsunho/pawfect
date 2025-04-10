@@ -1,73 +1,93 @@
 body {
-	background-color: #f4f7f9;
+	background-color: #ecf2f9; 
 	font-family: 'Arial', sans-serif;
 	margin: 0;
 	padding: 0;
 }
 
+.mypage-wrapper {
+	padding: 60px 0 80px;
+}
+
 .mypage-container {
-	width: 1000px;
-	margin: 50px auto;
+	width: 1200px;
+	margin: 0 auto;
 }
 
 .mypage-title {
 	text-align: center;
-	font-size: 28px;
+	font-size: 32px;
 	font-weight: bold;
-	margin-bottom: 30px;
+	margin-bottom: 50px;
+	position: relative;
+}
+
+.mypage-title::after {
+	content: '';
+	display: block;
+	width: 160px;
+	height: 4px;
+	background-color: #f4c542;
+	margin: 2px auto 0;
+	border-radius: 4px;
 }
 
 .mypage-content {
 	display: flex;
-	gap: 30px;
+	gap: 20px;
 }
 
-/* 왼쪽 사이드 */
+/* 사이드바 */
 .mypage-sidebar {
-	width: 200px;
+	width: 220px;
 	background: #fff;
 	padding: 20px;
-	border-radius: 16px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+	border-radius: 20px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .mypage-sidebar ul {
 	list-style: none;
 	padding: 0;
+	margin: 0;
 }
 
 .mypage-sidebar li {
 	font-size: 16px;
-	margin-bottom: 18px;
+	padding: 10px 14px;
+	margin-bottom: 10px;
+	border-radius: 12px;
 	font-weight: bold;
 	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.mypage-sidebar li:hover {
+	background-color: #f9f9f9;
 }
 
 .mypage-sidebar li.active {
-	color: #000;
+	background-color: #f4c542;
+	color: #111;
 }
 
+/* 콘텐츠 카드 */
 .mypage-main {
 	flex: 1;
 	background: #fff;
 	padding: 40px;
-	border-radius: 16px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-	text-align: center;
+	border-radius: 20px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+	min-height: 460px;
 }
 
-.profile-box {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
+/* 공통 프로필 스타일 */
 .profile-img {
 	width: 120px;
 	height: 120px;
 	border-radius: 50%;
-	background: #eee;
 	object-fit: cover;
+	border: 3px solid #ddd;
 	margin-bottom: 15px;
 }
 
@@ -77,27 +97,13 @@ body {
 	margin-bottom: 10px;
 }
 
-.reg-date {
-	font-size: 14px;
-	color: #777;
-	margin-bottom: 20px;
-}
-
-.profile-actions button {
-	padding: 10px 20px;
-	margin: 5px;
-	font-weight: bold;
+.info-hint-box {
+	background-color: #fff2e0;
+	padding: 12px 20px;
 	border-radius: 8px;
-	border: none;
-	cursor: pointer;
-}
-
-.edit-btn {
-	background-color: #f4c542;
-	color: #111;
-}
-
-.delete-btn {
-	background-color: #ff6f61;
-	color: #fff;
+	font-size: 14px;
+	color: #444;
+	display: inline-block;
+	margin-top: 16px;
+	font-weight: 500;
 }
