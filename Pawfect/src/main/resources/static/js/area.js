@@ -3,16 +3,26 @@
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.theme-container');
   const sortSelect = document.querySelector('.sort-box select');
-  const tabs = document.querySelectorAll('.theme-tab');
+  const areaTabs  = document.querySelectorAll('.area-tab');
 
-  const contentTypeMap = {
-    '관광지': 12,
-    '문화시설': 14,
-    '행사/공연/축제': 15,
-    '레포츠': 28,
-    '숙박': 32,
-    '쇼핑': 38,
-    '음식점': 39
+  const areaMap = {
+    '서울':1,
+    '인천':2,
+	'대전':3,
+	'대구':4,
+	'광주':5,
+	'부산':6,
+	'울산':7,
+	'세종':8,
+	'경기':31,
+	'강원':32,
+	'충북':33,
+	'충남':34,
+	'경북':35,
+	'경남':36,
+	'전북':37,
+	'전남':38,
+	'제주':39
   };
 
   const arrangeMap = {
@@ -23,13 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // 초기 contentTypeId는 서버에서 전달한 값 사용
-  let selectedContentTypeId = parseInt(new URLSearchParams(location.search).get("contentTypeId")) || 12;
+  let selectedAreaCode = parseInt(new URLSearchParams(location.search).get("areaCode")) || "";
   let selectedArrange = 'O';
   let currentPage = 1;
 
   const fetchAndRender = async () => {
     try {
-      const response = await fetch(`/api/themeData?contentTypeId=${selectedContentTypeId}&arrange=${selectedArrange}&pageNo=${currentPage}`);
+      const response = await fetch(`/api/areaData?areaCode=${selectedAreaCode}&arrange=${selectedArrange}&pageNo=${currentPage}`);
       const result = await response.json();
       const data = result.list;
       const totalPages = result.totalPages;
@@ -109,15 +119,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // 초기 로드
   fetchAndRender();
 
-  tabs.forEach(tab => {
+  areaTabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
+      areaTabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-      selectedContentTypeId = contentTypeMap[tab.textContent.trim()];
+      selectedAreaCode= tab.dataset.area;
 	  currentPage = 1;
       fetchAndRender();
     });
   });
+  
+  
 
   sortSelect.addEventListener('change', () => {
     const selectedText = sortSelect.options[sortSelect.selectedIndex].text;

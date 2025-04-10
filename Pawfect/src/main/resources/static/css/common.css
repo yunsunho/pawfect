@@ -98,6 +98,37 @@ body {
   border-bottom: 3px solid #111;
 }
 
+/* 하단 지역 탭 메뉴 */
+.area-submenu {
+  background-color: #f4c542;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  width: 100%;
+}
+
+/* 각 탭 스타일 */
+.area-tab {
+  margin: 0 15px;
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, font-weight 0.2s;
+}
+
+.area-tab:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.area-tab.active {
+  font-weight: bold;
+  border-bottom: 3px solid #111;
+}
+
 /* 모달 스타일 */
 .modal {
     display: none;
