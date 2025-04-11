@@ -30,11 +30,22 @@
   </div>
 
   <!-- 📸 이미지 슬라이드 -->
-  <div class="slider">
+<div class="main-slider-wrapper">
+  <button class="main-prev" onclick="changeMainSlide(-1)">&#10094;</button>
+
+  <div class="main-slider">
     <c:forEach var="img" items="${images}">
-      <img src="${img}" alt="슬라이드 이미지">
+      <div class="main-slide">
+        <img src="${img}" alt="슬라이드 이미지">
+      </div>
     </c:forEach>
   </div>
+
+  <button class="main-next" onclick="changeMainSlide(1)">&#10095;</button>
+</div>
+
+	<!-- 구분선 -->
+	<hr class="section-divider" />
 
   <!-- 📝 소개글 + 지도 -->
   
@@ -43,7 +54,7 @@
      <p>${common.overview}</p>
    </div>
    <div class="map-container">
-     <div id="map" style="width:100%; height:300px;"></div>
+     <div id="map" data-mapx="${common.mapx}" data-mapy="${common.mapy}" style="width:100%; height:300px;"></div>
    </div>
 
   <!-- 📋 이용 정보 -->
@@ -55,24 +66,13 @@
       </c:if>
       <c:if test="${not empty common.homepage and common.homepage ne '0' and common.homepage ne '없음'}">
         <li><strong>홈페이지:</strong> ${common.homepage}</li>
-      </c:if>
-	  <c:if test="${not empty pet.acmpyTypeCd and pet.acmpyTypeCd ne '0' and pet.acmpyTypeCd ne '없음'}">
-		  <li><strong>동반 유형:</strong> ${pet.acmpyTypeCd}</li>
-	  </c:if>
+      </c:if>	  
 	  <c:if test="${not empty pet.relaPosesFclty and pet.relaPosesFclty ne '0' and pet.relaPosesFclty ne '없음'}">
 		<li><strong>보유 시설:</strong> ${pet.relaPosesFclty}</li>
 	  </c:if>
 	  <c:if test="${not empty pet.relaFrnshPrdlst and pet.relaFrnshPrdlst ne '0' and pet.relaFrnshPrdlst ne '없음'}">
 	    <li><strong>제공 물품:</strong> ${pet.relaFrnshPrdlst}</li>
       </c:if>
-	  <c:if test="${not empty pet.etcAcmpyInfo and pet.etcAcmpyInfo ne '0' and pet.etcAcmpyInfo ne '없음'}">
-	     <li><strong>기타 동반 정보:</strong><br>
-	       <c:out value="${pet.etcAcmpyInfo}" escapeXml="false" />
-	     </li>
-	  </c:if>
-	  <c:if test="${not empty pet.acmpyPsblCpam and pet.acmpyPsblCpam ne '0' and pet.acmpyPsblCpam ne '없음'}">
-	    <li><strong>동반 가능:</strong> ${pet.acmpyPsblCpam}</li>
-	  </c:if>
 	  <c:if test="${not empty pet.relaRntlPrdlst and pet.relaRntlPrdlst ne '0' and pet.relaRntlPrdlst ne '없음'}">
 	    <li><strong>대여 물품:</strong> ${pet.relaRntlPrdlst}</li>
 	  </c:if>
@@ -415,36 +415,57 @@
 	  <c:if test="${not empty Intro.treatmenu and Intro.treatmenu ne '0' and Intro.treatmenu ne '없음'}">
 	    <li><strong> 취급 메뉴 : </strong> ${Intro.treatmenu }</li>
 	  </c:if>
-    </ul>
-  </div>
+	<%-- 그 외 contentTypeId인 경우 (infoname + infotext 출력) --%>
+	<c:forEach var="info" items="${introList}">
+	  <li><strong>${info.name}:</strong> ${info.text}</li>
+	</c:forEach>
+  </ul>
+</div>
 
-  <!-- 💬 리뷰 영역 -->
-  <div class="review-section">
-    <h3>리뷰</h3>
-    <textarea placeholder="로그인 후 작성 가능합니다." disabled></textarea>
-    <button disabled>등록</button>
+<c:if test="${not empty roomList}">
+  <div class="info-box">
+    <h3>객실안내</h3>
+    <c:forEach var="room" items="${roomList}" varStatus="status">
+      <div class="room-block">
+        <h4>${room.title}</h4>
+        <div style="display: flex; gap: 20px;">
+          <div class="slider-container">
+		  <div class="room-slider">
+		    <c:forEach var="img" items="${room.images}">
+		      <div class="slide">
+		        <img src="${img}" alt="객실 이미지">
+		      </div>
+		    </c:forEach>
+		  </div>
+		  <button class="prev" onclick="plusSlide(-1, ${status.index})">&#10094;</button>
+		  <button class="next" onclick="plusSlide(1, ${status.index})">&#10095;</button>
+		</div>
+
+          <ul>
+            <li>객실크기: ${room.roomsize}</li>
+            <li>숙박인원: ${room.basecount}명 (최대 ${room.maxcount}명)</li>
+            <li>비수기주중: ${room.offmin}원</li>
+            <li>비수기주말: ${room.offmax}원</li>
+            <li>성수기주중: ${room.peakmin}원</li>
+            <li>성수기주말: ${room.peakmax}원</li>
+            <li>편의시설: ${room.amenities}</li>
+          </ul>
+        </div>
+        <hr>
+      </div>
+    </c:forEach>
+    <p class="notice">※ 위 정보는 공공데이터 포털에 등록된 기준이며, 변동될 수 있습니다.</p>
   </div>
+</c:if>
+
+<!-- 💬 리뷰 영역 -->
+<div class="review-section">
+  <h3>리뷰</h3>
+  <textarea placeholder="로그인 후 작성 가능합니다." disabled></textarea>
+  <button disabled>등록</button>
+</div>
 
 </div>
-<script>
-  window.onload = function() {
-    var mapX = parseFloat('${common.mapx}');
-    var mapY = parseFloat('${common.mapy}');
-
-    var mapContainer = document.getElementById('map');
-    var mapOption = {
-      center: new kakao.maps.LatLng(mapY, mapX),
-      level: 3
-    };
-
-    var map = new kakao.maps.Map(mapContainer, mapOption);
-
-    var marker = new kakao.maps.Marker({
-      position: map.getCenter()
-    });
-    marker.setMap(map);
-  };
-  
-</script>
+<script src="/js/detail.js"></script>
 </body>
 </html>

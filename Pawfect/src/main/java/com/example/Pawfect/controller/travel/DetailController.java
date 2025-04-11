@@ -101,12 +101,12 @@ public class DetailController {
 
         Map<String, String> petTour = new HashMap<>();
         petTour.put("relaAcdntRiskMtr", petNode.path("relaAcdntRiskMtr").asText());
-        petTour.put("acmpyTypeCd", petNode.path("acmpyTypeCd").asText());
+        //petTour.put("acmpyTypeCd", petNode.path("acmpyTypeCd").asText());
         petTour.put("relaPosesFclty", petNode.path("relaPosesFclty").asText());
         petTour.put("relaFrnshPrdlst", petNode.path("relaFrnshPrdlst").asText());
-        petTour.put("etcAcmpyInfo", petNode.path("etcAcmpyInfo").asText().replaceAll("\n", "<br>"));
+        //petTour.put("etcAcmpyInfo", petNode.path("etcAcmpyInfo").asText().replaceAll("\n", "<br>"));
         petTour.put("relaPurcPrdlst", petNode.path("relaPurcPrdlst").asText());
-        petTour.put("acmpyPsblCpam", petNode.path("acmpyPsblCpam").asText());
+        //petTour.put("acmpyPsblCpam", petNode.path("acmpyPsblCpam").asText());
         petTour.put("relaRntlPrdlst", petNode.path("relaRntlPrdlst").asText());
         petTour.put("acmpyNeedMtr", petNode.path("acmpyNeedMtr").asText());
         model.addAttribute("pet", petTour);
@@ -258,6 +258,96 @@ public class DetailController {
             	detailIntro.put("etc", "해당 타입의 상세정보 없음");
                 break;
         }
+        
+     // ✅ detailInfo API 호출
+        String infoUrl = "https://apis.data.go.kr/B551011/KorPetTourService/detailInfo?"
+                + "serviceKey=" + encodedKey
+                + "&MobileOS=ETC&MobileApp=Pawfect"
+                + "&contentId=" + contentId
+                + "&contentTypeId=" + contentTypeId
+                + "&_type=json";
+
+        ResponseEntity<String> infoResponse = restTemplate.exchange(
+                new URI(infoUrl), HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class);
+
+        JsonNode infoItems = mapper.readTree(infoResponse.getBody())
+                .path("response").path("body").path("items").path("item");
+
+        if (contentTypeId.equals("32")) {
+            String detailInfoUrl = "https://apis.data.go.kr/B551011/KorPetTourService/detailInfo?"
+                    + "serviceKey=" + encodedKey
+                    + "&MobileOS=ETC&MobileApp=Pawfect"
+                    + "&contentId=" + contentId
+                    + "&contentTypeId=32"
+                    + "&_type=json"
+                    + "&numOfRows=100&pageNo=1"; // 최대 100개까지 받아오기
+
+            ResponseEntity<String> roomResponse = restTemplate.exchange(
+                    new URI(detailInfoUrl),
+                    HttpMethod.GET,
+                    new HttpEntity<>(new HttpHeaders()),
+                    String.class
+            );
+
+            JsonNode items = mapper.readTree(roomResponse.getBody())
+                    .path("response").path("body").path("items").path("item");
+
+            List<Map<String, Object>> rooms = new ArrayList<>();
+
+            for (JsonNode room : items) {
+                Map<String, Object> roomInfo = new HashMap<>();
+
+                // 기본 정보
+                roomInfo.put("title", room.path("roomtitle").asText());
+                roomInfo.put("roomsize", room.path("roomsize2").asText() + "㎡");
+                roomInfo.put("basecount", room.path("roombasecount").asText());
+                roomInfo.put("maxcount", room.path("roommaxcount").asText());
+                roomInfo.put("offmin", room.path("roomoffseasonminfee1").asText());
+                roomInfo.put("offmax", room.path("roomoffseasonminfee2").asText());
+                roomInfo.put("peakmin", room.path("roompeakseasonminfee1").asText());
+                roomInfo.put("peakmax", room.path("roompeakseasonminfee2").asText());
+
+                // 제공물품
+                List<String> providedItems = new ArrayList<>();
+                if ("Y".equals(room.path("roombathfacility").asText())) providedItems.add("목욕시설");
+                if ("Y".equals(room.path("roomaircondition").asText())) providedItems.add("에어컨");
+                if ("Y".equals(room.path("roomtv").asText())) providedItems.add("TV");
+                if ("Y".equals(room.path("roomrefrigerator").asText())) providedItems.add("냉장고");
+                if ("Y".equals(room.path("roominternet").asText())) providedItems.add("인터넷");
+                if ("Y".equals(room.path("roomtoiletries").asText())) providedItems.add("취사용품");
+                if ("Y".equals(room.path("roomhairdryer").asText())) providedItems.add("헤어드라이기");
+                roomInfo.put("amenities", String.join(",", providedItems));
+
+                // 이미지 리스트
+                List<String> imageList = new ArrayList<>();
+                for (int i = 1; i <= 5; i++) {
+                    String url = room.path("roomimg" + i).asText();
+                    if (url != null && !url.isEmpty()) {
+                        imageList.add(url);
+                    }
+                }
+                roomInfo.put("images", imageList); // List<String>
+
+                rooms.add(roomInfo);
+            }
+            model.addAttribute("roomList", rooms);
+
+        } else {
+            // contentTypeId가 32가 아닐 때는 일반 infoname/infotext 출력
+            List<Map<String, String>> introList = new ArrayList<>();
+
+            for (JsonNode node : infoItems) {
+                String name = node.path("infoname").asText();
+                String text = node.path("infotext").asText();
+
+                if (!text.equals("0") && !text.equals("없음") && !text.isBlank()) {
+                    introList.add(Map.of("name", name, "text", text));
+                }
+            }
+
+            model.addAttribute("introList", introList);
+        }
+
 
         model.addAttribute("Intro", detailIntro);
 
