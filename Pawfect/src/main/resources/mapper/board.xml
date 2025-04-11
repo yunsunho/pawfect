@@ -3,6 +3,65 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.Pawfect.mapper.BoardMapper">
+	<select id="getPost" parameterType="int" resultType="com.example.Pawfect.dto.PostDto">
+        SELECT
+	        p.*,
+	        u.userNickname,
+	        (SELECT COUNT(*) FROM post_likes pl WHERE pl.postID = p.postId) AS likeCount,
+	        (SELECT COUNT(*) FROM comment c WHERE c.postID = p.postId) AS commentCount
+	    FROM post p
+	    JOIN user u ON p.userId = u.userId
+	    WHERE p.postId = #{postId}
+    </select>
+    
+    <select id="getPostCount" resultType="int" parameterType="map">
+        SELECT COUNT(*) FROM post
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND postTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="postType != null">
+            AND postType = #{postType}
+        </if>
+        <if test="startDate != null and endDate != null">
+            AND postRegdate BETWEEN #{startDate} AND #{endDate}
+        </if>
+    </select>
+    
+    <select id="getPosts" resultType="com.example.Pawfect.dto.PostDto" parameterType="map">
+	    SELECT 
+	        p.*, 
+	        u.userNickname,
+	        (SELECT COUNT(*) FROM post_likes pl WHERE pl.postId = p.postId) AS likeCount,
+	        (SELECT COUNT(*) FROM comment c WHERE c.postId = p.postId) AS commentCount
+	    FROM post p
+	    JOIN user u ON p.userId = u.userId
+	    WHERE 1 = 1
+	    <if test="keyword != null and keyword != ''">
+	        AND p.postTitle LIKE CONCAT('%', #{keyword}, '%')
+	    </if>
+	    <if test="postType != null and postType != ''">
+	        AND p.postType = #{postType}
+	    </if>
+	    <if test="startDate != null and endDate != null">
+	        AND p.postRegdate BETWEEN #{startDate} AND #{endDate}
+	    </if>
+	    ORDER BY 
+	        <choose>
+	            <when test="sortBy == 'views'">p.postViewCount DESC</when>
+	            <when test="sortBy == 'likes'">
+	                (SELECT COUNT(*) FROM post_likes WHERE postId = p.postId) DESC
+	            </when>
+	            <when test="sortBy == 'comments'">
+	                (SELECT COUNT(*) FROM comment WHERE postId = p.postId) DESC
+	            </when>
+	            <otherwise>p.postRegdate DESC</otherwise>
+	        </choose>
+	    LIMIT #{start}, #{pageSize}
+	</select>
+    
+    
+
     <insert id="insertPost" parameterType="com.example.Pawfect.dto.PostDto" useGeneratedKeys="true" keyProperty="postId">
 	  INSERT INTO post (userId, postType, postTitle, postContent)
 	  VALUES (#{userId}, #{postType}, #{postTitle}, #{postContent})
@@ -20,65 +79,40 @@
 	  DELETE FROM post WHERE postId = #{postId}
 	</delete>
 
-	
+	<!--
     <select id="getAllPosts" resultType="com.example.Pawfect.dto.PostDto">
         SELECT * FROM post ORDER BY postId DESC
     </select>
+    -->
 
-    <select id="getPostById" parameterType="int" resultType="com.example.Pawfect.dto.PostDto">
-        SELECT * FROM post WHERE postId = #{postId}
-    </select>
-    
-    <select id="getPostCount" parameterType="map" resultType="int">
-	  SELECT COUNT(*) FROM post
-	  <where>
-	    <if test="startDate != null and endDate != null">
-	      postRegdate BETWEEN #{startDate} AND #{endDate}
-	    </if>
-	  </where>
-	</select>
+
 	
 	<update id="incrementViewCount" parameterType="int">
 	  UPDATE post SET postViewCount = postViewCount + 1 WHERE postId = #{postId}
 	</update>
+	
 
+    
+    
+    <!-- FOR SIDEBAR STATS-->
+    <!-- Get total post count -->
+    <select id="getTotalPostCount" resultType="int">
+        SELECT COUNT(*) FROM post
+    </select>
 
-	<select id="getPostList" parameterType="map" resultType="com.example.Pawfect.dto.PostDto">
-	  SELECT 
-	    p.postId,
-	    p.postType,
-	    p.postTitle,
-	    u.userNickname AS writer,
-	    p.postRegdate,
-	    p.postViewCount,
-	    IFNULL(l.likeCount, 0) AS likeCount,
-	    IFNULL(c.commentCount, 0) AS commentCount
-	  FROM post p
-	  JOIN user u ON p.userId = u.userId
-	  LEFT JOIN (
-	    SELECT postId, COUNT(*) AS likeCount
-	    FROM post_likes
-	    GROUP BY postId
-	  ) l ON p.postId = l.postId
-	  LEFT JOIN (
-	    SELECT postId, COUNT(*) AS commentCount
-	    FROM comment
-	    GROUP BY postId
-	  ) c ON p.postId = c.postId
-	  <where>
-	    <if test="startDate != null and endDate != null">
-	      p.postRegdate BETWEEN #{startDate} AND #{endDate}
-	    </if>
-	  </where>
-	  ORDER BY
-	    <choose>
-	      <when test="sort == 'latest'">p.postRegdate DESC</when>
-	      <when test="sort == 'view'">p.postViewCount DESC</when>
-	      <when test="sort == 'comment'">commentCount DESC</when>
-	      <when test="sort == 'like'">likeCount DESC</when>
-	      <otherwise>p.postRegdate DESC</otherwise>
-	    </choose>
-	  LIMIT #{startRow}, #{pageSize}
+    <!-- Get total comment count -->
+    <select id="getTotalCommentCount" resultType="int">
+        SELECT COUNT(*) FROM comment
+    </select>
+
+    <!-- Get total user count -->
+    <select id="getTotalUserCount" resultType="int">
+        SELECT COUNT(*) FROM user
+    </select>
+	
+	<select id="getTotalLikeCount" resultType="int" parameterType="int">
+		SELECT COUNT(*) FROM post_likes WHERE postId=#{postId}
 	</select>
+
 	
 </mapper>

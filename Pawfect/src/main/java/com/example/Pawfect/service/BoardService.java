@@ -14,26 +14,51 @@ public class BoardService {
 	@Autowired
 	private BoardMapper boardMapper;
 	
-	public int getPostCount() {
-		return boardMapper.getPostCount();
+	public PostDto getPost(int num) {
+		PostDto dto = boardMapper.getPost(num);
+		dto.generateDisplayName();
+		return dto;
 	}
+	public List<PostDto> getPosts(Map<String, Object> filterMap) {
+		return boardMapper.getPosts(filterMap);
+	}
+	public int getPostCount(Map<String, Object> map) {
+		return boardMapper.getPostCount(map);
+	}
+	
 	
 	public int insertPost(PostDto postDto) {
 		return boardMapper.insertPost(postDto);
 	}
 	
-	public PostDto getPost(int num) {
-		return boardMapper.getPost(num);
-	}
-	
+	/*
 	public List<PostDto> getPosts(Map<String, Integer> map) {
 		return boardMapper.getAllPosts(map);
 		
 	}
+	*/
 
 	public void savePost(PostDto postDto) {
 		// TODO Auto-generated method stub
-		
 	}
 
+	
+	
+	// For stats at the top of the page
+	public int getTotalPostCount() {
+		return boardMapper.getTotalPostCount();
+	}
+	
+	public int getTotalCommentCount() {
+		return boardMapper.getTotalCommentCount();
+	}
+
+	public int getTotalUserCount() {
+		return boardMapper.getTotalUserCount();
+	}
+	
+	// get like count of single post
+	public int getTotalLikeCount(int postId) {
+		return boardMapper.getTotalLikeCount(postId);
+	}
 }
