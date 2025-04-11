@@ -17,7 +17,7 @@
       height: 100%;
     }    
   </style>
-  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/common.css">	
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
