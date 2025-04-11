@@ -3,7 +3,7 @@
 
 <!-- 상단 메뉴 -->
 <header class="header">
-  <div class="logo">Paw<span>fect</span> Tour</div>
+  <div class="logo"><span>Paw</span>fect Tour</div>
   <nav class="nav">
     <a href="/main" class="${currentPage eq 'main' ? 'active' : ''}">홈</a>
     <a href="/themeList" class="${currentPage eq 'theme' ? 'active' : ''}">테마</a>
@@ -13,7 +13,7 @@
   <div class="icons">
      <a href="/map"> <span class="icon">📍</span> </a>
     <span class="icon notification">🔔</span>
-    <a href="/mypage" class="icon user">👤</a> <!-- 👈 마이페이지 이동 -->
+    <a href="/mypage" class="icon user">👤</a> 
   </div>
 </header>
 

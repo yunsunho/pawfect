@@ -8,7 +8,16 @@
 	<!-- 사용자 기본 정보 -->
 	<select id="getUserSummary"
 		resultType="com.example.Pawfect.dto.MyPageUserDto">
-		SELECT userId, userNickname, userImage, userRegdate
+		SELECT
+		userId,
+		userName,
+		userNickname,
+		userImage,
+		userRegdate,
+		petName,
+		petType,
+		email,
+		userTel
 		FROM user
 		WHERE userId = #{userId}
 	</select>
@@ -26,9 +35,11 @@
 		p.mapY,
 		b.bookmarkRegdate
 		FROM bookmark b
-		JOIN place p ON b.contentId = p.contentId
+		JOIN place p ON
+		b.contentId = p.contentId
 		WHERE b.userId = #{userId}
-		ORDER BY b.bookmarkRegdate DESC
+		ORDER BY
+		b.bookmarkRegdate DESC
 	</select>
 
 	<!-- 내가 쓴 게시글 -->
@@ -37,7 +48,8 @@
 		SELECT *
 		FROM post
 		WHERE userId = #{userId}
-		ORDER BY postRegdate DESC
+		ORDER BY
+		postRegdate DESC
 	</select>
 
 	<!-- 내가 쓴 댓글 -->
@@ -46,7 +58,8 @@
 		SELECT *
 		FROM comment
 		WHERE userId = #{userId}
-		ORDER BY comRegdate DESC
+		ORDER BY
+		comRegdate DESC
 	</select>
 
 	<!-- 내가 보낸 문의 -->
@@ -55,7 +68,50 @@
 		SELECT *
 		FROM inquiry
 		WHERE userId = #{userId}
-		ORDER BY inquiryRegdate DESC
+		ORDER BY
+		inquiryRegdate DESC
 	</select>
 
+	<!-- 프로필 정보 수정 (닉네임, 반려동물) -->
+	<update id="updateProfile">
+		UPDATE user
+		SET
+		userNickname = #{userNickname},
+		petName
+		= #{petName},
+		petType = #{petType},
+		nickResetAt = NOW()
+		WHERE userId =
+		#{userId}
+	</update>
+
+	<!-- 닉네임 변경 가능 여부 (30일 제한) -->
+	<select id="canEditNickname" resultType="boolean">
+		SELECT
+		CASE
+		WHEN
+		nickResetAt IS NULL THEN TRUE
+		WHEN TIMESTAMPDIFF(DAY, nickResetAt,
+		NOW()) >= 30 THEN TRUE
+		ELSE FALSE
+		END
+		FROM user
+		WHERE userId = #{userId}
+	</select>
+
+	<!-- 프로필 이미지 경로 업데이트 -->
+	<update id="updateProfileImage">
+		UPDATE user
+		SET userImage = #{imagePath}
+		WHERE userId =
+		#{userId}
+	</update>
+
+	<update id="updateUserInfo">
+		UPDATE user
+		SET
+		email = #{email},
+		userTel = #{userTel}
+		WHERE userId = #{userId}
+	</update>
 </mapper>

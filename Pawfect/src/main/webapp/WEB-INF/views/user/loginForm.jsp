@@ -15,8 +15,14 @@
 		<h2 class="login-title">로그인</h2>
 
 		<!-- 로그인 실패 메시지 -->
-		<c:if test="${not empty param.error}">
-			<p class="error-message">${param.error}</p>
+		<c:if test="${not empty message}">
+			<div id="login-error-modal" class="modal show">
+				<div class="modal-content">
+					<p>${message}</p>
+					<button
+						onclick="document.getElementById('login-error-modal').style.display='none'">확인</button>
+				</div>
+			</div>
 		</c:if>
 
 		<form action="/login" method="post">
