@@ -15,4 +15,16 @@ public class PostDto {
     private String postContent;
     private Timestamp postRegdate;
     private int postViewCount;
+    
+    private String userNickname; 
+    private int likeCount;
+    private String displayName;
+    // comment count???
+    
+    public void generateDisplayName() {
+        String maskedId = (userId != null && userId.length() >= 3)
+            ? userId.substring(0, 3) + "***"
+            : userId + "***";
+        this.displayName = userNickname + " (" + maskedId + ")";
+    }
 }

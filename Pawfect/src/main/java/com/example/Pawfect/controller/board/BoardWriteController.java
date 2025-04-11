@@ -34,6 +34,7 @@ public class BoardWriteController {
 	public String savePost(PostDto postDto, HttpSession session, Model model) {
 	    try {
 	        String userId = (String) session.getAttribute("userId");
+	        //String userId = userDetails.getUser().getUserId();
 	        postDto.setUserId(userId);
 	        postDto.setPostRegdate(new Timestamp(System.currentTimeMillis()));
 	        postDto.setPostViewCount(0);
