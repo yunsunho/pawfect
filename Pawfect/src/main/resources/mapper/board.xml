@@ -4,7 +4,14 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.Pawfect.mapper.BoardMapper">
 	<select id="getPost" parameterType="int" resultType="com.example.Pawfect.dto.PostDto">
-        SELECT * FROM post WHERE postId = #{postId}
+        SELECT
+	        p.*,
+	        u.userNickname,
+	        (SELECT COUNT(*) FROM post_likes pl WHERE pl.postID = p.postId) AS likeCount,
+	        (SELECT COUNT(*) FROM comment c WHERE c.postID = p.postId) AS commentCount
+	    FROM post p
+	    JOIN user u ON p.userId = u.userId
+	    WHERE p.postId = #{postId}
     </select>
     
     <select id="getPostCount" resultType="int" parameterType="map">
@@ -102,11 +109,10 @@
     <select id="getTotalUserCount" resultType="int">
         SELECT COUNT(*) FROM user
     </select>
-	<!--
+	
 	<select id="getTotalLikeCount" resultType="int" parameterType="int">
 		SELECT COUNT(*) FROM post_likes WHERE postId=#{postId}
 	</select>
-	-->
 
 	
 </mapper>

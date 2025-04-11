@@ -19,16 +19,16 @@ public class BoardContentController {
 	private BoardService boardService;
 	
 	@GetMapping("/content")
-	public String content( /////// Num refer to post ID!!!!!!!
-		@RequestParam int num, @RequestParam int pageNum,
-		@RequestParam int number, HttpServletRequest request, Model model
+	public String content( 
+		@RequestParam int num, Model model
 		) throws Exception {
 		PostDto postDto = boardService.getPost(num); // get post DTO with this ID
+		System.out.println("postDto postDisplayName: " + postDto.getDisplayName());
+		System.out.println("postDTO likeCount: " + postDto.getLikeCount());
+		System.out.println("postDTO commentCount: " + postDto.getCommentCount());
+		System.out.println("postDTO postRegdate: " +postDto.getPostRegdate());
 		
-		model.addAttribute("num", num); ///////////// refers to postID
-		// TODO: switch num to postID
-		model.addAttribute("pageNum", pageNum);
-		model.addAttribute("number", number); 
+		model.addAttribute("num", num);
 		model.addAttribute("postDto", postDto);
 		
 		return "board/content";

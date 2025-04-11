@@ -15,7 +15,9 @@ public class BoardService {
 	private BoardMapper boardMapper;
 	
 	public PostDto getPost(int num) {
-		return boardMapper.getPost(num);
+		PostDto dto = boardMapper.getPost(num);
+		dto.generateDisplayName();
+		return dto;
 	}
 	public List<PostDto> getPosts(Map<String, Object> filterMap) {
 		return boardMapper.getPosts(filterMap);
@@ -54,9 +56,9 @@ public class BoardService {
 	public int getTotalUserCount() {
 		return boardMapper.getTotalUserCount();
 	}
-	/*
+	
+	// get like count of single post
 	public int getTotalLikeCount(int postId) {
 		return boardMapper.getTotalLikeCount(postId);
 	}
-	*/
 }

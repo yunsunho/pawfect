@@ -9,8 +9,10 @@ body {
 /* Adjust post-container width to take remaining space */
 .post-container {
 	flex: 1; 
-	background-color: white;
+	background-color: #f3f3f3;
 	padding: 30px 40px;
+	margin: 40px;
+	border-radius: 8px;
 }
 
 .post-meta {
@@ -53,10 +55,9 @@ body {
 }
 
 .post-content {
-	background-color: #f3f3f3;
+	background-color: white;
 	min-height: 300px;
 	padding: 20px;
-	border-radius: 8px;
 	font-size: 16px;
 	color: #333;
 	line-height: 1.6;

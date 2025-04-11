@@ -35,6 +35,6 @@ public interface BoardMapper {
 	public int getTotalUserCount();
 	
 	// like count per post
-	//public int getTotalLikeCount(int postId);
+	public int getTotalLikeCount(int postId);
 
 }

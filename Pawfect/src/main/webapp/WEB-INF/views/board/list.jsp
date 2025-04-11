@@ -88,7 +88,7 @@
 								</c:choose>
 							</td>
 							<td style="text-align:left">
-								<a class="post-title" href="board/content?num=${dto.postId}&pageNum=${pageNum}&number=${number+1}">
+								<a class="post-title" href="board/content?num=${dto.postId}">
 									${dto.postTitle}
 								</a>
 							</td>

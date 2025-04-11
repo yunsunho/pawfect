@@ -24,10 +24,11 @@
 			<div class="post-meta">
 				<div class="icons-left">
 					<i class="fas fa-eye"></i><span>${postDto.postViewCount}</span>
-					<i class="far fa-comment"></i><span>댓글 수</span>
+					<i class="far fa-comment"></i><span>${postDto.commentCount}</span>
 				</div>
 				<div class="icons-right">
 					<span>${postDto.likeCount}</span>
+					
 					<i class="fas fa-heart"></i>
 				</div>
 			</div>
@@ -60,7 +61,7 @@
 					<strong>${postDto.postTitle}</strong>
 				</h2>
 				<div class="post-sub">
-					<span class="author">${postDto.userNickname}</span>
+					<span class="author">${postDto.displayName}</span>
 					<span class="date">${postDto.postRegdate}</span>
 				</div>
 			</div>
