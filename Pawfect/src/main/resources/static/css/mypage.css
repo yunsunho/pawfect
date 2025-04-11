@@ -1,103 +1,217 @@
 body {
-	background-color: #f4f7f9;
+	background-color: #ecf2f9;
 	font-family: 'Arial', sans-serif;
 	margin: 0;
 	padding: 0;
 }
 
+.mypage-wrapper {
+	padding: 60px 0 80px;
+}
+
 .mypage-container {
-	width: 1000px;
-	margin: 50px auto;
+	width: 1200px;
+	margin: 0 auto;
 }
 
 .mypage-title {
 	text-align: center;
-	font-size: 28px;
+	font-size: 32px;
 	font-weight: bold;
-	margin-bottom: 30px;
+	margin-bottom: 50px;
+	position: relative;
+}
+
+.mypage-title::after {
+	content: '';
+	display: block;
+	width: 160px;
+	height: 4px;
+	background-color: #f4c542;
+	margin: 2px auto 0;
+	border-radius: 4px;
 }
 
 .mypage-content {
 	display: flex;
-	gap: 30px;
+	gap: 20px;
 }
 
-/* 왼쪽 사이드 */
+/* 사이드바 */
 .mypage-sidebar {
-	width: 200px;
+	width: 220px;
 	background: #fff;
 	padding: 20px;
-	border-radius: 16px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+	border-radius: 20px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .mypage-sidebar ul {
 	list-style: none;
 	padding: 0;
+	margin: 0;
 }
 
 .mypage-sidebar li {
 	font-size: 16px;
-	margin-bottom: 18px;
+	padding: 10px 14px;
+	margin-bottom: 10px;
+	border-radius: 12px;
 	font-weight: bold;
 	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.mypage-sidebar li:hover {
+	background-color: #f9f9f9;
 }
 
 .mypage-sidebar li.active {
-	color: #000;
-}
-
-.mypage-main {
-	flex: 1;
-	background: #fff;
-	padding: 40px;
-	border-radius: 16px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-	text-align: center;
-}
-
-.profile-box {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.profile-img {
-	width: 120px;
-	height: 120px;
-	border-radius: 50%;
-	background: #eee;
-	object-fit: cover;
-	margin-bottom: 15px;
-}
-
-.nickname {
-	font-size: 22px;
-	font-weight: bold;
-	margin-bottom: 10px;
-}
-
-.reg-date {
-	font-size: 14px;
-	color: #777;
-	margin-bottom: 20px;
-}
-
-.profile-actions button {
-	padding: 10px 20px;
-	margin: 5px;
-	font-weight: bold;
-	border-radius: 8px;
-	border: none;
-	cursor: pointer;
-}
-
-.edit-btn {
 	background-color: #f4c542;
 	color: #111;
 }
 
-.delete-btn {
-	background-color: #ff6f61;
-	color: #fff;
+/* 콘텐츠 카드 */
+.mypage-main {
+	flex: 1;
+	background: #fff;
+	padding: 40px;
+	border-radius: 20px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+	min-height: 460px;
+}
+
+/* 내 프로필 스타일 */
+.center-box {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.profile-img-box {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.profile-img-box img.profile-img {
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 2px solid #ccc;
+	margin-bottom: 10px;
+}
+
+.edit-btn {
+	padding: 6px 14px;
+	background-color: #eee;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.edit-btn:hover {
+	background-color: #ddd;
+}
+
+/* main-box {
+	background-color: #f9f9f9;
+	padding: 30px;
+	border-radius: 14px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+} */
+
+.input-group {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+
+.input-group label{
+	margin-top: 10px;
+}
+
+.input-label {
+	width: 80px; 
+	font-weight: bold;
+}
+
+.profile-tab input, .profile-tab select {
+	padding: 8px 12px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	text-align: left;
+	font-size: 14px;
+}
+
+.profile-tab label {
+	display: inline-block;
+	font-weight: bold;
+	margin-right: 6px; 
+	margin-bottom: 10px;
+}
+
+.nickname-hint {
+	color: #d30000;
+	font-size: 13px;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+.box {
+	background-color: #fffef5;
+	padding: 20px; 
+	border-radius: 10px;
+	margin-bottom: 20px; 
+}
+
+.join-date-box {
+	background-color: #fffef5;
+	padding: 15px; 
+	border-radius: 10px;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+	font-size: 14px;
+	color: #333;
+	margin-top: 20px; 
+}
+
+.save-btn-row {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 25px;
+}
+
+/* 로딩 스피너 */
+.spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border-left-color: #f4c542;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 이메일 타이머 */
+#email-timer {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #d35400;
+}
+
+.timer-message {
+  margin-left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #d35400;
+  white-space: nowrap;
+  min-height: 20px;
 }

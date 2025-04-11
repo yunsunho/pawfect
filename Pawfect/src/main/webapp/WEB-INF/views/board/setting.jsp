@@ -7,6 +7,14 @@
 
 <!-- list.jsp -->
 <c:set var="page_list" value = "글 목록"/>
+<!-- filter -->
+<c:set var="label_start_date" value="시작일"/>
+<c:set var="label_end_date" value="종료일"/>
+<c:set var="label_sort_latest" value="최신순"/>
+<c:set var="label_sort_views" value="조회순"/>
+<c:set var="label_sort_comments" value="댓글순"/>
+<c:set var="label_sort_likes" value="좋아요순"/>
+<c:set var="btn_search" value="검색"/>
 <!-- table labels -->
 <c:set var="label_tag" value="말머리"/>
 <c:set var="label_title" value="제목"/>
@@ -15,8 +23,19 @@
 <c:set var="label_likes" value="추천"/>
 <c:set var="label_views" value="조회"/>
 <!-- messages -->
-<c:set var="msg_no_posts" value="현재 게시판에 글이 없습니다."/>
+<c:set var="msg_no_posts" value="게시판에 글이 없습니다."/>
 
+
+<!-- sidebar.jsp -->
+<c:set var="label_tags" value="말머리 태그"/>
+<c:set var="label_redirect" value="바로가기"/>
+<c:set var="label_stats" value="통계"/>
+<c:set var="str_view_my_posts" value="내 글 보기"/>
+<c:set var="str_view_my_comments" value="내 댓글 보기"/>
+<c:set var="str_community_guideline" value="커뮤니티 가이드라인"/>
+<c:set var="str_total_posts" value="총 게시글"/>
+<c:set var="str_total_comments" value="총 댓글"/>
+<c:set var="str_total_users" value="회원 수"/>
 
 
 <!-- writeForm.jsp -->
@@ -28,14 +47,14 @@
 <c:set var="str_review" value="후기"/>
 <c:set var="str_recommendation" value="추천"/>
 <c:set var="str_info" value="정보"/>
-<c:set var="str_other" value="자유"/>
+<c:set var="str_other" value="일상/자유"/>
 <c:set var="str_qna" value="질문"/>
 
 <c:set var="tag_default" value="#전체"/>
 <c:set var="tag_review" value="#후기"/>
 <c:set var="tag_recommendation" value="#추천"/>
 <c:set var="tag_info" value="#정보"/>
-<c:set var="tag_other" value="#자유"/>
+<c:set var="tag_other" value="#일상/자유"/>
 <c:set var="tag_qna" value="#질문"/>
 
 

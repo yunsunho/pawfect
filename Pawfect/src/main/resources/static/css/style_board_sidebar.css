@@ -1,0 +1,112 @@
+@charset "UTF-8";
+
+ 
+ .sidebar {
+   width: 250px;
+   background: white;
+   font-family: sans-serif;
+   padding: 10px;
+ }
+ 
+ .community-layout {
+   display: flex;
+   gap: 2rem;
+   padding: 20px;
+   border: 1px solid #DCDCDC; 
+   border-radius: 10px;
+ }
+ 
+ .sidebar h3 {
+   font-size: 16px;
+   margin-top: 20px;
+ }
+ 
+.tag-filter li,
+.trending-tags li {
+	list-style: none;
+	margin-bottom: 5px;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+}
+ 
+.tag-filter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: none;
+}
+ 
+.quick-links li {
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+ 
+ .stats {
+   background: #f8f8f8;
+   padding: 10px;
+   border-radius: 5px;
+   font-size: 14px;
+   line-height: 1.5;
+ }
+ 
+ /* tags */
+ .button {
+   display: inline-block;
+   padding: 7px 10px;
+   margin: 5px;
+   border-radius: 20px;
+   text-align: center;
+   cursor: pointer;
+   text-decoration: none;
+   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+   font-size: 12px;
+   background-color: #F3F3F3;
+   color: black;
+ }
+
+.button.active {
+	color: white;
+}
+.button-default.active {
+   background-color: #06A77D;
+ }
+.button-review.active {
+	background-color: #052F5F;
+}
+.button-recommend.active {
+	background-color: #005377;
+}
+.button-info.active {
+	background-color: #DB3069;
+}
+.button-other.active {
+	background-color: #D5C67A;
+}
+.button-qna.active {
+	background-color: #FF6F59;
+}
+
+ .button:hover {
+   opacity: 0.9;
+ }
+ 
+ /* 게시물 작성 버튼 */
+ .button-write {
+ 	background-color: #333;
+ 	display: inline-block;
+ 	padding: 10px 15px;
+ 	margin: 5px;
+ 	border-radius: 5px;
+ 	text-align: center;
+ 	cursor: pointer;
+ 	text-decoration: none;
+ 	font-size: 14px;
+ 	color: white;
+ }
+ 
+ a.visited {
+ 	color: white;
+ }

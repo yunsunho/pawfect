@@ -211,7 +211,7 @@ function startEmailTimer() {
 	emailTimer = setInterval(() => {
 		if (timeLeft <= 0) {
 			clearInterval(emailTimer);
-			timerEl.innerText = "인증 시간이 만료되었습니다.";
+			timerEl.innerText = "⏰ 인증 시간이 만료되었습니다.";
 			timerEl.style.color = "red";
 			return;
 		}

@@ -102,7 +102,7 @@ public class SignupController {
 			emailVeriService.markAsVerified(email);
 			return "success"; 
 		} else {
-			return "인증 코드가 잘못되었습니다. 다시 시도해주세요.";
+			return "인증 코드가 일치하지 않습니다.";
 		}
 	}
 
