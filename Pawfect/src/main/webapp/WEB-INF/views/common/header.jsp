@@ -11,7 +11,7 @@
     <a href="#" class="${currentPage eq 'community' ? 'active' : ''}">커뮤니티</a>
   </nav>
   <div class="icons">
-    <span class="icon">📍</span>
+     <a href="/map"> <span class="icon">📍</span> </a>
     <span class="icon notification">🔔</span>
     <a href="/mypage" class="icon user">👤</a> <!-- 👈 마이페이지 이동 -->
   </div>

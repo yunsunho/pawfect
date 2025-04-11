@@ -66,24 +66,13 @@
       </c:if>
       <c:if test="${not empty common.homepage and common.homepage ne '0' and common.homepage ne '없음'}">
         <li><strong>홈페이지:</strong> ${common.homepage}</li>
-      </c:if>
-	  <c:if test="${not empty pet.acmpyTypeCd and pet.acmpyTypeCd ne '0' and pet.acmpyTypeCd ne '없음'}">
-		  <li><strong>동반 유형:</strong> ${pet.acmpyTypeCd}</li>
-	  </c:if>
+      </c:if>	  
 	  <c:if test="${not empty pet.relaPosesFclty and pet.relaPosesFclty ne '0' and pet.relaPosesFclty ne '없음'}">
 		<li><strong>보유 시설:</strong> ${pet.relaPosesFclty}</li>
 	  </c:if>
 	  <c:if test="${not empty pet.relaFrnshPrdlst and pet.relaFrnshPrdlst ne '0' and pet.relaFrnshPrdlst ne '없음'}">
 	    <li><strong>제공 물품:</strong> ${pet.relaFrnshPrdlst}</li>
       </c:if>
-	  <c:if test="${not empty pet.etcAcmpyInfo and pet.etcAcmpyInfo ne '0' and pet.etcAcmpyInfo ne '없음'}">
-	     <li><strong>기타 동반 정보:</strong><br>
-	       <c:out value="${pet.etcAcmpyInfo}" escapeXml="false" />
-	     </li>
-	  </c:if>
-	  <c:if test="${not empty pet.acmpyPsblCpam and pet.acmpyPsblCpam ne '0' and pet.acmpyPsblCpam ne '없음'}">
-	    <li><strong>동반 가능:</strong> ${pet.acmpyPsblCpam}</li>
-	  </c:if>
 	  <c:if test="${not empty pet.relaRntlPrdlst and pet.relaRntlPrdlst ne '0' and pet.relaRntlPrdlst ne '없음'}">
 	    <li><strong>대여 물품:</strong> ${pet.relaRntlPrdlst}</li>
 	  </c:if>
