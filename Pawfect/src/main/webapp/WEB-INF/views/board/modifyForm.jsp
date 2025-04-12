@@ -7,7 +7,6 @@
 	<head>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" type="text/css" href="/css/common.css">
-		<!-- Quill Styles -->
 	    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 	    <link rel="stylesheet" href="/css/style_board.css">
 	    <link rel="stylesheet" type="text/css" href="/css/style_board_write.css">
@@ -29,7 +28,7 @@
 			    	<div class="tag-row">
 				    	<h3>${label_tag}&nbsp;</h3>
 				    	<input type="hidden" id="initial-tag" value="${postDto.postType}"/>
-				    	<ul>
+				    	<ul class="tag-list">
 						    <li>
 						        <input id="tag-default" type="radio" value="0" name="tag-select"/>
 						        <label for="tag-default">${tag_default}</label>
@@ -57,18 +56,15 @@
 						</ul>
 					</div>
 			    	
-				    <input type="text" id="subject" value="${postDto.postTitle}">
+				    <input type="text" id="subject" name="postTitle" value="${postDto.postTitle}">
 				    
-				    <!-- Quill Editor -->
 				    <textarea id="existingContent" style="display:none">${postDto.postContent}</textarea>
 				    <div id="editor-container"></div>
 				    <input type="hidden" name="postId" value="${postDto.postId}">
-				    <input type="hidden" name="postTitle">
 			    	<input type="hidden" name="postContent">
 			    	<input type="hidden" name="postType">
 				    
 				    
-				    <!-- Buttons -->
 				    <div class="button-container">
 				        <button class="submit-btn" type="submit">${btn_modify}</button>
 				        <button class="cancel-btn">${btn_cancel}</button>

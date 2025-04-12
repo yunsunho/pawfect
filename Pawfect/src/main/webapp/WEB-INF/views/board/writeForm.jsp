@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <title>${page_write}</title>
     
-    <!-- Quill Styles -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style_board.css">
     <link rel="stylesheet" type="text/css" href="/css/style_board_write.css">
@@ -58,16 +57,14 @@
 				</div>
 		    	
 			    
-			    <input type="text" id="subject" placeholder="${placeholder_title}">
+			    <input type="text" name="postTitle" id="subject" placeholder="${placeholder_title}">
 			    
 			    <!-- Quill Editor -->
 			    <div id="editor-container"></div>
 			    
-			    <input type="hidden" name="postTitle">
 			    <input type="hidden" name="postContent">
 			    <input type="hidden" name="postType">
 			    
-			    <!-- Buttons -->
 			    <div class="button-container">
 			        <button class="submit-btn" type="submit">${btn_write}</button>
 			        <button class="cancel-btn">${btn_cancel}</button>

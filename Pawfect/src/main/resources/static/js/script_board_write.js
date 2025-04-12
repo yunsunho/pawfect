@@ -6,7 +6,6 @@ let str_content_placeholder = "내용을 입력하세요";
 window.addEventListener(
 	"DOMContentLoaded", 
 	() => {
-		// writeForm.jsp (Quill initialization)
 		const form = document.forms["writeForm"];
 		const subjectInput = document.getElementById("subject");
 		let quill = null;
@@ -29,8 +28,6 @@ window.addEventListener(
 				const quillContent = quill.root.innerHTML;
 				const selectedTag = document.querySelector("input[name='tag-select']:checked");
 				
-				// Set values into hidden fields
-				form.querySelector("input[name='postTitle']").value = subjectInput.value;
 				form.querySelector("input[name='postContent']").value = quillContent;
 				form.querySelector("input[name='postType']").value = selectedTag ? selectedTag.value : "";
 				
