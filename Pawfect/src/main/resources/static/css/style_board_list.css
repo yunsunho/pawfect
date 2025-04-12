@@ -1,11 +1,4 @@
 @charset "UTF-8";
-/* Wrapper */
-.board-container {
-	display: flex;
-	width: 100%;
-	min-height: 100vh;
-	background-color: white;
-}
 
 /* Main */
 .board-main {
@@ -44,6 +37,12 @@
 	background-color: #333;
 }
 
+
+#searchbox {
+	width: 30%;
+}
+
+
 /* Table Styling */
 .board-table {
 	width: 100%;
@@ -81,15 +80,6 @@
 	cursor: pointer;
 }
 
-.write-buttons .guest {
-	background-color: #e0e0e0;
-	color: #333;
-}
-
-.write-buttons .member {
-	background-color: #4a90e2;
-	color: white;
-}
 
 .post-title {
 	color: black;
@@ -112,50 +102,17 @@ left {
 	margin: 0px;
 }
 
-#tag-default {
-	background-color:#06A77D;
-}
-
-#tag-review {
-	background-color:#052F5F;
-}
-
-#tag-recommendation {
-	background-color:#005377;
-}
-
-#tag-info {
-	background-color:#DB3069;
-}
-
-#tag-other {
-	background-color:#D5C67A;
-}
-
-#tag-qna {
-	background-color:#FF6F59;
-}
-
-/*
-#tag-default {
-	color: #61E8E1;
-	border-radius: 20px;
-	font-size: 12px;
-	border: 1px solid #61E8E1;
-	padding: 5px 5px; 
-	margin: 0px;
-}*/
 
 /* PAGINATION */
 .pagination {
   margin: auto;
-  width: 15%;
-  padding: 20px;
+  width: 50%;
+  text-align: center;
+  padding: 25px;
 }
 
 .pagination a {
   color: black;
-  float: left;
   padding: 8px 16px;
   text-decoration: none;
 }

@@ -13,18 +13,19 @@ public interface BoardMapper {
 	public List<PostDto> getPosts(Map<String, Object> filterMap);
 	public int getPostCount(Map<String, Object> filterMap);
 	
-	
-	
-	//public int getPostCount();
-	public int maxNum();
-	public void addReply(PostDto postDto);
 	public int insertPost(PostDto postDto);
-	//public List<PostDto> getAllPosts(Map<String, Integer> map);
-	public void addCount(int num);
 	public int modifyPost(PostDto postDto);
-	public int checkReply(PostDto postDto);
-	public void deleteReply(PostDto postDto);
 	public int deletePost(int num);
+	
+	public int incrementViewCount(int postId);
+	
+	//public int maxNum();
+	//public void addReply(PostDto postDto);
+	
+	
+	//public void addCount(int num);
+	//public int checkReply(PostDto postDto);
+	//public void deleteReply(PostDto postDto);
 	
 	
 	

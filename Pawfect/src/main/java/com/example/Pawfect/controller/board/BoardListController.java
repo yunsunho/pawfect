@@ -1,6 +1,10 @@
 package com.example.Pawfect.controller.board;
 
+
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -73,8 +77,8 @@ public class BoardListController {
 	    
 	    currentPage = Integer.parseInt(pageNum);
 	    
-	    start = (currentPage - 1) * pageSize; /////////// removed +1 (MySQL starts at 0)
-	    end = start + pageSize - 1; //////////// remove -1?
+	    start = (currentPage - 1) * pageSize; // removed +1 (MySQL starts at 0)
+	    end = start + pageSize - 1;
 	    if (end > count) { // 계산보다 실제 글이 적은 경우
 	    	end = count;
 	    }
@@ -96,11 +100,30 @@ public class BoardListController {
 	    // Add pagination info to map
 	    filterMap.put("start", start);
 	    filterMap.put("pageSize", pageSize);
+	    
+	    LocalDateTime postDateTime;
+	    LocalDateTime now = LocalDateTime.now();
+	    String formattedDate;
 
 	    if (count > 0) {
 	        List<PostDto> dtos = boardService.getPosts(filterMap);
 	        for (PostDto dto : dtos) {
-	            dto.generateDisplayName(); // Generate nicknames and save to DTO
+	            dto.generateDisplayName();
+	            
+	            postDateTime = dto.getPostRegdate().toLocalDateTime();
+	            if (postDateTime.toLocalDate().equals(now.toLocalDate())) {
+	            	long hoursAgo = Duration.between(postDateTime, now).toHours();
+	            	if (hoursAgo == 0) {
+	            		long minutesAgo = Duration.between(postDateTime, now).toMinutes();
+	            		formattedDate = minutesAgo + "분 전";
+	            	} else {
+	            		formattedDate = hoursAgo + "시간 전";
+	            	}
+	            } else {
+	            	formattedDate = postDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	            }
+	            
+	            dto.setFormattedDate(formattedDate);
 	        }
 	        model.addAttribute("dtos", dtos);
 	    }
@@ -125,6 +148,6 @@ public class BoardListController {
 	    model.addAttribute("endDate", endDate);
 	    model.addAttribute("postType", postType);
 
-	    return "board/list"; // JSP view
+	    return "board/list";
 	}
 }

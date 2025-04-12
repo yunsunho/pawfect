@@ -14,20 +14,6 @@
 	    WHERE p.postId = #{postId}
     </select>
     
-    <select id="getPostCount" resultType="int" parameterType="map">
-        SELECT COUNT(*) FROM post
-        WHERE 1 = 1
-        <if test="keyword != null and keyword != ''">
-            AND postTitle LIKE CONCAT('%', #{keyword}, '%')
-        </if>
-        <if test="postType != null">
-            AND postType = #{postType}
-        </if>
-        <if test="startDate != null and endDate != null">
-            AND postRegdate BETWEEN #{startDate} AND #{endDate}
-        </if>
-    </select>
-    
     <select id="getPosts" resultType="com.example.Pawfect.dto.PostDto" parameterType="map">
 	    SELECT 
 	        p.*, 
@@ -40,11 +26,11 @@
 	    <if test="keyword != null and keyword != ''">
 	        AND p.postTitle LIKE CONCAT('%', #{keyword}, '%')
 	    </if>
-	    <if test="postType != null and postType != ''">
+	    <if test="postType != null and postType != '' and postType != 0">
 	        AND p.postType = #{postType}
 	    </if>
 	    <if test="startDate != null and endDate != null">
-	        AND p.postRegdate BETWEEN #{startDate} AND #{endDate}
+	        AND p.postRegdate BETWEEN #{startDate} AND DATE_ADD(#{endDate}, INTERVAL 1 DAY)
 	    </if>
 	    ORDER BY 
 	        <choose>
@@ -60,32 +46,36 @@
 	    LIMIT #{start}, #{pageSize}
 	</select>
     
-    
+    <select id="getPostCount" resultType="int" parameterType="map">
+        SELECT COUNT(*) FROM post
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND postTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="postType != null and postType != 0">
+            AND postType = #{postType}
+        </if>
+        <if test="startDate != null and endDate != null">
+            AND postRegdate BETWEEN #{startDate} AND DATE_ADD(#{endDate}, INTERVAL 1 DAY)
+        </if>
+    </select>
 
     <insert id="insertPost" parameterType="com.example.Pawfect.dto.PostDto" useGeneratedKeys="true" keyProperty="postId">
 	  INSERT INTO post (userId, postType, postTitle, postContent)
 	  VALUES (#{userId}, #{postType}, #{postTitle}, #{postContent})
 	</insert>
 	
-	<update id="updatePost" parameterType="com.example.Pawfect.dto.PostDto">
+	<update id="modifyPost" parameterType="com.example.Pawfect.dto.PostDto">
 	  UPDATE post
-	  SET postType = #{postType},
-	      postTitle = #{postTitle},
-	      postContent = #{postContent}
+	  SET postTitle = #{postTitle},
+	      postContent = #{postContent},
+	      postType = #{postType}
 	  WHERE postId = #{postId}
 	</update>
 
 	<delete id="deletePost" parameterType="int">
 	  DELETE FROM post WHERE postId = #{postId}
 	</delete>
-
-	<!--
-    <select id="getAllPosts" resultType="com.example.Pawfect.dto.PostDto">
-        SELECT * FROM post ORDER BY postId DESC
-    </select>
-    -->
-
-
 	
 	<update id="incrementViewCount" parameterType="int">
 	  UPDATE post SET postViewCount = postViewCount + 1 WHERE postId = #{postId}

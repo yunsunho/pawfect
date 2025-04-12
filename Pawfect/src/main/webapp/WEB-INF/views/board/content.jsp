@@ -6,11 +6,12 @@
 
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="/css/style_board_list.css">
-	<link rel="stylesheet" href="/css/common.css">
-	<link rel="stylesheet" href="/css/style_board_sidebar.css">
-	<link rel="stylesheet" href="/css/style_board_content.css">
+	<link rel="stylesheet" type="text/css" href="/css/common.css">
+	<link rel="stylesheet" type="text/css" href="/css/style_board.css">
+	<link rel="stylesheet" type="text/css" href="/css/style_board_sidebar.css">
+	<link rel="stylesheet" type="text/css" href="/css/style_board_content.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+	<script type="text/javascript" src="/js/script_board.js"></script>
 </head>
 
 <body>
@@ -24,12 +25,21 @@
 			<div class="post-meta">
 				<div class="icons-left">
 					<i class="fas fa-eye"></i><span>${postDto.postViewCount}</span>
+					<i class="fas fa-heart"></i><span>${postDto.likeCount}</span>
 					<i class="far fa-comment"></i><span>${postDto.commentCount}</span>
 				</div>
 				<div class="icons-right">
-					<span>${postDto.likeCount}</span>
+					<!-- dropdown menu (modify / delete post) -->
+					<c:if test="${isUserPost}">
+						<div class="dropdown">
+							<button id="menu-btn" class="dropbtn" type="button" onclick="dropdown()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+							<div id="menu-view" class="dropdown-content">
+								<a href="/board/modify?num=${postDto.postId}">${str_modify_post}</a>
+								<a href="/board/delete?num=${postDto.postId}">${str_delete_post}</a>
+							</div>
+						</div>
+					</c:if>
 					
-					<i class="fas fa-heart"></i>
 				</div>
 			</div>
 			<!-- title -->

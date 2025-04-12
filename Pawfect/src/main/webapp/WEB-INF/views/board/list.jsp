@@ -7,9 +7,10 @@
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="/css/common.css">
+	<link rel="stylesheet" type="text/css" href="/css/style_board.css">
+	<link rel="stylesheet" type="text/css" href="/css/style_board_sidebar.css">
 	<link rel="stylesheet" type="text/css" href="/css/style_board_list.css">
-	<link rel="stylesheet" href="/css/common.css">
-	<link rel="stylesheet" href="/css/style_board_sidebar.css">
 </head>
 <body>
 	<c:set var="currentPage">${currentPage}</c:set>
@@ -27,7 +28,7 @@
 				<label for="endDate">${label_end_date}</label>
 				<input type="date" name="endDate" value="${param.endDate}"/>
 				
-				<input type="text" name="keyword" placeholder="검색어를 입력하세요" value="${param.keyword}"/>
+				
 				<select name="sortBy">
 					<option value="latest" ${param.sortBy == 'latest' ? 'selected' : ''}>${label_sort_latest}</option>
 					<option value="views" ${param.sortBy == 'views' ? 'selected' : ''}>${label_sort_views}</option>
@@ -39,6 +40,8 @@
 				    <input type="hidden" name="postType" value="${param.postType}"/>
 				</c:if>
 				
+
+				<input id="searchbox" type="text" name="keyword" placeholder="${placeholder_searchbar}" value="${param.keyword}"/>
 				<button type="submit">${btn_search}</button>
 				
 			</form>
@@ -93,7 +96,7 @@
 								</a>
 							</td>
 							<td>${dto.displayName}</td>
-							<td>${dto.postRegdate}</td>
+							<td>${dto.formattedDate}</td>
 							<td>${dto.likeCount}</td>
 							<td>${dto.postViewCount}</td>
 						</tr>
@@ -104,7 +107,7 @@
 			<div class="pagination">
 				<c:if test="${count gt 0}">
 					<c:if test="${startPage gt pageBlock}">
-						<a href="board?pageNum=${startPage - pageBlock}">
+						<a href="board?pageNum=${startPage - pageBlock}&keyword=${param.keyword}&sortBy=${param.sortBy}&startDate=${param.startDate}&endDate=${param.endDate}&postType=${param.postType}">
 							&laquo;
 						</a>
 					</c:if>

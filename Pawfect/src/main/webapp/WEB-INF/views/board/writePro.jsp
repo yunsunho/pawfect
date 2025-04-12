@@ -9,12 +9,12 @@
     <script>
         alert(msg_write_fail);
     </script>
-    <c:redirect url="board/list"/>
+    <c:redirect url="/board"/>
 </c:if>
 
 <c:if test="${result == 1}">
     <script>
         alert(msg_write_success);
     </script>
-    <c:redirect url="board/list"/>
+    <c:redirect url="/board"/>
 </c:if>

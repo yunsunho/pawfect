@@ -4,9 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.example.Pawfect.auth.CustomUserDetails;
 import com.example.Pawfect.dto.PostDto;
+import com.example.Pawfect.dto.UserDto;
 import com.example.Pawfect.mapper.BoardMapper;
 
 @Service
@@ -26,25 +30,23 @@ public class BoardService {
 		return boardMapper.getPostCount(map);
 	}
 	
-	
 	public int insertPost(PostDto postDto) {
 		return boardMapper.insertPost(postDto);
 	}
 	
-	/*
-	public List<PostDto> getPosts(Map<String, Integer> map) {
-		return boardMapper.getAllPosts(map);
-		
+	public int modifyPost(PostDto postDto) {
+		return boardMapper.modifyPost(postDto);
 	}
-	*/
-
-	public void savePost(PostDto postDto) {
-		// TODO Auto-generated method stub
+	
+	public int deletePost(int postId) {
+		return boardMapper.deletePost(postId);
 	}
-
 	
+	public int incrementViewCount(int postId) {
+		return boardMapper.incrementViewCount(postId);
+	}
 	
-	// For stats at the top of the page
+	// For stats in sidebar
 	public int getTotalPostCount() {
 		return boardMapper.getTotalPostCount();
 	}
@@ -60,5 +62,17 @@ public class BoardService {
 	// get like count of single post
 	public int getTotalLikeCount(int postId) {
 		return boardMapper.getTotalLikeCount(postId);
+	}
+	
+	// for write / modify / delete form
+	public UserDto getLoggedInUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+			CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+			return userDetails.getUser();
+		}
+		
+		return null;
 	}
 }

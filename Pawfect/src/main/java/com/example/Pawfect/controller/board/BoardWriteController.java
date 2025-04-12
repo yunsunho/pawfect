@@ -1,17 +1,19 @@
 package com.example.Pawfect.controller.board;
 
-import java.sql.Timestamp;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.Pawfect.dto.PostDto;
+import com.example.Pawfect.dto.UserDto;
 import com.example.Pawfect.service.BoardService;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -20,35 +22,33 @@ public class BoardWriteController {
 	@Resource
 	private BoardService boardService;
 	
-	@GetMapping("/writeForm")
-    public String writeForm() {
+	@GetMapping("/write")
+    public String writeForm(Model model) {
+		// Stats
+		int totalPosts = boardService.getTotalPostCount();
+	    int totalComments = boardService.getTotalCommentCount();
+	    int totalUsers = boardService.getTotalUserCount();
+	    model.addAttribute("totalPosts", totalPosts);
+	    model.addAttribute("totalComments", totalComments);
+	    model.addAttribute("totalUsers", totalUsers);
+	    
         return "board/writeForm";
     }
 	
-	@GetMapping("/writePro")
-	public String writePro() {
+	@PostMapping("/write")
+	public String writePro(@ModelAttribute PostDto postDto, Model model) {
+		
+		UserDto userDto = boardService.getLoggedInUser();
+		String userId = userDto.getUserId();
+		
+		postDto.setUserId(userId);
+		postDto.generateDisplayName();
+		
+		int result = boardService.insertPost(postDto);
+		model.addAttribute("result", result);
+		
 		return "board/writePro";
 	}
-	
-	@PostMapping("/save")
-	public String savePost(PostDto postDto, HttpSession session, Model model) {
-	    try {
-	        String userId = (String) session.getAttribute("userId");
-	        //String userId = userDetails.getUser().getUserId();
-	        postDto.setUserId(userId);
-	        postDto.setPostRegdate(new Timestamp(System.currentTimeMillis()));
-	        postDto.setPostViewCount(0);
-	        boardService.savePost(postDto);
-	        model.addAttribute("result", 1); // success
-	    } catch (Exception e) {
-	        model.addAttribute("result", 0); // fail
-	    }
-	    return "post/writePro"; // JSP page to show alert and redirect
-	}
-	
-	/*
-	@GetMapping
-	public String writeForm() {
-		// TODO
-	}*/
 }
+
+
