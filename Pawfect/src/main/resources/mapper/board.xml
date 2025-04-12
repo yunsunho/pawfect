@@ -81,28 +81,23 @@
 	  UPDATE post SET postViewCount = postViewCount + 1 WHERE postId = #{postId}
 	</update>
 	
-
+	<select id="getTotalLikeCount" resultType="int" parameterType="int">
+		SELECT COUNT(*) FROM post_likes WHERE postId=#{postId}
+	</select>
     
     
     <!-- FOR SIDEBAR STATS-->
-    <!-- Get total post count -->
     <select id="getTotalPostCount" resultType="int">
         SELECT COUNT(*) FROM post
     </select>
 
-    <!-- Get total comment count -->
     <select id="getTotalCommentCount" resultType="int">
         SELECT COUNT(*) FROM comment
     </select>
 
-    <!-- Get total user count -->
     <select id="getTotalUserCount" resultType="int">
         SELECT COUNT(*) FROM user
     </select>
-	
-	<select id="getTotalLikeCount" resultType="int" parameterType="int">
-		SELECT COUNT(*) FROM post_likes WHERE postId=#{postId}
-	</select>
 
 	
 </mapper>
