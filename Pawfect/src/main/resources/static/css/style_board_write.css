@@ -54,8 +54,14 @@ h3 {
     margin-top: 15px;
     display: flex;
     gap: 10px;
+    text-align: center;
 }
-.button-container button {
+
+.button-inner-container {
+	margin: auto;
+}
+
+.button-inner-container button {
     padding: 10px 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -64,6 +70,7 @@ h3 {
 .submit-btn {
 	background-color: #5b5b5b;
 	color: white;
+	margin: 5px;
 }
 .cancel-btn {
 	background-color: white;

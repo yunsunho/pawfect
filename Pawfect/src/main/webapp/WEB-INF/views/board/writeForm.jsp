@@ -66,8 +66,10 @@
 			    <input type="hidden" name="postType">
 			    
 			    <div class="button-container">
-			        <button class="submit-btn" type="submit">${btn_write}</button>
-			        <button class="cancel-btn">${btn_cancel}</button>
+			    	<div class="button-inner-container">
+			    		<button class="submit-btn" type="submit">${btn_write}</button>
+			        	<button class="cancel-btn">${btn_cancel}</button>
+			    	</div>
 			    </div>
 		    </form>
     	</div>
