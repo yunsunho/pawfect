@@ -33,7 +33,6 @@ public class BoardModifyController {
 	    model.addAttribute("totalComments", totalComments);
 	    model.addAttribute("totalUsers", totalUsers);
 		
-		// Return to main board if not user's post
 		if (userDto == null || !postDto.getUserId().equals(userDto.getUserId())) {
 			return "board/list";
 		}
@@ -48,8 +47,17 @@ public class BoardModifyController {
 	@PostMapping("modify")
 	public String modifyPro(@ModelAttribute PostDto postDto, Model model) {
 		int result = boardService.modifyPost(postDto);
-		model.addAttribute("result", result);
+		String msg;
 		
-		return "board/modifyPro";
+		if (result == 1) {
+			msg = "게시물이 성공적으로 수정되었습니다.";
+		} else {
+			msg = "게시물 수정에 실패하였습니다. 다시 시도해주세요.";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("redirectUrl", "/board");
+		
+		return "board/message";
 	}
 }

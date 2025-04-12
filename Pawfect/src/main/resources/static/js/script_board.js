@@ -20,3 +20,37 @@ function dropdown() {
 	const menu = document.getElementById("menu-view");
 	menu.style.display = (menu.style.display === 'block' ? 'none' : 'block');
 }
+
+
+
+// delete modal
+let deletePostId = null;
+
+function confirmDelete(postId) {
+	deletePostId = postId;
+	document.getElementById('deleteModal').style.display = 'block';
+}
+
+function closeModal() {
+	document.getElementById('deleteModal').style.display = 'none';
+}
+
+document.addEventListener(
+	"DOMContentLoaded",
+	function() {
+		const confirmBtn = document.getElementById('confirmDeleteBtn');
+		if (confirmBtn) {
+			confirmBtn.addEventListener('click', function() {
+				if (deletePostId != null) {
+					window.location.href = `/board/delete?num=${deletePostId}`;
+				}
+			});
+		}
+		window.onclick = function (event) {
+			const modal = document.getElementById('deleteModal');
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+	}
+);

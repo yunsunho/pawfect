@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/style_board.css">
 	<link rel="stylesheet" type="text/css" href="/css/style_board_sidebar.css">
 	<link rel="stylesheet" type="text/css" href="/css/style_board_content.css">
+	<link rel="stylesheet" type="text/css" href="/css/style_board_modal.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 	<script type="text/javascript" src="/js/script_board.js"></script>
 </head>
@@ -35,7 +36,7 @@
 							<button id="menu-btn" class="dropbtn" type="button" onclick="dropdown()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
 							<div id="menu-view" class="dropdown-content">
 								<a href="/board/modify?num=${postDto.postId}">${str_modify_post}</a>
-								<a href="/board/delete?num=${postDto.postId}">${str_delete_post}</a>
+								<a href="javascript:void(0)" onclick="confirmDelete(${postDto.postId})">${str_delete_post}</a>
 							</div>
 						</div>
 					</c:if>
@@ -80,6 +81,17 @@
 			<hr class="divider">
 			<div class="post-content">
 				<p>${postDto.postContent}</p>
+			</div>
+		</div>
+	</div>
+	
+	<!-- delete confirmation modal -->
+	<div id="deleteModal" class="modal">
+		<div class="modal-content">
+			<p>${str_confirm_delete}</p>
+			<div class="modal-buttons">
+				<button id="confirmDeleteBtn">${btn_delete}</button>
+				<button onclick="closeModal()">${btn_cancel}</button>
 			</div>
 		</div>
 	</div>

@@ -42,6 +42,8 @@
 <!-- dropdown menu -->
 <c:set var="str_modify_post" value="게시물 수정"/>
 <c:set var="str_delete_post" value="게시물 삭제"/>
+<c:set var="str_confirm_delete" value="정말 이 글을 삭제하시겠습니까?"/>
+<c:set var="btn_delete" value="삭제"/>
 
 <!-- writeForm.jsp -->
 <c:set var="page_write" value="게시물 작성"/>
@@ -74,3 +76,6 @@
 <!-- modifyForm.jsp -->
 <c:set var="page_modify" value="게시물 수정"/>
 <c:set var="btn_modify" value="저장"/>
+
+<!-- modal -->
+<c:set var="msg_loading" value="잠시 후 페이지가 이동합니다..."/>

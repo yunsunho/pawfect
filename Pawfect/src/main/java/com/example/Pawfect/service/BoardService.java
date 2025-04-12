@@ -46,7 +46,11 @@ public class BoardService {
 		return boardMapper.incrementViewCount(postId);
 	}
 	
-	// For stats in sidebar
+	public int getTotalLikeCount(int postId) {
+		return boardMapper.getTotalLikeCount(postId);
+	}
+	
+	// sidebar stats
 	public int getTotalPostCount() {
 		return boardMapper.getTotalPostCount();
 	}
@@ -59,10 +63,6 @@ public class BoardService {
 		return boardMapper.getTotalUserCount();
 	}
 	
-	// get like count of single post
-	public int getTotalLikeCount(int postId) {
-		return boardMapper.getTotalLikeCount(postId);
-	}
 	
 	// for write / modify / delete form
 	public UserDto getLoggedInUser() {
