@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
 
 <div class="profile-tab">
 	<!-- 프로필 이미지 -->
@@ -8,7 +8,8 @@
 		<div class="profile-img-box">
 			<c:choose>
 				<c:when test="${not empty user.userImage}">
-					<img class="profile-img" src="${user.userImage}" alt="프로필 이미지" />
+					<img class="profile-img" src="${user.userImage}?v=${now.time}"
+						alt="프로필 이미지" />
 				</c:when>
 				<c:otherwise>
 					<img class="profile-img" src="/images/default_profile.jpg"

@@ -33,14 +33,19 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 });
 
+let tempImageFormData = null; // 저장 버튼 클릭 시 서버에 전송할 이미지
+let imageChanged = false;     // 이미지가 실제로 변경되었는지 여부
 // 프로필 탭 기능 
 function initProfileTabEvents() {
 	const profileImgBtn = document.getElementById("editProfileImgBtn");
 	const profileImgInput = document.getElementById("profileImageInput");
 	const deleteImgBtn = document.getElementById("deleteProfileImgBtn");
+	const profileImgEl = document.querySelector(".profile-img");
 
+	// 이미지 수정 버튼 클릭 -> 파일 선택 창
 	profileImgBtn?.addEventListener("click", () => profileImgInput?.click());
-	// 프로필 이미지 수정
+
+	// 이미지 파일 선택 시: 서버 업로드 안함, 화면에 미리보기만
 	profileImgInput?.addEventListener("change", function() {
 		const file = this.files[0];
 		if (!file) return;
@@ -51,53 +56,29 @@ function initProfileTabEvents() {
 			return;
 		}
 
-		const formData = new FormData();
-		formData.append("profileImage", file);
+		// 미리보기 처리 (로컬 blob URL)
+		const previewURL = URL.createObjectURL(file);
+		if (profileImgEl) {
+			profileImgEl.setAttribute("src", previewURL);
+		}
 
-		fetch("/mypage/profile/image", {
-			method: "POST",
-			body: formData
-		})
-			.then(res => res.text())
-			.then(result => {
-				if (result === "success") {
-					// 1. 이미지 즉시 새로고침 (캐시 무력화)
-					const imgEl = document.querySelector(".profile-img");
-					if (imgEl) {
-						const currentSrc = imgEl.getAttribute("src").split("?")[0]; // 기존 src에서 ?v= 제거
-						const newSrc = `${currentSrc}?v=${new Date().getTime()}`;
-						imgEl.setAttribute("src", newSrc);
-					}
-					// 2. 모달 메시지 & 탭 새로고침
-					showModal("프로필 이미지가 변경되었습니다.");
-					setTimeout(() => loadTab("profile"), 1000);
-				} else {
-					showModal("이미지 업로드에 실패했습니다.");
-				}
-			})
-			.catch(err => {
-				console.error("업로드 에러:", err);
-				showModal("이미지 업로드 중 오류가 발생했습니다.");
-			});
+		// 저장을 위한 FormData 저장
+		tempImageFormData = new FormData();
+		tempImageFormData.append("profileImage", file);
+		imageChanged = true; // 저장할 때 전송해야 함
+		showModal("프로필 이미지가 수정되었습니다.");
 	});
 
-	// 프로필 이미지 삭제
+	// 이미지 삭제
 	deleteImgBtn?.addEventListener("click", () => {
 		showConfirmModal("정말 프로필 이미지를 삭제하시겠습니까?", () => {
-			fetch("/mypage/profile/image/delete", { method: "POST" })
-				.then(res => res.text())
-				.then(result => {
-					if (result === "success") {
-						showModal("프로필 이미지가 삭제되었습니다.");
-						setTimeout(() => loadTab("profile"), 1000);
-					} else {
-						showModal("삭제에 실패했습니다.");
-					}
-				})
-				.catch(err => {
-					console.error("삭제 에러:", err);
-					showModal("삭제 중 오류가 발생했습니다.");
-				});
+			// 이미지 바로 기본 이미지로 변경 (화면만)
+			if (profileImgEl) {
+				profileImgEl.setAttribute("src", "/images/default_profile.jpg");
+			}
+			tempImageFormData = "delete";
+			imageChanged = true;
+			showModal("프로필 이미지가 삭제되었습니다.");
 		});
 	});
 
@@ -193,32 +174,73 @@ function initProfileTabEvents() {
 	// 내 프로필 저장 버튼
 	const saveBtn = document.getElementById("btnSaveProfile");
 	saveBtn?.addEventListener("click", () => {
-		const nickname = nicknameInput.value.trim();
+		const nickname = document.getElementById("nickname").value.trim();
 		const petName = document.getElementById("petName").value.trim();
 		const petType = parseInt(document.getElementById("petType").value);
 
-		const data = {
+		const profileData = {
 			userNickname: nickname,
 			petName: petName,
 			petType: petType,
-			nicknameChanged: nicknameChanged
+			nicknameChanged: nicknameChanged,
 		};
 
+		// 프로필 저장
 		fetch("/mypage/profile", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(data)
+			body: JSON.stringify(profileData),
 		})
-			.then(res => res.text())
-			.then(result => {
+			.then((res) => res.text())
+			.then((result) => {
 				if (result === "success") {
-					showModal("회원 정보가 성공적으로 수정되었습니다.");
-					setTimeout(() => loadTab("profile"), 1000);
+					// 2. 이미지 변경이 있었다면 처리
+					if (imageChanged) {
+						if (tempImageFormData === "delete") {
+							// 이미지 삭제
+							fetch("/mypage/profile/image/delete", { method: "POST" })
+								.then((res) => res.text())
+								.then(() => {
+									showModalWithCallback("회원 프로필이 성공적으로 수정되었습니다.", () => {
+										loadTab("profile");
+									});
+								});
+						} else if (tempImageFormData instanceof FormData) {
+							// 이미지 업로드 후 경로 받아서 DB에 저장
+							fetch("/mypage/profile/image", {
+								method: "POST",
+								body: tempImageFormData,
+							})
+								.then((res) => res.text())
+								.then((dbPath) => {
+									if (dbPath && dbPath !== "") {
+										fetch("/mypage/profile/image/save", {
+											method: "POST",
+											headers: { "Content-Type": "application/json" },
+											body: JSON.stringify({ imagePath: dbPath }),
+										})
+											.then((res) => res.text())
+											.then(() => {
+												showModalWithCallback("회원 프로필이 성공적으로 수정되었습니다.", () => {
+													loadTab("profile");
+												});
+											});
+									} else {
+										showModal("이미지 업로드에 실패했습니다.");
+									}
+								});
+						}
+					} else {
+						// 이미지 변경 없을 경우
+						showModalWithCallback("회원 프로필이 성공적으로 수정되었습니다.", () => {
+							loadTab("profile");
+						});
+					}
 				} else {
 					showModal("수정에 실패했습니다. 다시 시도해주세요.");
 				}
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.error("에러 발생:", err);
 				showModal("오류가 발생했습니다.");
 			});
@@ -513,5 +535,25 @@ function showConfirmModal(message, onConfirm) {
 		cancelBtn.onclick = () => {
 			modal.style.display = "none";
 		};
+	}
+}
+
+function showModalWithCallback(message, callback) {
+	const modal = document.getElementById("commonModal");
+	const msgBox = document.getElementById("modalMessage");
+	const confirmBtn = modal.querySelector("button");
+
+	if (modal && msgBox && confirmBtn) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+
+		const handler = () => {
+			modal.style.display = "none";
+			confirmBtn.removeEventListener("click", handler);
+			if (typeof callback === "function") {
+				callback();
+			}
+		};
+		confirmBtn.addEventListener("click", handler);
 	}
 }

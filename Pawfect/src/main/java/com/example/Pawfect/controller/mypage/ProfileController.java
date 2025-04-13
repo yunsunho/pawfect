@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -42,35 +43,24 @@ public class ProfileController {
 			@RequestParam("profileImage") MultipartFile file) {
 
 		if (file.isEmpty())
-			return "fail";
+			return "";
 
-		String userId = userDetails.getUser().getUserId();
-
-		// 파일 저장할 실제 경로
-		String uploadDir = "/images/upload/profile/";
-		String realPath = new File("src/main/resources/static" + uploadDir).getAbsolutePath();
+		String uploadDir = System.getProperty("user.dir") + "/upload/profile/";
+		String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+		File saveFile = new File(uploadDir, filename);
 
 		try {
-			// UUID + 원본 파일명으로 고유 파일명 생성
-			String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-			File saveFile = new File(realPath, filename);
-
-			// 해당 디렉토리가 없으면 생성
 			if (!saveFile.getParentFile().exists()) {
 				saveFile.getParentFile().mkdirs();
 			}
-			// 파일 저장
+
 			file.transferTo(saveFile);
+			String dbPath = "/profile-img/" + filename;
 
-			// DB에 상대 경로 저장
-			String dbPath = uploadDir + filename;
-			myPageService.updateProfileImage(userId, dbPath);
-
-			return "success";
-
+			return dbPath;
 		} catch (IOException e) {
 			e.printStackTrace();
-			return "fail";
+			return "";
 		}
 	}
 
@@ -84,4 +74,15 @@ public class ProfileController {
 		return result ? "success" : "fail";
 	}
 
+	// 프로필 이미지 저장
+	@PostMapping("/profile/image/save")
+	@ResponseBody
+	public String saveProfileImagePath(@AuthenticationPrincipal CustomUserDetails userDetails,
+			@RequestBody Map<String, String> body) {
+		String userId = userDetails.getUser().getUserId();
+		String imagePath = body.get("imagePath");
+
+		boolean result = myPageService.updateProfileImage(userId, imagePath);
+		return result ? "success" : "fail";
+	}
 }
