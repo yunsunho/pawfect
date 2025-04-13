@@ -72,18 +72,22 @@
 		inquiryRegdate DESC
 	</select>
 
-	<!-- 프로필 정보 수정 (닉네임, 반려동물) -->
-	<update id="updateProfile">
+	<!-- 닉네임(nickResetAt 포함)만 수정 -->
+	<update id="updateNickname">
 		UPDATE user
-		SET
-		userNickname = #{userNickname},
-		petName
-		= #{petName},
-		petType = #{petType},
+		SET userNickname = #{userNickname},
 		nickResetAt = NOW()
-		WHERE userId =
-		#{userId}
+		WHERE userId = #{userId}
 	</update>
+
+	<!-- 반려동물 정보만 수정 -->
+	<update id="updatePetInfo">
+		UPDATE user
+		SET petName = #{petName},
+		petType = #{petType}
+		WHERE userId = #{userId}
+	</update>
+
 
 	<!-- 닉네임 변경 가능 여부 (30일 제한) -->
 	<select id="canEditNickname" resultType="boolean">

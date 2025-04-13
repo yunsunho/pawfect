@@ -80,16 +80,19 @@ function initProfileTabEvents() {
 	nicknameInput.style.pointerEvents = "none";
 
 	let nicknameEditMode = false;
+	let nicknameChanged = false;
+	let originalNickname = nicknameInput.value;
 
 	nicknameBtn?.addEventListener("click", () => {
 		const canEdit = nicknameInput.dataset.canEdit === "true";
 		if (!canEdit) {
-			showModal("닉네임은 30일마다만 변경할 수 있습니다.");
+			showModal("닉네임은 30일마다 변경 가능합니다.");
 			return;
 		}
 
 		if (!nicknameEditMode) {
 			nicknameEditMode = true;
+			originalNickname = nicknameInput.value;
 			nicknameInput.removeAttribute("readonly");
 			nicknameInput.removeAttribute("tabindex");
 			nicknameInput.style.pointerEvents = "auto";
@@ -101,6 +104,13 @@ function initProfileTabEvents() {
 			nicknameInput.setAttribute("tabindex", "-1");
 			nicknameInput.style.pointerEvents = "none";
 			nicknameBtn.textContent = "수정";
+
+			const newNickname = nicknameInput.value.trim();
+			nicknameChanged = newNickname !== originalNickname;
+
+			if (nicknameChanged) {
+				showModal("닉네임이 수정되었습니다.");
+			}
 		}
 	});
 
@@ -146,33 +156,25 @@ function initProfileTabEvents() {
 			petTypeSelect.style.pointerEvents = "none";
 
 			petBtn.textContent = "수정";
+			showModal("반려동물 정보가 수정되었습니다.");
 		}
 	});
 
 	// 내 프로필 저장 버튼
 	const saveBtn = document.getElementById("btnSaveProfile");
 	saveBtn?.addEventListener("click", () => {
-		const email = emailInput.value.trim();
-		const userTel = userTelHidden.value.trim();
-
-		if (email === "") {
-			showModal("이메일은 필수 입력 항목입니다.");
-			return;
-		}
-
-		// 이메일이 수정된 경우에만 인증 여부 확인
-		const isEmailEdited = !emailInput.readOnly || btnSendCode.style.display === "inline-block";
-		if (isEmailEdited && !emailVerified) {
-			showModal("이메일 인증을 완료해주세요.");
-			return;
-		}
+		const nickname = nicknameInput.value.trim();
+		const petName = document.getElementById("petName").value.trim();
+		const petType = parseInt(document.getElementById("petType").value);
 
 		const data = {
-			email: email,
-			userTel: userTel
+			userNickname: nickname,
+			petName: petName,
+			petType: petType,
+			nicknameChanged: nicknameChanged 
 		};
 
-		fetch("/mypage/info/update", {
+		fetch("/mypage/profile", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(data)
@@ -181,6 +183,7 @@ function initProfileTabEvents() {
 			.then(result => {
 				if (result === "success") {
 					showModal("회원 정보가 성공적으로 수정되었습니다.");
+					setTimeout(() => loadTab("profile"), 1000);
 				} else {
 					showModal("수정에 실패했습니다. 다시 시도해주세요.");
 				}
@@ -190,7 +193,6 @@ function initProfileTabEvents() {
 				showModal("오류가 발생했습니다.");
 			});
 	});
-
 }
 
 let emailTimer = null;
@@ -200,7 +202,7 @@ let timeLeft = 300;
 function initInfoTabEvents() {
 	const emailInput = document.getElementById("email");
 	emailInput.dataset.originalEmail = emailInput.value;
-	
+
 	const btnSendCode = document.getElementById("btnSendCode");
 	const btnVerifyCode = document.getElementById("btnVerifyCode");
 	const emailCodeBox = document.getElementById("emailCodeBox");

@@ -28,9 +28,11 @@ public class ProfileController {
 		String userId = userDetails.getUser().getUserId();
 		profileDto.setUserId(userId);
 
-		boolean result = myPageService.updateProfile(profileDto);
-
-		return result ? "success" : "fail";
+		if (profileDto.isNicknameChanged()) {
+			return myPageService.updateProfile(profileDto) ? "success" : "fail";
+		} else {
+			return myPageService.updatePetOnly(profileDto) ? "success" : "fail";
+		}
 	}
 
 	// 프로필 이미지 수정
@@ -65,7 +67,7 @@ public class ProfileController {
 			myPageService.updateProfileImage(userId, dbPath);
 
 			return "success";
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "fail";

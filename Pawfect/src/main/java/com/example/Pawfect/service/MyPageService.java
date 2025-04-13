@@ -37,9 +37,16 @@ public class MyPageService {
 		return myPageMapper.getMyInquiries(userId);
 	}
 
-	// 프로필 정보 수정 (닉네임, 반려동물)
+	// 닉네임 + nickResetAt + 펫 정보 같이 수정
 	public boolean updateProfile(ProfileUpdateDto dto) {
-		return myPageMapper.updateProfile(dto) > 0;
+		int nicknameResult = myPageMapper.updateNickname(dto);
+		int petResult = myPageMapper.updatePetInfo(dto);
+		return nicknameResult > 0 || petResult > 0;
+	}
+
+	// 펫 정보만 수정
+	public boolean updatePetOnly(ProfileUpdateDto dto) {
+		return myPageMapper.updatePetInfo(dto) > 0;
 	}
 
 	// 닉네임 변경 가능 여부 (30일 제한)
@@ -49,11 +56,11 @@ public class MyPageService {
 
 	// 프로필 이미지 경로 업데이트
 	public boolean updateProfileImage(String userId, String imagePath) {
-	    return myPageMapper.updateProfileImage(userId, imagePath) > 0;
+		return myPageMapper.updateProfileImage(userId, imagePath) > 0;
 	}
-	
+
 	// 이메일/전화번호 정보 수정
 	public boolean updateUserInfo(InfoUpdateDto dto) {
-	    return myPageMapper.updateUserInfo(dto) > 0; 
+		return myPageMapper.updateUserInfo(dto) > 0;
 	}
 }
