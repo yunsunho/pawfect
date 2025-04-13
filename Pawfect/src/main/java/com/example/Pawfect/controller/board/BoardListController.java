@@ -100,30 +100,12 @@ public class BoardListController {
 	    // Add pagination info to map
 	    filterMap.put("start", start);
 	    filterMap.put("pageSize", pageSize);
-	    
-	    LocalDateTime postDateTime;
-	    LocalDateTime now = LocalDateTime.now();
-	    String formattedDate;
 
 	    if (count > 0) {
 	        List<PostDto> dtos = boardService.getPosts(filterMap);
 	        for (PostDto dto : dtos) {
 	            dto.generateDisplayName();
-	            
-	            postDateTime = dto.getPostRegdate().toLocalDateTime();
-	            if (postDateTime.toLocalDate().equals(now.toLocalDate())) {
-	            	long hoursAgo = Duration.between(postDateTime, now).toHours();
-	            	if (hoursAgo == 0) {
-	            		long minutesAgo = Duration.between(postDateTime, now).toMinutes();
-	            		formattedDate = minutesAgo + "분 전";
-	            	} else {
-	            		formattedDate = hoursAgo + "시간 전";
-	            	}
-	            } else {
-	            	formattedDate = postDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-	            }
-	            
-	            dto.setFormattedDate(formattedDate);
+		        dto.setFormattedDate(boardService.formatPostDate(dto.getPostRegdate()));
 	        }
 	        model.addAttribute("dtos", dtos);
 	    }
