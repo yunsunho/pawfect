@@ -44,6 +44,12 @@
 <c:set var="str_delete_post" value="게시물 삭제"/>
 <c:set var="str_confirm_delete" value="정말 이 글을 삭제하시겠습니까?"/>
 <c:set var="btn_delete" value="삭제"/>
+<!-- comment section -->
+<c:set var="str_comment" value="댓글"/>
+<c:set var="placeholder_comment" value="댓글을 입력하세요"/>
+<c:set var="placeholder_reply" value="답글을 입력하세요"/>
+<c:set var="btn_submit" value="등록"/>
+<c:set var="btn_reply" value="답글"/>
 
 <!-- writeForm.jsp -->
 <c:set var="page_write" value="게시물 작성"/>

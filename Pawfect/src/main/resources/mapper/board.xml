@@ -99,5 +99,78 @@
         SELECT COUNT(*) FROM user
     </select>
 
+	<select id="getCommentById" resultType="com.example.Pawfect.dto.CommentDto" parameterType="int">
+		SELECT * FROM comment WHERE commentId = #{commentId}
+	</select>
 	
+	<select id="getComments" resultType="com.example.Pawfect.dto.CommentDto" parameterType="int">
+		SELECT
+			c.commentId,
+			c.userId,
+			u.userNickname,
+			u.userImage,
+			c.postId,
+			c.comContent,
+			c.comRegdate,
+			c.com_ref,
+			c.com_re_step,
+			c.com_re_level,
+			c.comEditStatus,
+			c.comDeleteStatus
+		FROM comment c
+		JOIN user u ON c.userID = u.userId
+		WHERE postId = #{postId}
+		ORDER BY com_ref ASC, com_re_step ASC
+	</select>
+	
+	<!-- insert top-level comment -->
+	<insert id="insertComment" parameterType="com.example.Pawfect.dto.CommentDto" useGeneratedKeys="true" keyProperty="commentId">
+	    INSERT INTO comment (
+	        userId,
+	        postId,
+	        comContent,
+	        com_ref,
+	        com_re_step,
+	        com_re_level
+	    ) VALUES (
+	        #{userId},
+	        #{postId},
+	        #{comContent},
+	        #{commentId},  <!-- update after insertion -->
+	        0,
+	        0
+	    )
+	</insert>
+	
+	<!-- update com_ref (groupId) of top-level comment -->
+	<update id="updateCommentRef" parameterType="int">
+		UPDATE comment
+		SET com_ref = #{commentId}
+		WHERE commentId = #{commentId}
+	</update>
+	
+	<!-- insert reply comment -->
+	<update id="updateReStep" parameterType="map">
+		UPDATE comment
+		SET com_re_step = com_re_step + 1
+		WHERE com_ref = #{com_ref}
+		AND com_re_step > #{com_re_step}
+	</update>
+	<insert id="insertReplyComment" parameterType="com.example.Pawfect.dto.CommentDto">
+		INSERT INTO comment (
+			userId,
+			postId,
+			comContent,
+			com_ref,
+			com_re_step,
+			com_re_level
+		) VALUES (
+			#{userId},
+			#{postId},
+			#{comContent},
+			#{com_ref},
+			#{com_re_step},
+			#{com_re_level}
+		)
+	</insert>
 </mapper>

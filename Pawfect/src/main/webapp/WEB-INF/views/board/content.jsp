@@ -23,6 +23,7 @@
 		</aside>
 		<div class="post-container">
 			<!-- top meta info -->
+			<hr class="divider">
 			<div class="post-meta">
 				<div class="icons-left">
 					<i class="fas fa-eye"></i><span>${postDto.postViewCount}</span>
@@ -78,11 +79,66 @@
 			</div>
 			
 			<!-- content -->
-			<hr class="divider">
+			<hr id="divider-bottom">
 			<div class="post-content">
 				<p>${postDto.postContent}</p>
 			</div>
+			
+			<!-- comment section -->
+			<hr id="divider-bottom">
+			<div class="comment-section">
+				<h3>${str_comment}</h3>
+				<form class="comment-form" action="comment" method="post">
+					<input type="hidden" name="postId" value="${postDto.postId}">
+					
+					<textarea name="comContent" id="comment-textarea" placeholder="${placeholder_comment}" required></textarea>
+					<div class="comment-form-buttons">
+						<div class="button-inner-container">
+							<button class="comment-submit-btn" type="submit">${btn_submit}</button>
+							<button class="comment-reset-btn" type="reset">${btn_cancel}</button>
+						</div>
+					</div>
+				</form>
+				
+				<!--  comment list -->
+				<div class="comment-list">
+					<c:forEach var="commentDto" items="${commentDtos}">
+						<div class="comment" style="margin-left: ${commentDto.com_re_level * 20}px;">
+							<c:if test="${empty commentDto.userImage}">
+								<img src="/images/upload/profile/8221a67b-287b-4a08-bb38-5c3d5d214cfd_cat.jpeg" class="comment-avatar"/>
+							</c:if>
+							<c:if test="${not empty commentDto.userImage}">
+								<img src="${commentDto.userImage}" class="comment-avatar">
+							</c:if>
+							
+							<div class="comment-body">
+								<div class="comment-header">
+									<span class="comment-writer">${commentDto.displayName}</span>
+									<span class="comment-time">${commentDto.formattedDate}</span>
+								</div>
+								<div class="comment-content">${commentDto.comContent}</div>
+								<div class="comment-actions">
+									<button class="reply-btn" data-comment-id="${commentDto.commentId}" onclick="toggleReplyBox(this)">
+										${btn_reply}
+									</button>
+								</div>
+								<div class="reply-form" id="reply-form-${commentDto.commentId}" style="display: none; margin-top: 10px;">
+									<form method="post" action="/board/reply">
+										<input type="hidden" name="postId" value="${commentDto.postId}">
+										<input type="hidden" name="com_ref" value="${commentDto.com_ref}">
+										<input type="hidden" name="parentCommentId" value="${commentDto.commentId}">
+										<textarea name="comContent" placeholder="${placeholder_reply}" required style="width: 100%; height: 60%;"></textarea>
+										<button type="submit" class="reply-submit-btn">${btn_submit}</button>
+										<button type="button" class="reply-cancel-btn" onclick="cancelReplyBox(this)">${btn_cancel}</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
 		</div>
+		
 	</div>
 	
 	<!-- delete confirmation modal -->

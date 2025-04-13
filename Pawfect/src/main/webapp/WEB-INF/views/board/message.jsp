@@ -36,11 +36,14 @@
         window.onload = function () {
             setTimeout(() => {
                 location.href = '${redirectUrl}';
-            }, 3000); // Redirect in 2 seconds
+            }, 2000); // Redirect in 2 seconds
         };
     </script>
 </head>
 <body>
+	<c:if test="${empty msg}">
+		<c:redirect url="${redirectUrl}"/>
+	</c:if>
     <div class="modal-overlay">
         <div class="modal-box">
             <p>${msg}</p>

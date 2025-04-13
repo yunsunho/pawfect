@@ -1,11 +1,16 @@
 package com.example.Pawfect.controller.board;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.Pawfect.dto.CommentDto;
 import com.example.Pawfect.dto.PostDto;
 import com.example.Pawfect.dto.UserDto;
 import com.example.Pawfect.service.BoardService;
@@ -39,11 +44,65 @@ public class BoardContentController {
 	    model.addAttribute("totalComments", totalComments);
 	    model.addAttribute("totalUsers", totalUsers);
 		
+	    // Modify / Delete post
 		model.addAttribute("num", num);
 		model.addAttribute("postDto", postDto);
 		model.addAttribute("userDto", userDto);
 		model.addAttribute("isUserPost", isUserPost);
 		
+		// Comment section
+		List<CommentDto> commentDtos = boardService.getComments(num);
+		for (CommentDto dto : commentDtos) {
+			dto.setDisplayName(boardService.generateDisplayName(dto.getUserId(), dto.getUserNickname()));
+			dto.setFormattedDate(boardService.formatPostDate(dto.getComRegdate()));
+		}
+		
+		model.addAttribute("commentDtos", commentDtos);
+		
 		return "board/content";
 	}
+	
+	@PostMapping("/comment")
+	public String comment(@ModelAttribute CommentDto commentDto, Model model) {
+		UserDto userDto = boardService.getLoggedInUser();
+		commentDto.setUserId(userDto.getUserId());
+		
+		int result = boardService.insertTopLevelComment(commentDto);
+		String msg = null;
+		String redirectUrl = "/board/content?num=" + commentDto.getPostId();
+		
+		if (result != 1) {
+			msg = "댓글 등록에 실패하였습니다. 다시 시도해주세요.";
+		} 
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("redirectUrl", redirectUrl);
+		
+		return "board/message";
+	}
+	
+	@PostMapping("/reply")
+	public String reply(@ModelAttribute CommentDto commentDto, Model model) {
+		
+		UserDto userDto = boardService.getLoggedInUser();
+		if (userDto == null) {
+			return "redirect:/loginForm";
+		}
+		commentDto.setUserId(userDto.getUserId());
+		int parentCommentId = commentDto.getParentCommentId();
+		
+		int result = boardService.insertReplyComment(commentDto, parentCommentId);
+		String msg = null;
+		String redirectUrl = "/board/content?num=" + commentDto.getPostId();
+		
+		if (result != 1) {
+			msg = "답글 등록에 실패하였습니다. 다시 시도해주세요.";
+		} 
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("redirectUrl", redirectUrl);
+		
+		return "board/message";
+	}
+	
 }

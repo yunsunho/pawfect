@@ -21,6 +21,28 @@ function dropdown() {
 	menu.style.display = (menu.style.display === 'block' ? 'none' : 'block');
 }
 
+function toggleReplyBox(button) {
+	const commentId = button.getAttribute("data-comment-id");
+	const replyForm = document.getElementById("reply-form-" + commentId);
+	
+	if (replyForm.style.display === "none") {
+		replyForm.style.display = "block";
+	} else {
+		replyForm.style.display = "none";
+	}
+}
+
+function cancelReplyBox(button) {
+	const replyForm = button.closest('.reply-form');
+	if (replyForm) {
+		replyForm.style.display = "none";
+		
+		const form = replyForm.querySelector('form');
+		if (form) {
+			form.reset();
+		}
+	}
+}
 
 
 // delete modal

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.Pawfect.dto.CommentDto;
 import com.example.Pawfect.dto.PostDto;
 
 @Mapper
@@ -35,7 +36,14 @@ public interface BoardMapper {
 	public int getTotalCommentCount();
 	public int getTotalUserCount();
 	
-	// like count per post
 	public int getTotalLikeCount(int postId);
+	
+	public CommentDto getCommentById(int commentId);
+	public List<CommentDto> getComments(int postId);
+	public int insertComment(CommentDto commentDto);
+	public int updateCommentRef(int commentId);
+	public int updateReStep(Map<String, Object> map);
+	public int insertReplyComment(CommentDto commentDto);
+	
 
 }
