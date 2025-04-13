@@ -35,7 +35,7 @@ public class MapController {
             @RequestParam double mapX,
             @RequestParam double mapY,
             @RequestParam(defaultValue = "8000") int radius,
-            @RequestParam(defaultValue = "S") String arrange,
+            @RequestParam(defaultValue = "O") String arrange,
             @RequestParam(defaultValue = "") String contentTypeId) throws Exception {
 
         String encoded = URLEncoder.encode(serviceKey, "UTF-8");
