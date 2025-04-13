@@ -84,7 +84,8 @@
 	<update id="updatePetInfo">
 		UPDATE user
 		SET petName = #{petName},
-		petType = #{petType}
+		petType =
+		#{petType}
 		WHERE userId = #{userId}
 	</update>
 
@@ -118,4 +119,21 @@
 		userTel = #{userTel}
 		WHERE userId = #{userId}
 	</update>
+
+	<!-- 현재 비밀번호(암호화된 비밀번호) 조회 -->
+	<select id="getPwdByUserId" resultType="String">
+		SELECT pwd
+		FROM user
+		WHERE
+		userId = #{userId}
+	</select>
+
+	<!-- 새 비밀번호 업데이트 -->
+	<update id="updatePwd">
+		UPDATE user
+		SET pwd = #{encodedPwd}
+		WHERE userId =
+		#{userId}
+	</update>
+
 </mapper>

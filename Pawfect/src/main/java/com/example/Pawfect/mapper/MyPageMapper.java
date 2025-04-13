@@ -2,6 +2,7 @@ package com.example.Pawfect.mapper;
 
 import com.example.Pawfect.dto.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -34,7 +35,12 @@ public interface MyPageMapper {
 	// 프로필 이미지 경로 업데이트
 	int updateProfileImage(String userId, String imagePath);
 	
-	// 내 정보 업데이트 메서드
+	// 내 정보 업데이트
 	int updateUserInfo(InfoUpdateDto dto);
+	
+	// 현재 암호화된 비밀번호 가져오기
+	String getPwdByUserId(String userId);
 
+	// 비밀번호 업데이트
+	int updatePwd(@Param("userId") String userId, @Param("encodedPwd") String encodedPwd);
 }
