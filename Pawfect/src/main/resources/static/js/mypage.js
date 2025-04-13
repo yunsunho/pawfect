@@ -37,8 +37,10 @@ document.addEventListener("DOMContentLoaded", function() {
 function initProfileTabEvents() {
 	const profileImgBtn = document.getElementById("editProfileImgBtn");
 	const profileImgInput = document.getElementById("profileImageInput");
-	profileImgBtn?.addEventListener("click", () => profileImgInput?.click());
+	const deleteImgBtn = document.getElementById("deleteProfileImgBtn");
 
+	profileImgBtn?.addEventListener("click", () => profileImgInput?.click());
+	// 프로필 이미지 수정
 	profileImgInput?.addEventListener("change", function() {
 		const file = this.files[0];
 		if (!file) return;
@@ -59,6 +61,14 @@ function initProfileTabEvents() {
 			.then(res => res.text())
 			.then(result => {
 				if (result === "success") {
+					// 1. 이미지 즉시 새로고침 (캐시 무력화)
+					const imgEl = document.querySelector(".profile-img");
+					if (imgEl) {
+						const currentSrc = imgEl.getAttribute("src").split("?")[0]; // 기존 src에서 ?v= 제거
+						const newSrc = `${currentSrc}?v=${new Date().getTime()}`;
+						imgEl.setAttribute("src", newSrc);
+					}
+					// 2. 모달 메시지 & 탭 새로고침
 					showModal("프로필 이미지가 변경되었습니다.");
 					setTimeout(() => loadTab("profile"), 1000);
 				} else {
@@ -69,6 +79,26 @@ function initProfileTabEvents() {
 				console.error("업로드 에러:", err);
 				showModal("이미지 업로드 중 오류가 발생했습니다.");
 			});
+	});
+
+	// 프로필 이미지 삭제
+	deleteImgBtn?.addEventListener("click", () => {
+		showConfirmModal("정말 프로필 이미지를 삭제하시겠습니까?", () => {
+			fetch("/mypage/profile/image/delete", { method: "POST" })
+				.then(res => res.text())
+				.then(result => {
+					if (result === "success") {
+						showModal("프로필 이미지가 삭제되었습니다.");
+						setTimeout(() => loadTab("profile"), 1000);
+					} else {
+						showModal("삭제에 실패했습니다.");
+					}
+				})
+				.catch(err => {
+					console.error("삭제 에러:", err);
+					showModal("삭제 중 오류가 발생했습니다.");
+				});
+		});
 	});
 
 	// 닉네임 수정
@@ -171,7 +201,7 @@ function initProfileTabEvents() {
 			userNickname: nickname,
 			petName: petName,
 			petType: petType,
-			nicknameChanged: nicknameChanged 
+			nicknameChanged: nicknameChanged
 		};
 
 		fetch("/mypage/profile", {
@@ -459,7 +489,29 @@ function showModal(message) {
 		modal.style.display = "block";
 	}
 }
+
 function closeModal() {
 	const modal = document.getElementById("commonModal");
 	if (modal) modal.style.display = "none";
-} 
+}
+
+function showConfirmModal(message, onConfirm) {
+	const modal = document.getElementById("confirmModal");
+	const msgBox = document.getElementById("confirmModalMessage");
+	const confirmBtn = document.getElementById("btnConfirmYes");
+	const cancelBtn = document.getElementById("btnConfirmNo");
+
+	if (modal && msgBox) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+		// 확인
+		confirmBtn.onclick = () => {
+			modal.style.display = "none";
+			onConfirm();
+		};
+		// 취소
+		cancelBtn.onclick = () => {
+			modal.style.display = "none";
+		};
+	}
+}

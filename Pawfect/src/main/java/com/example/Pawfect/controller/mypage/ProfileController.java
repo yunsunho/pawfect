@@ -73,4 +73,15 @@ public class ProfileController {
 			return "fail";
 		}
 	}
+
+	// 프로필 이미지 삭제
+	@PostMapping("/profile/image/delete")
+	@ResponseBody
+	public String deleteProfileImage(@AuthenticationPrincipal CustomUserDetails userDetails) {
+		String userId = userDetails.getUser().getUserId();
+
+		boolean result = myPageService.deleteProfileImage(userId);
+		return result ? "success" : "fail";
+	}
+
 }

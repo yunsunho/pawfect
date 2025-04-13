@@ -59,6 +59,11 @@ public class MyPageService {
 		return myPageMapper.updateProfileImage(userId, imagePath) > 0;
 	}
 
+	public boolean deleteProfileImage(String userId) {
+		String defaultPath = "/images/default_profile.jpg";
+		return myPageMapper.updateProfileImage(userId, defaultPath) > 0;
+	}
+
 	// 이메일/전화번호 정보 수정
 	public boolean updateUserInfo(InfoUpdateDto dto) {
 		return myPageMapper.updateUserInfo(dto) > 0;
