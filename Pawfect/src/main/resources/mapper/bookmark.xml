@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.Pawfect.mapper.BookmarkMapper">
+
+  <insert id="insertBookmark" parameterType="com.example.Pawfect.dto.BookmarkDto">
+    INSERT INTO bookmark (
+      userId, contentId, contentTypeId,
+      title, firstimage, mapX, mapY, addr1
+    ) VALUES (
+      #{userId}, #{contentId}, #{contentTypeId},
+      #{title}, #{firstimage}, #{mapX}, #{mapY}, #{addr1}
+    )
+  </insert>
+
+  <delete id="deleteBookmark" parameterType="com.example.Pawfect.dto.BookmarkDto">
+    DELETE FROM bookmark
+    WHERE userId = #{userId} AND contentId = #{contentId}
+  </delete>
+
+  <select id="countBookmark" parameterType="com.example.Pawfect.dto.BookmarkDto" resultType="int">
+    SELECT COUNT(*) FROM bookmark
+    WHERE userId = #{userId} AND contentId = #{contentId}
+  </select>
+
+</mapper>

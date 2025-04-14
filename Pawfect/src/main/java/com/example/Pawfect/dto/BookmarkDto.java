@@ -1,19 +1,15 @@
 package com.example.Pawfect.dto;
 
-import java.sql.Timestamp;
+import lombok.Data;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
+@Data
 public class BookmarkDto {
-    private int contentId;
-    private String title;
-    private String addr1;
-    private String addr2;
-    private String firstImage2;
-    private float mapX;
-    private float mapY;
-    private Timestamp bookmarkRegdate;
+	private String userId;
+	private int contentId;
+	private int contentTypeId;
+	private String title;
+	private String firstimage;
+	private float mapX;
+	private float mapY;
+	private String addr1;
 }
