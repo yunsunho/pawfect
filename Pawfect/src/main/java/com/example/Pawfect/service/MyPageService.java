@@ -57,13 +57,13 @@ public class MyPageService {
 	}
 
 	// 프로필 이미지 경로 업데이트
-	public boolean updateProfileImage(String userId, String imagePath) {
-		return myPageMapper.updateProfileImage(userId, imagePath) > 0;
+	public boolean updateProfileImage(String userId, String imagePath, String originalFilename) {
+		return myPageMapper.updateProfileImage(userId, imagePath, originalFilename) > 0;
 	}
 
 	public boolean deleteProfileImage(String userId) {
 		String defaultPath = "/images/default_profile.jpg";
-		return myPageMapper.updateProfileImage(userId, defaultPath) > 0;
+		return myPageMapper.updateProfileImage(userId, defaultPath, "") > 0;
 	}
 
 	// 이메일/전화번호 정보 수정
@@ -83,5 +83,15 @@ public class MyPageService {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encodedPwd = encoder.encode(newPwd);
 		return myPageMapper.updatePwd(userId, encodedPwd) > 0;
+	}
+	
+	// 1:1 문의글 작성
+	public boolean insertInquiry(InquiryDto inquiryDto) {
+		return myPageMapper.insertInquiry(inquiryDto) > 0;
+	}
+	
+	// 문의글 삭제
+	public boolean deleteInquiry(String userId, int inquiryId) {
+	    return myPageMapper.deleteInquiry(userId, inquiryId) > 0;
 	}
 }

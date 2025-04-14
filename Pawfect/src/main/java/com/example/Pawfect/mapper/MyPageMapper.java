@@ -33,7 +33,9 @@ public interface MyPageMapper {
 	boolean canEditNickname(String userId);
 	
 	// 프로필 이미지 경로 업데이트
-	int updateProfileImage(String userId, String imagePath);
+	int updateProfileImage(@Param("userId") String userId,
+            @Param("imagePath") String imagePath,
+            @Param("originalFilename") String originalFilename);
 	
 	// 내 정보 업데이트
 	int updateUserInfo(InfoUpdateDto dto);
@@ -43,4 +45,10 @@ public interface MyPageMapper {
 
 	// 비밀번호 업데이트
 	int updatePwd(@Param("userId") String userId, @Param("encodedPwd") String encodedPwd);
+	
+	// 1:1 문의글 작성
+	int insertInquiry(InquiryDto inquiryDto);
+	
+	// 문의글 삭제
+	int deleteInquiry(@Param("userId") String userId, @Param("inquiryId") int inquiryId);
 }

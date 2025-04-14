@@ -60,9 +60,12 @@
 
 
 	<!-- 저장 버튼 -->
-	<div class="form-actions save-btn-row">
-		<button id="btnSaveInfo" class="edit-btn">저장</button>
+	<div class="form-actions save-btn-row" style="margin-top: 30px;">
+		<button id="btnSaveInfo" class="edit-btn" type="button"
+			style="background-color: #3d4fa1; color: white; font-weight: bold;">
+			저장</button>
 	</div>
+
 
 	<!-- 공통 모달 -->
 	<div id="commonModal" class="modal">
