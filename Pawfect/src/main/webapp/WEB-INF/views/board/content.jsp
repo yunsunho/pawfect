@@ -92,10 +92,10 @@
 					<button id="like-btn" type="submit">
 						<!-- if liked then solid, otherwise regular-->
 						<c:if test="${userLiked eq 1}">
-							<i class="fa-solid fa-paw" style="color: #ed719e;"></i>
+							<i class="fa-solid fa-heart" style="color: #ed719e;"></i>
 						</c:if>
 						<c:if test="${userLiked eq 0}">
-							<i class="fa-regular fa-paw" style="color: #ed719e;"></i>
+							<i class="fa-regular fa-heart" style="color: #ed719e;"></i>
 						</c:if>
 						${btn_like}
 					</button>

@@ -261,5 +261,6 @@ textarea {
 #like-btn {
 	margin: auto;
 	padding: 5px;
-	background-color: #FEF9D9;
+	background-color: #FFF;
+	border-radius: 5px;
 }
