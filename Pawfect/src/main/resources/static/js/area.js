@@ -1,3 +1,62 @@
+// 모달 (확인)
+function showModal(message) {
+	const modal = document.getElementById("commonModal");
+	const msgBox = document.getElementById("modalMessage");
+	if (modal && msgBox) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+	}
+}
+
+function closeModal() {
+	const modal = document.getElementById("commonModal");
+	if (modal) modal.style.display = "none";
+}
+
+// 컨펌 모달 (확인/취소)
+function showConfirmModal(message, onConfirm) {
+	const modal = document.getElementById("confirmModal");
+	const msgBox = document.getElementById("confirmModalMessage");
+	const confirmBtn = document.getElementById("btnConfirmYes");
+	const cancelBtn = document.getElementById("btnConfirmNo");
+
+	if (modal && msgBox) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+		// 확인
+		confirmBtn.onclick = () => {
+			modal.style.display = "none";
+			onConfirm();
+		};
+		// 취소
+		cancelBtn.onclick = () => {
+			modal.style.display = "none";
+		};
+	}
+}
+
+function showModalWithCallback(message, callback) {
+	const modal = document.getElementById("commonModal");
+	const msgBox = document.getElementById("modalMessage");
+	const confirmBtn = modal.querySelector("button");
+
+	if (modal && msgBox && confirmBtn) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+
+		const handler = () => {
+			modal.style.display = "none";
+			confirmBtn.removeEventListener("click", handler);
+			if (typeof callback === "function") {
+				callback();
+			}
+		};
+		confirmBtn.addEventListener("click", handler);
+	}
+}
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.theme-container');
   const sortSelect = document.querySelector('.sort-box select');
@@ -70,19 +129,20 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         body: JSON.stringify(dto)
       })
-        .then(res => {
-			if (res.redirected) {
-			  const currentUrl = location.pathname + location.search;
+	  .then(res => {
+	    if (res.redirected) {
+	      const currentUrl = location.pathname + location.search;
+	      sessionStorage.setItem("afterLoginRedirect", currentUrl);
+	      sessionStorage.setItem("pendingBookmark", JSON.stringify(dto));
 
-			  // ✅ 북마크 정보 저장
-			  sessionStorage.setItem("afterLoginRedirect", currentUrl);
-			  sessionStorage.setItem("pendingBookmark", JSON.stringify(dto)); // 👈 이거 추가
-
-			  location.href = res.url; // 로그인 폼으로 이동
-			  return;
-			}
-          return res.text();
-        })
+	      // ✅ 모달 띄우기
+	      showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
+	        location.href = res.url;
+	      });
+	      return;
+	    }
+	    return res.text();
+	  })
 		.then(result => {
 		  if (!result) return;
 		  const contentId = Number(dto.contentId);
