@@ -74,7 +74,7 @@
 				</h2>
 				<div class="post-sub">
 					<span class="author">${postDto.displayName}</span>
-					<span class="date">${postDto.postRegdate}</span>
+					<span class="date">${postDto.formattedDate}</span>
 				</div>
 			</div>
 			
@@ -87,7 +87,7 @@
 			<!-- comment section -->
 			<hr id="divider-bottom">
 			<div class="comment-section">
-				<h3>${str_comment}</h3>
+				<h3>${str_comment}&nbsp;(${postDto.commentCount})</h3>
 				<form class="comment-form" action="comment" method="post">
 					<input type="hidden" name="postId" value="${postDto.postId}">
 					

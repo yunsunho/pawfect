@@ -8,7 +8,7 @@
     <a href="/main" class="${currentPage eq 'main' ? 'active' : ''}">홈</a>
     <a href="/themeList" class="${currentPage eq 'theme' ? 'active' : ''}">테마</a>
     <a href="/areaList" class="${currentPage eq 'area' ? 'active' : ''}">지역</a>
-    <a href="#" class="${currentPage eq 'community' ? 'active' : ''}">커뮤니티</a>
+    <a href="/board" class="${currentPage eq 'community' ? 'active' : ''}">커뮤니티</a>
   </nav>
   <div class="icons">
      <a href="/map"> <span class="icon">📍</span> </a>

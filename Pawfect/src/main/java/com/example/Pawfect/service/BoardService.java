@@ -122,6 +122,23 @@ public class BoardService {
 		return boardMapper.insertReplyComment(comment);
 	}
 	
+	public int userLikedPost(String userId, int postId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("postId", postId);
+		return boardMapper.countUserLike(map);
+	}
+	
+	public int addLike(String userId, int postId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("postId", postId);
+		return boardMapper.addLike(map);
+	}
+	public int removeLike(String userId, int postId) {
+		return 0; // TODO: use mapper
+	}
+	
 	public String generateDisplayName(String userId, String userNickname) {
 		String maskedId = (userId != null && userId.length() >=3)
 			? userId.substring(0, 3) + "***"
