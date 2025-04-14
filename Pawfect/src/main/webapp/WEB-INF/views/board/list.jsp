@@ -4,7 +4,6 @@
 
 <!DOCTYPE html>
 
-<html lang="ko">
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="/css/common.css">
@@ -40,6 +39,9 @@
 				    <input type="hidden" name="postType" value="${param.postType}"/>
 				</c:if>
 				
+				<c:if test="${not empty param.myPost}">
+					<input type="hidden" name="myPost" value="${param.myPost}"/>
+				</c:if>
 
 				<input id="searchbox" type="text" name="keyword" placeholder="${placeholder_searchbar}" value="${param.keyword}"/>
 				<button type="submit">${btn_search}</button>
@@ -107,7 +109,7 @@
 			<div class="pagination">
 				<c:if test="${count gt 0}">
 					<c:if test="${startPage gt pageBlock}">
-						<a href="board?pageNum=${startPage - pageBlock}&keyword=${param.keyword}&sortBy=${param.sortBy}&startDate=${param.startDate}&endDate=${param.endDate}&postType=${param.postType}">
+						<a href="board?pageNum=${startPage - pageBlock}&keyword=${param.keyword}&sortBy=${param.sortBy}&startDate=${param.startDate}&endDate=${param.endDate}&postType=${param.postType}&myPost=${param.myPost}">
 							&laquo;
 						</a>
 					</c:if>
@@ -116,13 +118,13 @@
 						  <a class="hover current-page" href="#">${i}</a>
 						</c:if>
 						<c:if test="${i ne currentPage}">
-						  <a class="hover" href="board?pageNum=${i}&keyword=${param.keyword}&sortBy=${param.sortBy}&startDate=${param.startDate}&endDate=${param.endDate}&postType=${param.postType}">
+						  <a class="hover" href="board?pageNum=${i}&keyword=${param.keyword}&sortBy=${param.sortBy}&startDate=${param.startDate}&endDate=${param.endDate}&postType=${param.postType}&myPost=${param.myPost}">
 						    ${i}
 						  </a>
 						</c:if>
 					</c:forEach>
 					<c:if test="${pageCount gt endPage}">
-						<a  href="board?pageNum=${startPage + pageBlock}&keyword=${param.keyword}&sortBy=${param.sortBy}&startDate=${param.startDate}&endDate=${param.endDate}&postType=${param.postType}">
+						<a  href="board?pageNum=${startPage + pageBlock}&keyword=${param.keyword}&sortBy=${param.sortBy}&startDate=${param.startDate}&endDate=${param.endDate}&postType=${param.postType}&myPost=${param.myPost}">
 							&raquo;
 						</a>
 					</c:if>
