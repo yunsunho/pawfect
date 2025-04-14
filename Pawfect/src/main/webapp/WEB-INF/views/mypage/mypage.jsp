@@ -37,13 +37,19 @@
 			</div>
 		</div>
 	</div>
-	<div id="confirmModal" style="display: none;" class="modal">
+	<!-- 공통 모달 -->
+	<div id="commonModal" class="modal">
+		<div class="modal-content">
+			<p id="modalMessage"></p>
+			<button onclick="closeModal()">확인</button>
+		</div>
+	</div>
+	<!-- 확인용 모달 (Yes/No) -->
+	<div id="confirmModal" class="modal">
 		<div class="modal-content">
 			<p id="confirmModalMessage"></p>
-			<div class="modal-actions">
-				<button id="btnConfirmYes">확인</button>
-				<button id="btnConfirmNo">취소</button>
-			</div>
+			<button id="btnConfirmYes">확인</button>
+			<button id="btnConfirmNo">취소</button>
 		</div>
 	</div>
 </body>

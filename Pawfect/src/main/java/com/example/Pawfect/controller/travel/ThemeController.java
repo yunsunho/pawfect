@@ -2,8 +2,6 @@ package com.example.Pawfect.controller.travel;
 
 import java.net.URI;
 import java.net.URLEncoder;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,13 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.Pawfect.auth.CustomUserDetails;
+import com.example.Pawfect.service.BookmarkService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-
-import com.example.Pawfect.service.BookmarkService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,23 +28,24 @@ public class ThemeController {
 
     @Value("${api.service-key}")
     private String serviceKey;
+
     private final BookmarkService bookmarkService;
 
     // 👉 테마 리스트 뷰 이동
     @GetMapping("/themeList")
-    public String themeListPage(Model model, HttpSession session) {
-        String userId = (String) session.getAttribute("userId");
+    public String themeListPage(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (userId != null) {
+        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            String userId = userDetails.getUser().getUserId();
+
             List<Integer> myBookmarks = bookmarkService.findContentIdsByUserId(userId);
             model.addAttribute("myBookmarks", myBookmarks);
         }
 
-        //model.addAttribute("currentPage", "theme"); // 기존에 있던 속성 유지
-        return "travel/themeList"; // 너의 JSP 이름에 맞게
+        return "travel/themeList";
     }
-
-
 
     // 👉 AJAX 테마 목록 데이터
     @GetMapping("/api/themeData")
@@ -85,7 +85,7 @@ public class ThemeController {
         for (JsonNode item : items) {
             themeList.add(Map.of(
                     "contentid", item.path("contentid").asText(),
-                    "contenttypeid", item.path("contenttypeid").asText(), 
+                    "contenttypeid", item.path("contenttypeid").asText(),
                     "title", item.path("title").asText(),
                     "addr1", item.path("addr1").asText(),
                     "firstimage", item.path("firstimage").asText(),
