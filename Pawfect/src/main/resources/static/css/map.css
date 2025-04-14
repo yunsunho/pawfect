@@ -1,0 +1,175 @@
+.map-wrapper {
+  display: flex;
+  height: calc(100vh - 60px); /* 헤더 제외 높이 */
+}
+#sidebar {
+  width: 340px;
+  background: #fff;
+  overflow-y: auto;
+  border-right: 1px solid #ddd;
+  padding: 10px 10px 10px 10px;
+  box-sizing: border-box;
+  z-index: 10;
+  position: relative;
+}
+
+#map {
+  flex-grow: 1;
+  height: 100vh;
+}
+
+.place-card {
+  display: flex;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+.place-card img {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+  border-radius: 8px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.place-info h4 {
+  margin: 0;
+  font-size: 16px;
+}
+.place-info p {
+  font-size: 14px;
+  color: #888;
+  margin: 4px 0 0;
+}
+/* 버튼 위치 */
+#searchByMapBtn {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f4f4f4;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+  z-index: 11;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #888;
+  cursor: pointer;
+}
+.hidden {
+  display: none !important;
+}
+.map-settings-button {
+  position: absolute;
+  top: 100px;
+  right: 20px;
+  background-color: #f4f4f4;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 20;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+}
+
+/* 설정 패널 */
+.settings-panel {
+  position: absolute;
+  top: 150px;
+  right: 20px;
+  width: 200px;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 15px;
+  z-index: 30;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+  border-radius: 10px;
+}
+.settings-panel.hidden {
+  display: none;
+}
+.settings-panel label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.settings-panel input,
+.settings-panel select {
+  width: 100%;
+  margin-top: 5px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+.settings-panel button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 8px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#radiusInput {
+  width: 100%;
+  margin-top: 5px;
+}
+.info-window {
+  padding: 10px;
+  max-width: 200px;
+  font-size: 14px;
+}
+
+.info-window h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.info-window p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.info-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.info-actions .bookmark {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.info-actions a {
+  font-size: 13px;
+  color: blue;
+  text-decoration: underline;
+}

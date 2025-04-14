@@ -5,20 +5,21 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/css/style_board_sidebar.css">
+  
 </head>
 <body>
 	<div class="community-layout">
 		<aside class="sidebar">
-	    	<a class="button-write" href="board/writeForm">${page_write}</a>
+	    	<a class="button-write" href="/board/write">${page_write}</a>
 	    	
 	    	<h3>${label_tags}</h3>
 	    	<ul class="tag-filter">
-				<li><a class="button button-default" href="board?postType=0" onclick="setActiveLink(this)">${tag_default}</a></li>
-				<li><a class="button button-review" href="board?postType=1" onclick="setActiveLink(this)">${tag_review}</a></li>
-				<li><a class="button button-recommend" href="board?postType=2&keyword=${keyword}&sortBy=${sortBy}&startDate=${startDate}&endDate=${endDate}" onclick="setActiveLink(this)">${tag_recommendation}</a></li>
-				<li><a class="button button-info" href="board?postType=3&keyword=${keyword}&sortBy=${sortBy}&startDate=${startDate}&endDate=${endDate}" onclick="setActiveLink(this)">${tag_info }</a></li>
-				<li><a class="button button-other" href="board?postType=4&keyword=${keyword}&sortBy=${sortBy}&startDate=${startDate}&endDate=${endDate}" onclick="setActiveLink(this)">${tag_other }</a></li>
-				<li><a class="button button-qna" href="board?postType=5&keyword=${keyword}&sortBy=${sortBy}&startDate=${startDate}&endDate=${endDate}" onclick="setActiveLink(this)">${tag_qna}</a></li>
+				<li><a class="button button-default" href="/board?postType=0">${tag_default}</a></li>
+				<li><a class="button button-review" href="/board?postType=1">${tag_review}</a></li>
+				<li><a class="button button-recommend" href="/board?postType=2">${tag_recommendation}</a></li>
+				<li><a class="button button-info" href="/board?postType=3">${tag_info }</a></li>
+				<li><a class="button button-other" href="/board?postType=4">${tag_other }</a></li>
+				<li><a class="button button-qna" href="/board?postType=5">${tag_qna}</a></li>
 			</ul>
 	      	
 	      	<h3>${label_redirect}</h3>
@@ -34,17 +35,7 @@
 		        <p><b>${str_total_comments}: </b>${totalComments}</p>
 		        <p><b>${str_total_users}: </b>${totalUsers}</p>
       		</div>
+      		<script type="text/javascript" src="/js/script_board.js"></script>
 	    </aside>
 	</div>
-	<script>
-    function setActiveLink(link) {
-    	// Remove the active class from all links
-    	const links = document.querySelectorAll('.button');
-    	links.forEach(function(btn) {
-        	btn.classList.remove('active');
-    	});
-    	// Add the active class to the clicked link
-      	link.classList.add('active');
-    }
-  </script>
 </body>

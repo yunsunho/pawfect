@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.Pawfect.mapper.ReviewMapper">
+
+    <insert id="insertReview" useGeneratedKeys="true" keyProperty="reviewId">
+        INSERT INTO review (contentId, userId, reviewRating, reviewContent)
+        VALUES (#{contentId}, #{userId}, #{reviewRating}, #{reviewContent})
+    </insert>
+
+    <insert id="insertReviewImage">
+        INSERT INTO review_images (reviewId, reviewImage, reviewImageOrder)
+        VALUES (#{reviewId}, #{reviewImage}, #{reviewImageOrder})
+    </insert>
+
+</mapper>

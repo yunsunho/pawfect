@@ -1,6 +1,10 @@
 package com.example.Pawfect.controller.board;
 
+
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -73,8 +77,8 @@ public class BoardListController {
 	    
 	    currentPage = Integer.parseInt(pageNum);
 	    
-	    start = (currentPage - 1) * pageSize; /////////// removed +1 (MySQL starts at 0)
-	    end = start + pageSize - 1; //////////// remove -1?
+	    start = (currentPage - 1) * pageSize; // removed +1 (MySQL starts at 0)
+	    end = start + pageSize - 1;
 	    if (end > count) { // 계산보다 실제 글이 적은 경우
 	    	end = count;
 	    }
@@ -100,7 +104,8 @@ public class BoardListController {
 	    if (count > 0) {
 	        List<PostDto> dtos = boardService.getPosts(filterMap);
 	        for (PostDto dto : dtos) {
-	            dto.generateDisplayName(); // Generate nicknames and save to DTO
+	            dto.generateDisplayName();
+		        dto.setFormattedDate(boardService.formatPostDate(dto.getPostRegdate()));
 	        }
 	        model.addAttribute("dtos", dtos);
 	    }
@@ -125,6 +130,6 @@ public class BoardListController {
 	    model.addAttribute("endDate", endDate);
 	    model.addAttribute("postType", postType);
 
-	    return "board/list"; // JSP view
+	    return "board/list";
 	}
 }

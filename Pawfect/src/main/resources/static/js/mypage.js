@@ -10,6 +10,8 @@ function loadTab(tabName) {
 				initProfileTabEvents();
 			} else if (tabName === "info") {
 				initInfoTabEvents();
+			} else if (tabName === "password") {
+				initPasswordTabEvents();
 			}
 		})
 		.catch((err) => console.error("탭 로딩 실패", err));
@@ -33,12 +35,19 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 });
 
+let tempImageFormData = null; // 저장 버튼 클릭 시 서버에 전송할 이미지
+let imageChanged = false;     // 이미지가 실제로 변경되었는지 여부
 // 프로필 탭 기능 
 function initProfileTabEvents() {
 	const profileImgBtn = document.getElementById("editProfileImgBtn");
 	const profileImgInput = document.getElementById("profileImageInput");
+	const deleteImgBtn = document.getElementById("deleteProfileImgBtn");
+	const profileImgEl = document.querySelector(".profile-img");
+
+	// 이미지 수정 버튼 클릭 -> 파일 선택 창
 	profileImgBtn?.addEventListener("click", () => profileImgInput?.click());
 
+	// 이미지 파일 선택 시: 서버 업로드 안함, 화면에 미리보기만
 	profileImgInput?.addEventListener("change", function() {
 		const file = this.files[0];
 		if (!file) return;
@@ -49,26 +58,30 @@ function initProfileTabEvents() {
 			return;
 		}
 
-		const formData = new FormData();
-		formData.append("profileImage", file);
+		// 미리보기 처리 (로컬 blob URL)
+		const previewURL = URL.createObjectURL(file);
+		if (profileImgEl) {
+			profileImgEl.setAttribute("src", previewURL);
+		}
 
-		fetch("/mypage/profile/image", {
-			method: "POST",
-			body: formData
-		})
-			.then(res => res.text())
-			.then(result => {
-				if (result === "success") {
-					showModal("프로필 이미지가 변경되었습니다.");
-					setTimeout(() => loadTab("profile"), 1000);
-				} else {
-					showModal("이미지 업로드에 실패했습니다.");
-				}
-			})
-			.catch(err => {
-				console.error("업로드 에러:", err);
-				showModal("이미지 업로드 중 오류가 발생했습니다.");
-			});
+		// 저장을 위한 FormData 저장
+		tempImageFormData = new FormData();
+		tempImageFormData.append("profileImage", file);
+		imageChanged = true; // 저장할 때 전송해야 함
+		showModal("프로필 이미지가 수정되었습니다.");
+	});
+
+	// 이미지 삭제
+	deleteImgBtn?.addEventListener("click", () => {
+		showConfirmModal("정말 프로필 이미지를 삭제하시겠습니까?", () => {
+			// 이미지 바로 기본 이미지로 변경 (화면만)
+			if (profileImgEl) {
+				profileImgEl.setAttribute("src", "/images/default_profile.jpg");
+			}
+			tempImageFormData = "delete";
+			imageChanged = true;
+			showModal("프로필 이미지가 삭제되었습니다.");
+		});
 	});
 
 	// 닉네임 수정
@@ -80,16 +93,19 @@ function initProfileTabEvents() {
 	nicknameInput.style.pointerEvents = "none";
 
 	let nicknameEditMode = false;
+	let nicknameChanged = false;
+	let originalNickname = nicknameInput.value;
 
 	nicknameBtn?.addEventListener("click", () => {
 		const canEdit = nicknameInput.dataset.canEdit === "true";
 		if (!canEdit) {
-			showModal("닉네임은 30일마다만 변경할 수 있습니다.");
+			showModal("닉네임은 30일마다 변경 가능합니다.");
 			return;
 		}
 
 		if (!nicknameEditMode) {
 			nicknameEditMode = true;
+			originalNickname = nicknameInput.value;
 			nicknameInput.removeAttribute("readonly");
 			nicknameInput.removeAttribute("tabindex");
 			nicknameInput.style.pointerEvents = "auto";
@@ -101,6 +117,13 @@ function initProfileTabEvents() {
 			nicknameInput.setAttribute("tabindex", "-1");
 			nicknameInput.style.pointerEvents = "none";
 			nicknameBtn.textContent = "수정";
+
+			const newNickname = nicknameInput.value.trim();
+			nicknameChanged = newNickname !== originalNickname;
+
+			if (nicknameChanged) {
+				showModal("닉네임이 수정되었습니다.");
+			}
 		}
 	});
 
@@ -146,51 +169,84 @@ function initProfileTabEvents() {
 			petTypeSelect.style.pointerEvents = "none";
 
 			petBtn.textContent = "수정";
+			showModal("반려동물 정보가 수정되었습니다.");
 		}
 	});
 
 	// 내 프로필 저장 버튼
 	const saveBtn = document.getElementById("btnSaveProfile");
 	saveBtn?.addEventListener("click", () => {
-		const email = emailInput.value.trim();
-		const userTel = userTelHidden.value.trim();
+		const nickname = document.getElementById("nickname").value.trim();
+		const petName = document.getElementById("petName").value.trim();
+		const petType = parseInt(document.getElementById("petType").value);
 
-		if (email === "") {
-			showModal("이메일은 필수 입력 항목입니다.");
-			return;
-		}
-
-		// 이메일이 수정된 경우에만 인증 여부 확인
-		const isEmailEdited = !emailInput.readOnly || btnSendCode.style.display === "inline-block";
-		if (isEmailEdited && !emailVerified) {
-			showModal("이메일 인증을 완료해주세요.");
-			return;
-		}
-
-		const data = {
-			email: email,
-			userTel: userTel
+		const profileData = {
+			userNickname: nickname,
+			petName: petName,
+			petType: petType,
+			nicknameChanged: nicknameChanged,
 		};
 
-		fetch("/mypage/info/update", {
+		// 프로필 저장
+		fetch("/mypage/profile", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(data)
+			body: JSON.stringify(profileData),
 		})
-			.then(res => res.text())
-			.then(result => {
+			.then((res) => res.text())
+			.then((result) => {
 				if (result === "success") {
-					showModal("회원 정보가 성공적으로 수정되었습니다.");
+					// 2. 이미지 변경이 있었다면 처리
+					if (imageChanged) {
+						if (tempImageFormData === "delete") {
+							// 이미지 삭제
+							fetch("/mypage/profile/image/delete", { method: "POST" })
+								.then((res) => res.text())
+								.then(() => {
+									showModalWithCallback("회원 프로필이 성공적으로 수정되었습니다.", () => {
+										loadTab("profile");
+									});
+								});
+						} else if (tempImageFormData instanceof FormData) {
+							// 이미지 업로드 후 경로 받아서 DB에 저장
+							fetch("/mypage/profile/image", {
+								method: "POST",
+								body: tempImageFormData,
+							})
+								.then((res) => res.text())
+								.then((dbPath) => {
+									if (dbPath && dbPath !== "") {
+										fetch("/mypage/profile/image/save", {
+											method: "POST",
+											headers: { "Content-Type": "application/json" },
+											body: JSON.stringify({ imagePath: dbPath }),
+										})
+											.then((res) => res.text())
+											.then(() => {
+												showModalWithCallback("회원 프로필이 성공적으로 수정되었습니다.", () => {
+													loadTab("profile");
+												});
+											});
+									} else {
+										showModal("이미지 업로드에 실패했습니다.");
+									}
+								});
+						}
+					} else {
+						// 이미지 변경 없을 경우
+						showModalWithCallback("회원 프로필이 성공적으로 수정되었습니다.", () => {
+							loadTab("profile");
+						});
+					}
 				} else {
 					showModal("수정에 실패했습니다. 다시 시도해주세요.");
 				}
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.error("에러 발생:", err);
 				showModal("오류가 발생했습니다.");
 			});
 	});
-
 }
 
 let emailTimer = null;
@@ -200,7 +256,7 @@ let timeLeft = 300;
 function initInfoTabEvents() {
 	const emailInput = document.getElementById("email");
 	emailInput.dataset.originalEmail = emailInput.value;
-	
+
 	const btnSendCode = document.getElementById("btnSendCode");
 	const btnVerifyCode = document.getElementById("btnVerifyCode");
 	const emailCodeBox = document.getElementById("emailCodeBox");
@@ -449,6 +505,103 @@ function startEmailTimer() {
 	}, 1000);
 }
 
+// 비밀번호 변경 탭 기능
+function initPasswordTabEvents() {
+	const currentPwdInput = document.getElementById("currentPwd");
+	const newPwdInput = document.getElementById("newPwd");
+	const newPwdCheckInput = document.getElementById("newPwdCheck");
+	const saveBtn = document.getElementById("btnSavePwd");
+
+	const pwdCheckList = document.getElementById("pwd-check-list");
+	const pwdMatchCheckList = document.getElementById("pwd-match-check-list");
+
+	// 포커스 시 조건 보여주기
+	newPwdInput.addEventListener("focus", () => {
+		pwdCheckList.style.display = "block";
+	});
+
+	// 비밀번호 입력 시 공백 제거
+	[newPwdInput, newPwdCheckInput].forEach(input => {
+		input.addEventListener("input", () => {
+			input.value = input.value.replace(/\s/g, ""); // 공백 제거
+
+			validatePwdConditions();
+			validatePwdMatch();
+		});
+	});
+
+	// 조건: 길이 8자 이상 + 영문/숫자/특수문자 포함
+	function validatePwdConditions() {
+		const pwd = newPwdInput.value.trim();
+		const lengthValid = pwd.length >= 8;
+		const patternValid = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-])/.test(pwd);
+
+		document.getElementById("pwd-condition-length").className = lengthValid ? "valid" : "invalid";
+		document.getElementById("pwd-condition-pattern").className = patternValid ? "valid" : "invalid";
+
+		pwdCheckList.style.display = "block";
+		return lengthValid && patternValid;
+	}
+
+	// 새 비밀번호 == 새 비밀번호 확인
+	function validatePwdMatch() {
+		const pwd = newPwdInput.value.trim();
+		const pwdCheck = newPwdCheckInput.value.trim();
+		const isMatch = pwd && pwd === pwdCheck;
+
+		document.getElementById("pwd-match-condition").className = isMatch ? "valid" : "invalid";
+		pwdMatchCheckList.style.display = "block";
+
+		return isMatch;
+	}
+
+	// 저장 버튼 클릭
+	saveBtn?.addEventListener("click", () => {
+		const currentPwd = currentPwdInput.value.trim();
+		const newPwd = newPwdInput.value.trim();
+		const newPwdCheck = newPwdCheckInput.value.trim();
+
+		if (!currentPwd || !newPwd || !newPwdCheck) {
+			showModal("모든 비밀번호를 입력해주세요.");
+			return;
+		}
+		if (!validatePwdConditions()) {
+			showModal("새 비밀번호가 조건에 부합하지 않습니다.");
+			return;
+		}
+		if (!validatePwdMatch()) {
+			showModal("비밀번호가 일치하지 않습니다.");
+			return;
+		}
+
+		// 서버로 전송
+		fetch("/mypage/password/update", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ currentPwd, newPwd, confirmPwd: newPwdCheck })
+		})
+			.then(res => res.text())
+			.then(result => {
+				if (result === "success") {
+					showModal("비밀번호가 성공적으로 변경되었습니다.");
+					currentPwdInput.value = "";
+					newPwdInput.value = "";
+					newPwdCheckInput.value = "";
+				} else if (result === "wrong") {
+					showModal("현재 비밀번호가 일치하지 않습니다.");
+				} else if (result === "mismatch") {
+					showModal("새 비밀번호가 일치하지 않습니다.");
+				} else {
+					showModal("비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
+				}
+			})
+			.catch(() => {
+				showModal("오류가 발생했습니다.");
+			});
+	});
+}
+
+// 모달
 function showModal(message) {
 	const modal = document.getElementById("commonModal");
 	const msgBox = document.getElementById("modalMessage");
@@ -457,7 +610,49 @@ function showModal(message) {
 		modal.style.display = "block";
 	}
 }
+
 function closeModal() {
 	const modal = document.getElementById("commonModal");
 	if (modal) modal.style.display = "none";
-} 
+}
+
+function showConfirmModal(message, onConfirm) {
+	const modal = document.getElementById("confirmModal");
+	const msgBox = document.getElementById("confirmModalMessage");
+	const confirmBtn = document.getElementById("btnConfirmYes");
+	const cancelBtn = document.getElementById("btnConfirmNo");
+
+	if (modal && msgBox) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+		// 확인
+		confirmBtn.onclick = () => {
+			modal.style.display = "none";
+			onConfirm();
+		};
+		// 취소
+		cancelBtn.onclick = () => {
+			modal.style.display = "none";
+		};
+	}
+}
+
+function showModalWithCallback(message, callback) {
+	const modal = document.getElementById("commonModal");
+	const msgBox = document.getElementById("modalMessage");
+	const confirmBtn = modal.querySelector("button");
+
+	if (modal && msgBox && confirmBtn) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+
+		const handler = () => {
+			modal.style.display = "none";
+			confirmBtn.removeEventListener("click", handler);
+			if (typeof callback === "function") {
+				callback();
+			}
+		};
+		confirmBtn.addEventListener("click", handler);
+	}
+}

@@ -118,7 +118,7 @@ body {
 	background-color: #f9f9f9;
 	padding: 30px;
 	border-radius: 14px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 2px 8px rgb(0, 0, 0, 0.05);
 } */
 
 .input-group {
@@ -130,6 +130,8 @@ body {
 
 .input-group label{
 	margin-top: 10px;
+	white-space: nowrap;
+	width: 120px;
 }
 
 .input-label {
@@ -214,4 +216,52 @@ body {
   color: #d35400;
   white-space: nowrap;
   min-height: 20px;
+}
+
+/* 비밀번호 변경 제목 스타일 */
+.password-title {
+  font-size: 24px;  
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.password-title::after {
+  content: '';
+  display: block;
+  width: 131px;
+  height: 3px;
+  background-color: gray;
+  margin-top: 3px;
+  border-radius: 3px;
+}
+
+/* 비밀번호 조건 */
+.check-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 6px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.check-list li {
+  padding-left: 24px;
+  position: relative;
+}
+
+.check-list li.valid::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: green;
+}
+
+.check-list li.invalid::before {
+  content: "✗";
+  position: absolute;
+  left: 0;
+  color: red;
 }

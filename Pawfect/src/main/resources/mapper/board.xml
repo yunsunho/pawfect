@@ -14,20 +14,6 @@
 	    WHERE p.postId = #{postId}
     </select>
     
-    <select id="getPostCount" resultType="int" parameterType="map">
-        SELECT COUNT(*) FROM post
-        WHERE 1 = 1
-        <if test="keyword != null and keyword != ''">
-            AND postTitle LIKE CONCAT('%', #{keyword}, '%')
-        </if>
-        <if test="postType != null">
-            AND postType = #{postType}
-        </if>
-        <if test="startDate != null and endDate != null">
-            AND postRegdate BETWEEN #{startDate} AND #{endDate}
-        </if>
-    </select>
-    
     <select id="getPosts" resultType="com.example.Pawfect.dto.PostDto" parameterType="map">
 	    SELECT 
 	        p.*, 
@@ -40,11 +26,11 @@
 	    <if test="keyword != null and keyword != ''">
 	        AND p.postTitle LIKE CONCAT('%', #{keyword}, '%')
 	    </if>
-	    <if test="postType != null and postType != ''">
+	    <if test="postType != null and postType != '' and postType != 0">
 	        AND p.postType = #{postType}
 	    </if>
 	    <if test="startDate != null and endDate != null">
-	        AND p.postRegdate BETWEEN #{startDate} AND #{endDate}
+	        AND p.postRegdate BETWEEN #{startDate} AND DATE_ADD(#{endDate}, INTERVAL 1 DAY)
 	    </if>
 	    ORDER BY 
 	        <choose>
@@ -60,59 +46,131 @@
 	    LIMIT #{start}, #{pageSize}
 	</select>
     
-    
+    <select id="getPostCount" resultType="int" parameterType="map">
+        SELECT COUNT(*) FROM post
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND postTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="postType != null and postType != 0">
+            AND postType = #{postType}
+        </if>
+        <if test="startDate != null and endDate != null">
+            AND postRegdate BETWEEN #{startDate} AND DATE_ADD(#{endDate}, INTERVAL 1 DAY)
+        </if>
+    </select>
 
     <insert id="insertPost" parameterType="com.example.Pawfect.dto.PostDto" useGeneratedKeys="true" keyProperty="postId">
 	  INSERT INTO post (userId, postType, postTitle, postContent)
 	  VALUES (#{userId}, #{postType}, #{postTitle}, #{postContent})
 	</insert>
 	
-	<update id="updatePost" parameterType="com.example.Pawfect.dto.PostDto">
+	<update id="modifyPost" parameterType="com.example.Pawfect.dto.PostDto">
 	  UPDATE post
-	  SET postType = #{postType},
-	      postTitle = #{postTitle},
-	      postContent = #{postContent}
+	  SET postTitle = #{postTitle},
+	      postContent = #{postContent},
+	      postType = #{postType}
 	  WHERE postId = #{postId}
 	</update>
 
 	<delete id="deletePost" parameterType="int">
 	  DELETE FROM post WHERE postId = #{postId}
 	</delete>
-
-	<!--
-    <select id="getAllPosts" resultType="com.example.Pawfect.dto.PostDto">
-        SELECT * FROM post ORDER BY postId DESC
-    </select>
-    -->
-
-
 	
 	<update id="incrementViewCount" parameterType="int">
 	  UPDATE post SET postViewCount = postViewCount + 1 WHERE postId = #{postId}
 	</update>
 	
-
+	<select id="getTotalLikeCount" resultType="int" parameterType="int">
+		SELECT COUNT(*) FROM post_likes WHERE postId=#{postId}
+	</select>
     
     
     <!-- FOR SIDEBAR STATS-->
-    <!-- Get total post count -->
     <select id="getTotalPostCount" resultType="int">
         SELECT COUNT(*) FROM post
     </select>
 
-    <!-- Get total comment count -->
     <select id="getTotalCommentCount" resultType="int">
         SELECT COUNT(*) FROM comment
     </select>
 
-    <!-- Get total user count -->
     <select id="getTotalUserCount" resultType="int">
         SELECT COUNT(*) FROM user
     </select>
-	
-	<select id="getTotalLikeCount" resultType="int" parameterType="int">
-		SELECT COUNT(*) FROM post_likes WHERE postId=#{postId}
-	</select>
 
+	<select id="getCommentById" resultType="com.example.Pawfect.dto.CommentDto" parameterType="int">
+		SELECT * FROM comment WHERE commentId = #{commentId}
+	</select>
 	
+	<select id="getComments" resultType="com.example.Pawfect.dto.CommentDto" parameterType="int">
+		SELECT
+			c.commentId,
+			c.userId,
+			u.userNickname,
+			u.userImage,
+			c.postId,
+			c.comContent,
+			c.comRegdate,
+			c.com_ref,
+			c.com_re_step,
+			c.com_re_level,
+			c.comEditStatus,
+			c.comDeleteStatus
+		FROM comment c
+		JOIN user u ON c.userID = u.userId
+		WHERE postId = #{postId}
+		ORDER BY com_ref ASC, com_re_step ASC
+	</select>
+	
+	<!-- insert top-level comment -->
+	<insert id="insertComment" parameterType="com.example.Pawfect.dto.CommentDto" useGeneratedKeys="true" keyProperty="commentId">
+	    INSERT INTO comment (
+	        userId,
+	        postId,
+	        comContent,
+	        com_ref,
+	        com_re_step,
+	        com_re_level
+	    ) VALUES (
+	        #{userId},
+	        #{postId},
+	        #{comContent},
+	        #{commentId},  <!-- update after insertion -->
+	        0,
+	        0
+	    )
+	</insert>
+	
+	<!-- update com_ref (groupId) of top-level comment -->
+	<update id="updateCommentRef" parameterType="int">
+		UPDATE comment
+		SET com_ref = #{commentId}
+		WHERE commentId = #{commentId}
+	</update>
+	
+	<!-- insert reply comment -->
+	<update id="updateReStep" parameterType="map">
+		UPDATE comment
+		SET com_re_step = com_re_step + 1
+		WHERE com_ref = #{com_ref}
+		AND com_re_step > #{com_re_step}
+	</update>
+	<insert id="insertReplyComment" parameterType="com.example.Pawfect.dto.CommentDto">
+		INSERT INTO comment (
+			userId,
+			postId,
+			comContent,
+			com_ref,
+			com_re_step,
+			com_re_level
+		) VALUES (
+			#{userId},
+			#{postId},
+			#{comContent},
+			#{com_ref},
+			#{com_re_step},
+			#{com_re_level}
+		)
+	</insert>
 </mapper>

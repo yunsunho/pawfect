@@ -18,6 +18,7 @@ public class PostDto {
     
     private String userNickname;
     private String displayName;
+    private String formattedDate;
     
     private int likeCount;
     private int commentCount;
