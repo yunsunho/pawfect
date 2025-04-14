@@ -32,18 +32,21 @@
 
 <div id="pagination" class="pagination"></div>
 
+<!-- 북마크 배열 넘기기 -->
 <c:if test="${not empty myBookmarks}">
   <script>
-    const bookmarked = ${fn:join(myBookmarks, ',')}; // 예: 101,102,103
+    const bookmarked = [<c:forEach var="id" items="${myBookmarks}" varStatus="status">
+      ${id}<c:if test="${!status.last}">,</c:if>
+    </c:forEach>];
   </script>
 </c:if>
 <c:if test="${empty myBookmarks}">
   <script>
-    const bookmarked = "";
+    const bookmarked = [];
   </script>
 </c:if>
+
 
 <script src="/js/theme.js"></script>
 </body>
 </html>
-

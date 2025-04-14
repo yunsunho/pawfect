@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <%@ page pageEncoding="UTF-8" %>
 <c:set var="currentPage" value="area" />
 
@@ -9,7 +8,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Pawfect Tour - 리스트</title>
+  <title>Pawfect Tour - 지역별 리스트</title>
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/theme.css">
 </head>
@@ -30,11 +29,15 @@
 <!-- 여기서 JS가 카드들을 추가함 -->
 <div class="theme-container"></div>
 
+<!-- 페이지네이션 -->
 <div id="pagination" class="pagination"></div>
 
+<!-- 북마크된 contentId 전달 -->
 <c:if test="${not empty myBookmarks}">
   <script>
-    const bookmarked = ${myBookmarks != null ? '[' + fn:join(myBookmarks, ',') + ']' : '[]'};
+    const bookmarked = [<c:forEach var="id" items="${myBookmarks}" varStatus="status">
+      ${id}<c:if test="${!status.last}">,</c:if>
+    </c:forEach>];
   </script>
 </c:if>
 <c:if test="${empty myBookmarks}">
@@ -43,7 +46,7 @@
   </script>
 </c:if>
 
+
 <script src="/js/area.js"></script>
 </body>
 </html>
-
