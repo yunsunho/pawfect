@@ -1,11 +1,6 @@
 package com.example.Pawfect.controller.board;
 
-
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.Pawfect.dto.PostDto;
+import com.example.Pawfect.dto.CommentDto;
 import com.example.Pawfect.dto.UserDto;
 import com.example.Pawfect.service.BoardService;
 
@@ -25,19 +20,16 @@ import jakarta.annotation.Resource;
 
 @Controller
 @RequestMapping("board")
-public class BoardListController {
+public class BoardCommentListController {
 	@Resource
 	private BoardService boardService;
 	
-	@GetMapping
+	@GetMapping("commentlist")
 	public String boardList(
 	    @RequestParam(required = false) String pageNum,
 	    @RequestParam(required = false) String keyword,
-	    @RequestParam(required = false) String sortBy,
 	    @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
 	    @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-	    @RequestParam(required = false) Integer postType,
-	    @RequestParam(required = false) String myPost,
 	    Model model) {
 		
 		int count = 0;			// 전체 글 개수 
@@ -64,31 +56,20 @@ public class BoardListController {
 	    // Filter map
 	    Map<String, Object> filterMap = new HashMap<>();
 	    filterMap.put("keyword", keyword);
-	    filterMap.put("sortBy", sortBy);
 	    filterMap.put("startDate", startDate);
 	    filterMap.put("endDate", endDate);
-	    filterMap.put("postType", postType);
 	    
 	    
 	    UserDto userDto = boardService.getLoggedInUser();
-	    
-	    // Filter current user's posts
-	    
-	    
-	    if (myPost!=null && myPost.equals("true")) {
-	    	if (userDto != null) {
-	    		filterMap.put("userId", userDto.getUserId());
-	    	} else {
-	    		return "user/loginForm";
-	    	}
-	    	
-	    } else {
-	    	filterMap.put("userId", null);
+	    if (userDto == null) {
+	    	return "user/loginForm";
 	    }
-
-	    // Total count with filters applied (전체 글 개수
-	    count = boardService.getPostCount(filterMap);
 	    
+	    filterMap.put("userId", userDto.getUserId());
+	    
+
+	    // Total comment count of user with filters applied
+	    count = boardService.getUserCommentCount(filterMap);
 	    if (pageNum == null || pageNum.equals("")) {
 	    	pageNum = "1";
 	    }
@@ -120,10 +101,9 @@ public class BoardListController {
 	    filterMap.put("pageSize", pageSize);
 
 	    if (count > 0) {
-	        List<PostDto> dtos = boardService.getPosts(filterMap);
-	        for (PostDto dto : dtos) {
-	            dto.generateDisplayName();
-		        dto.setFormattedDate(boardService.formatPostDate(dto.getPostRegdate()));
+	        List<CommentDto> dtos = boardService.getUserComments(filterMap);
+	        for (CommentDto dto : dtos) {
+		        dto.setFormattedDate(boardService.formatPostDate(dto.getComRegdate()));
 	        }
 	        model.addAttribute("dtos", dtos);
 	    }
@@ -143,11 +123,9 @@ public class BoardListController {
 
 	    // Filters retained in view
 	    model.addAttribute("keyword", keyword);
-	    model.addAttribute("sortBy", sortBy);
 	    model.addAttribute("startDate", startDate);
 	    model.addAttribute("endDate", endDate);
-	    model.addAttribute("postType", postType);
 
-	    return "board/list";
+	    return "board/list_comment";
 	}
 }

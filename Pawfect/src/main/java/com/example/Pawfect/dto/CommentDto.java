@@ -24,4 +24,5 @@ public class CommentDto {
     private String formattedDate;
     
     private int parentCommentId;
+    private String postTitle;
 }

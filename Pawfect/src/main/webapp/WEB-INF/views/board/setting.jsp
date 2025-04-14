@@ -23,6 +23,9 @@
 <c:set var="label_date" value="작성일"/>
 <c:set var="label_likes" value="추천"/>
 <c:set var="label_views" value="조회"/>
+
+<c:set var="label_post_title" value="게시글 제목"/>
+<c:set var="label_comment" value="댓글 내용"/>
 <!-- messages -->
 <c:set var="msg_no_posts" value="게시판에 글이 없습니다."/>
 
