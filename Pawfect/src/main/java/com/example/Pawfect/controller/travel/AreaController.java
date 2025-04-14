@@ -16,19 +16,34 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import com.example.Pawfect.service.BookmarkService;
+
 @Controller
+@RequiredArgsConstructor
 public class AreaController {
 
     @Value("${api.service-key}")
     private String serviceKey;
 
+    private final BookmarkService bookmarkService;
+
     // 👉 테마 리스트 뷰 이동
     @GetMapping("/areaList")
-    public String areaListPage(@RequestParam(defaultValue = "") String areaCode, Model model) {
+    public String areaListPage(@RequestParam(defaultValue = "") String areaCode, HttpSession session, Model model) {
         model.addAttribute("currentPage", "area");
         model.addAttribute("showSubmenu", true);
+
+        String userId = (String) session.getAttribute("userId");
+        if (userId != null) {
+            List<Integer> bookmarks = bookmarkService.findContentIdsByUserId(userId);
+            model.addAttribute("myBookmarks", bookmarks);
+        }
+
         return "travel/areaList";
     }
+
 
     // 👉 AJAX 테마 목록 데이터
     @GetMapping("/api/areaData")
