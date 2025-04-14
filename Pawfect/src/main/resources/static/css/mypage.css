@@ -44,6 +44,10 @@ body {
 	padding: 20px;
 	border-radius: 20px;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+	display: flex;               
+	flex-direction: column;      
+	justify-content: space-between; 
+	height: 450px;
 }
 
 .mypage-sidebar ul {
@@ -69,6 +73,10 @@ body {
 .mypage-sidebar li.active {
 	background-color: #f4c542;
 	color: #111;
+}
+
+.sidebar-menu {
+	flex-grow: 1;
 }
 
 /* 콘텐츠 카드 */
@@ -264,4 +272,24 @@ body {
   position: absolute;
   left: 0;
   color: red;
+}
+
+/* 로그아웃 */
+.logout-area {
+	text-align: center;
+	margin-top: 20px;
+}
+
+#logoutBtn {
+	color: red;
+	font-weight: bold;
+	cursor: pointer;
+	padding: 10px 14px;
+	border-radius: 12px;
+	transition: background 0.3s;
+	display: inline-block;
+}
+
+#logoutBtn:hover {
+	background-color: #f9f9f9;
 }
