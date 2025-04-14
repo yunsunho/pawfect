@@ -18,20 +18,34 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+
+import com.example.Pawfect.service.BookmarkService;
+
 @Controller
+@RequiredArgsConstructor
 public class ThemeController {
 
     @Value("${api.service-key}")
     private String serviceKey;
+    private final BookmarkService bookmarkService;
 
     // 👉 테마 리스트 뷰 이동
     @GetMapping("/themeList")
-    public String themeListPage(@RequestParam(defaultValue = "12") int contentTypeId, Model model) {
-        model.addAttribute("currentPage", "theme");
-        model.addAttribute("showSubmenu", true);
-        model.addAttribute("initialContentTypeId", contentTypeId); // JS에서 초기 설정에 사용
-        return "travel/themeList";
+    public String themeListPage(Model model, HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+
+        if (userId != null) {
+            List<Integer> myBookmarks = bookmarkService.findContentIdsByUserId(userId);
+            model.addAttribute("myBookmarks", myBookmarks);
+        }
+
+        //model.addAttribute("currentPage", "theme"); // 기존에 있던 속성 유지
+        return "travel/themeList"; // 너의 JSP 이름에 맞게
     }
+
+
 
     // 👉 AJAX 테마 목록 데이터
     @GetMapping("/api/themeData")

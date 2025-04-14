@@ -24,5 +24,9 @@
     SELECT COUNT(*) FROM bookmark
     WHERE userId = #{userId} AND contentId = #{contentId}
   </select>
-
+  <select id="selectContentIdsByUserId" resultType="int" parameterType="string">
+	  SELECT contentId FROM bookmark WHERE userId = #{userId}
+  </select>
+  
+	
 </mapper>

@@ -3,6 +3,9 @@ package com.example.Pawfect.service;
 import com.example.Pawfect.dto.BookmarkDto;
 import com.example.Pawfect.mapper.BookmarkMapper;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,4 +25,9 @@ public class BookmarkService {
 	public boolean isBookmarked(BookmarkDto dto) {
 		return bookmarkMapper.countBookmark(dto) > 0;
 	}
+	
+	public List<Integer> findContentIdsByUserId(String userId) {
+	    return bookmarkMapper.selectContentIdsByUserId(userId);
+	}
+
 }

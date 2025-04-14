@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.theme-container');
   const sortSelect = document.querySelector('.sort-box select');
   const tabs = document.querySelectorAll('.theme-tab');
-
+  
   const contentTypeMap = {
     '관광지': 12,
     '문화시설': 14,
@@ -76,12 +76,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await response.json();
       const data = result.list;
       const totalPages = result.totalPages;
+	  const bookmarkArray = bookmarked ? bookmarked.toString().split(",").map(Number) : [];
 
 	  container.innerHTML = '';
+	  
 	  data.forEach(item => {
-	    const card = document.createElement('div');
-	    card.className = 'theme-card';
+	    const isBookmarked = bookmarkArray.includes(Number(item.contentid)); // ✅ 숫자로 변환해서 비교
 
+	    const card = document.createElement("div");
+	    card.className = "theme-card";
 	    card.innerHTML = `
 	      <a href="/detail/${item.contentid}/${item.contenttypeid}" class="theme-link">
 	        <img src="${item.firstimage || '/images/no-image.png'}" alt="이미지 없음">
@@ -98,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	           data-mapx="${item.mapx}"
 	           data-mapy="${item.mapy}"
 	           data-addr1="${item.addr1}">
-	        🔖
+	        ${isBookmarked ? "✅" : "🔖"}
 	      </div>
 	    `;
 	    container.appendChild(card);
