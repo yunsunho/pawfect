@@ -20,18 +20,7 @@ public interface BoardMapper {
 	
 	public int incrementViewCount(int postId);
 	
-	//public int maxNum();
-	//public void addReply(PostDto postDto);
-	
-	
-	//public void addCount(int num);
-	//public int checkReply(PostDto postDto);
-	//public void deleteReply(PostDto postDto);
-	
-	
-	
-	
-	// for total post
+	// stats
 	public int getTotalPostCount();
 	public int getTotalCommentCount();
 	public int getTotalUserCount();
@@ -45,5 +34,8 @@ public interface BoardMapper {
 	public int updateReStep(Map<String, Object> map);
 	public int insertReplyComment(CommentDto commentDto);
 	
+	public int countUserLike(Map<String, Object> map);
+	public int addLike(Map<String, Object> map);
+	public int removeLike(Map<String, Object> map);
 
 }
