@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.Pawfect.dto.CommentDto;
 import com.example.Pawfect.dto.PostDto;
 
 @Mapper
@@ -13,18 +14,19 @@ public interface BoardMapper {
 	public List<PostDto> getPosts(Map<String, Object> filterMap);
 	public int getPostCount(Map<String, Object> filterMap);
 	
-	
-	
-	//public int getPostCount();
-	public int maxNum();
-	public void addReply(PostDto postDto);
 	public int insertPost(PostDto postDto);
-	//public List<PostDto> getAllPosts(Map<String, Integer> map);
-	public void addCount(int num);
 	public int modifyPost(PostDto postDto);
-	public int checkReply(PostDto postDto);
-	public void deleteReply(PostDto postDto);
 	public int deletePost(int num);
+	
+	public int incrementViewCount(int postId);
+	
+	//public int maxNum();
+	//public void addReply(PostDto postDto);
+	
+	
+	//public void addCount(int num);
+	//public int checkReply(PostDto postDto);
+	//public void deleteReply(PostDto postDto);
 	
 	
 	
@@ -34,7 +36,14 @@ public interface BoardMapper {
 	public int getTotalCommentCount();
 	public int getTotalUserCount();
 	
-	// like count per post
 	public int getTotalLikeCount(int postId);
+	
+	public CommentDto getCommentById(int commentId);
+	public List<CommentDto> getComments(int postId);
+	public int insertComment(CommentDto commentDto);
+	public int updateCommentRef(int commentId);
+	public int updateReStep(Map<String, Object> map);
+	public int insertReplyComment(CommentDto commentDto);
+	
 
 }

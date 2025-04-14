@@ -1,19 +1,23 @@
 @charset "UTF-8";
 
- 
+
  .sidebar {
    width: 250px;
    background: white;
    font-family: sans-serif;
-   padding: 10px;
  }
  
  .community-layout {
    display: flex;
    gap: 2rem;
    padding: 20px;
-   border: 1px solid #DCDCDC; 
    border-radius: 10px;
+   border: 2px solid #f3f3f3;
+ }
+ 
+ /* menu color */
+ .sidebar, .community-layout {
+ 	background-color: white;
  }
  
  .sidebar h3 {
@@ -68,16 +72,18 @@ ul {
  }
 
 .button.active {
-	color: white;
+	color:white;
 }
+
 .button-default.active {
-   background-color: #06A77D;
- }
+	background-color: #06A77D;
+}
+
 .button-review.active {
 	background-color: #052F5F;
 }
 .button-recommend.active {
-	background-color: #005377;
+	background-color: #FF6F59;
 }
 .button-info.active {
 	background-color: #DB3069;
@@ -86,12 +92,33 @@ ul {
 	background-color: #D5C67A;
 }
 .button-qna.active {
-	background-color: #FF6F59;
+	background-color: #8DA399;
 }
 
  .button:hover {
    opacity: 0.9;
+   color: white;
  }
+
+.button-default:hover {
+   background-color: #06A77D;
+ }
+.button-review:hover {
+	background-color: #052F5F;
+}
+.button-recommend:hover {
+	background-color: #FF6F59;
+}
+.button-info:hover{
+	background-color: #DB3069;
+}
+.button-other:hover {
+	background-color: #D5C67A;
+}
+.button-qna:hover{
+	background-color: #8DA399;
+}
+
  
  /* 게시물 작성 버튼 */
  .button-write {

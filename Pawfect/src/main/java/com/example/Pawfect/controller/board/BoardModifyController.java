@@ -1,56 +1,58 @@
 package com.example.Pawfect.controller.board;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.Pawfect.dto.PostDto;
 import com.example.Pawfect.dto.UserDto;
 import com.example.Pawfect.service.BoardService;
 
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/board")
-public class BoardWriteController {
+@RequestMapping("board")
+public class BoardModifyController {
 	@Resource
 	private BoardService boardService;
 	
-	@GetMapping("/write")
-    public String writeForm(Model model) {
+	@GetMapping("modify")
+	public String modifyForm(@RequestParam Integer num, Model model) {
+		PostDto postDto = boardService.getPost(num);
+		UserDto userDto = boardService.getLoggedInUser();
+		
 		// Stats
-		int totalPosts = boardService.getTotalPostCount();
+	    int totalPosts = boardService.getTotalPostCount();
 	    int totalComments = boardService.getTotalCommentCount();
 	    int totalUsers = boardService.getTotalUserCount();
 	    model.addAttribute("totalPosts", totalPosts);
 	    model.addAttribute("totalComments", totalComments);
 	    model.addAttribute("totalUsers", totalUsers);
-	    
-        return "board/writeForm";
-    }
+		
+		if (userDto == null || !postDto.getUserId().equals(userDto.getUserId())) {
+			return "board/list";
+		}
+		
+		model.addAttribute("postDto", postDto);
+		model.addAttribute("userDto", userDto);
+		
+		
+		return "board/modifyForm";
+	}
 	
-	@PostMapping("/write")
-	public String writePro(@ModelAttribute PostDto postDto, Model model) {
-		
-		UserDto userDto = boardService.getLoggedInUser();
-		String userId = userDto.getUserId();
-		
-		postDto.setUserId(userId);
-		postDto.generateDisplayName();
-		
-		int result = boardService.insertPost(postDto);
+	@PostMapping("modify")
+	public String modifyPro(@ModelAttribute PostDto postDto, Model model) {
+		int result = boardService.modifyPost(postDto);
 		String msg;
 		
 		if (result == 1) {
-			msg = "게시물이 성공적으로 등록되었습니다.";
+			msg = "게시물이 성공적으로 수정되었습니다.";
 		} else {
-			msg = "게시물 등록에 실패하였습니다. 다시 시도해주세요.";
+			msg = "게시물 수정에 실패하였습니다. 다시 시도해주세요.";
 		}
 		
 		model.addAttribute("msg", msg);
@@ -59,5 +61,3 @@ public class BoardWriteController {
 		return "board/message";
 	}
 }
-
-
