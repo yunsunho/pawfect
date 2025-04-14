@@ -44,6 +44,31 @@ function cancelReplyBox(button) {
 	}
 }
 
+function toggleModifyBox(button) {
+	event.preventDefault(); // prevent form submit
+	const commentId = button.getAttribute('data-comment-id');
+	
+	// Hide the comment content
+	const contentP = document.getElementById(`comment-text-${commentId}`);
+	const editForm = document.getElementById(`edit-form-${commentId}`);
+	
+	if (contentP && editForm) {
+		contentP.style.display = 'none';
+		editForm.style.display = 'block';
+	}
+}
+
+function cancelEditComment(commentId) {
+	const contentP = document.getElementById(`comment-text-${commentId}`);
+	const editForm = document.getElementById(`edit-form-${commentId}`);
+	
+	if (contentP && editForm) {
+		contentP.style.display = 'block';
+		editForm.style.display = 'none';
+	}
+}
+
+
 
 // delete modal
 let deletePostId = null;

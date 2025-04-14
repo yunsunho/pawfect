@@ -1,6 +1,8 @@
 package com.example.Pawfect.controller.board;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,13 +46,16 @@ public class BoardContentController {
 			userLiked = boardService.userLikedPost(userDto.getUserId(), postDto.getPostId());
 		}
 		
+		
 		// Stats
 	    int totalPosts = boardService.getTotalPostCount();
 	    int totalComments = boardService.getTotalCommentCount();
 	    int totalUsers = boardService.getTotalUserCount();
+	    List<PostDto> hottestPosts = boardService.getHotPosts();
 	    model.addAttribute("totalPosts", totalPosts);
 	    model.addAttribute("totalComments", totalComments);
 	    model.addAttribute("totalUsers", totalUsers);
+	    model.addAttribute("hottestPosts", hottestPosts);
 		
 	    // Modify / Delete post
 		model.addAttribute("num", num);
@@ -58,6 +63,7 @@ public class BoardContentController {
 		model.addAttribute("userDto", userDto);
 		model.addAttribute("isUserPost", isUserPost);
 		model.addAttribute("userLiked", userLiked);
+		
 		
 		// Comment section
 		List<CommentDto> commentDtos = boardService.getComments(num);
@@ -107,6 +113,63 @@ public class BoardContentController {
 		if (result != 1) {
 			msg = "답글 등록에 실패하였습니다. 다시 시도해주세요.";
 		} 
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("redirectUrl", redirectUrl);
+		
+		return "board/message";
+	}
+	
+	@PostMapping("/deletecomment")
+	public String deleteComment(@RequestParam int commentId, 
+		@RequestParam int num, Model model) {
+		int result = boardService.deleteComment(commentId);
+		
+		String msg = null;
+		String redirectUrl = "/board/content?num=" + num;
+		if (result != 1) {
+			msg = "댓글 삭제에 실패하였습니다. 다시 시도해주세요.";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("redirectUrl", redirectUrl);
+		return "board/message";
+	}
+	
+	@PostMapping("/modifycomment")
+	public String modifyComment(@ModelAttribute CommentDto commentDto,
+			@RequestParam int num, Model model) {
+		int result = boardService.modifyComment(commentDto);
+		String msg = null;
+		String redirectUrl = "/board/content?num=" + num;
+		if (result != 1) {
+			msg = "댓글 삭제에 실패하였습니다. 다시 시도해주세요.";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("redirectUrl", redirectUrl);
+		return "board/message";
+	}
+	
+	@PostMapping("/like")
+	public String like(@RequestParam int num, Model model) {
+		UserDto userDto = boardService.getLoggedInUser();
+		PostDto postDto = boardService.getPost(num);
+		int userLiked = boardService.userLikedPost(userDto.getUserId(), postDto.getPostId());
+		
+		int result;
+		
+		if (userLiked == 1) {
+			result = boardService.removeLike(userDto.getUserId(), postDto.getPostId());
+		} else {
+			result = boardService.addLike(userDto.getUserId(), postDto.getPostId());
+		}
+		
+		String msg = null;
+		String redirectUrl = "/board/content?num=" + num;
+		if (result != 1) {
+			msg = "답글 등록에 실패하였습니다. 다시 시도해주세요.";
+		}
 		
 		model.addAttribute("msg", msg);
 		model.addAttribute("redirectUrl", redirectUrl);

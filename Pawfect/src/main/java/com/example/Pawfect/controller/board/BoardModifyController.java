@@ -1,5 +1,7 @@
 package com.example.Pawfect.controller.board;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +28,14 @@ public class BoardModifyController {
 		UserDto userDto = boardService.getLoggedInUser();
 		
 		// Stats
-	    int totalPosts = boardService.getTotalPostCount();
+		int totalPosts = boardService.getTotalPostCount();
 	    int totalComments = boardService.getTotalCommentCount();
 	    int totalUsers = boardService.getTotalUserCount();
+	    List<PostDto> hottestPosts = boardService.getHotPosts();
 	    model.addAttribute("totalPosts", totalPosts);
 	    model.addAttribute("totalComments", totalComments);
 	    model.addAttribute("totalUsers", totalUsers);
+	    model.addAttribute("hottestPosts", hottestPosts);
 		
 		if (userDto == null || !postDto.getUserId().equals(userDto.getUserId())) {
 			return "board/list";

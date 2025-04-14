@@ -38,8 +38,13 @@ public interface BoardMapper {
 	public int updateReStep(Map<String, Object> map);
 	public int insertReplyComment(CommentDto commentDto);
 	
+	public int deleteComment(int commentId);
+	public int modifyComment(CommentDto commentDto);
+	
 	public int countUserLike(Map<String, Object> map);
 	public int addLike(Map<String, Object> map);
 	public int removeLike(Map<String, Object> map);
+	
+	public List<PostDto> getHotPosts();
 
 }

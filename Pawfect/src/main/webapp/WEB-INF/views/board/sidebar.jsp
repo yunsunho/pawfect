@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <%@ include file="setting.jsp" %>
 <!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/css/style_board_sidebar.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
   
 </head>
 <body>
@@ -29,12 +33,36 @@
 		        <li><a href="#">${str_community_guideline}</a></li>
 	        </ul>
 	        
+	        
+	        <ul class="trending-links">
+	        	<c:if test="${not empty hottestPosts}">
+	        		<h3>${label_hot}</h3>
+	        		<c:forEach var="post" items="${hottestPosts}" begin="0" end="4">
+	        			<li>
+	        				<i class="fa-solid fa-star" style="color: #B0E0E6;"></i>
+	        				<a href="/board/content?num=${post.postId}">
+		        				<c:choose>
+				                    <c:when test="${fn:length(post.postTitle) > 15}">
+				                        ${fn:substring(post.postTitle, 0, 15)}...
+				                    </c:when>
+				                    <c:otherwise>
+				                        ${post.postTitle}
+				                    </c:otherwise>
+			                	</c:choose>
+	        				</a>
+	        			</li>
+	        		</c:forEach> 
+	        	</c:if>
+	        </ul>
+	        
 			<h3>${label_stats}</h3>
 			<div class="stats">
 		        <p><b>${str_total_posts}: </b>${totalPosts}</p>
 		        <p><b>${str_total_comments}: </b>${totalComments}</p>
 		        <p><b>${str_total_users}: </b>${totalUsers}</p>
       		</div>
+      		
+      		
       		<script type="text/javascript" src="/js/script_board.js"></script>
 	    </aside>
 	</div>

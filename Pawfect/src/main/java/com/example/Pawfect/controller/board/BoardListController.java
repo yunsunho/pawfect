@@ -57,9 +57,11 @@ public class BoardListController {
 	    int totalPosts = boardService.getTotalPostCount();
 	    int totalComments = boardService.getTotalCommentCount();
 	    int totalUsers = boardService.getTotalUserCount();
+	    List<PostDto> hottestPosts = boardService.getHotPosts();
 	    model.addAttribute("totalPosts", totalPosts);
 	    model.addAttribute("totalComments", totalComments);
 	    model.addAttribute("totalUsers", totalUsers);
+	    model.addAttribute("hottestPosts", hottestPosts);
 
 	    // Filter map
 	    Map<String, Object> filterMap = new HashMap<>();

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.Pawfect.dto.CommentDto;
+import com.example.Pawfect.dto.PostDto;
 import com.example.Pawfect.dto.UserDto;
 import com.example.Pawfect.service.BoardService;
 
@@ -49,9 +50,11 @@ public class BoardCommentListController {
 	    int totalPosts = boardService.getTotalPostCount();
 	    int totalComments = boardService.getTotalCommentCount();
 	    int totalUsers = boardService.getTotalUserCount();
+	    List<PostDto> hottestPosts = boardService.getHotPosts();
 	    model.addAttribute("totalPosts", totalPosts);
 	    model.addAttribute("totalComments", totalComments);
 	    model.addAttribute("totalUsers", totalUsers);
+	    model.addAttribute("hottestPosts", hottestPosts);
 
 	    // Filter map
 	    Map<String, Object> filterMap = new HashMap<>();

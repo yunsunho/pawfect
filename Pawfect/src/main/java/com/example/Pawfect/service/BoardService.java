@@ -122,6 +122,14 @@ public class BoardService {
 		return boardMapper.insertReplyComment(comment);
 	}
 	
+	public int deleteComment(int commendId) {
+		return boardMapper.deleteComment(commendId);
+	}
+	
+	public int modifyComment(CommentDto commentDto) {
+		return boardMapper.modifyComment(commentDto);
+	}
+	
 	public int userLikedPost(String userId, int postId) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("userId", userId);
@@ -144,7 +152,14 @@ public class BoardService {
 		return boardMapper.addLike(map);
 	}
 	public int removeLike(String userId, int postId) {
-		return 0; // TODO: use mapper
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("postId", postId);
+		return boardMapper.removeLike(map);
+	}
+	
+	public List<PostDto> getHotPosts() {
+		return boardMapper.getHotPosts();
 	}
 	
 	public String generateDisplayName(String userId, String userNickname) {
