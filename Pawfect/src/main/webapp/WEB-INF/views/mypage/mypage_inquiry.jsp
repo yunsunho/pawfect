@@ -29,7 +29,7 @@
 		<tbody>
 			<c:forEach var="inquiry" items="${inquiries}" varStatus="status">
 				<tr class="inquiry-summary">
-					<td>${fn:length(inquiries) - status.index}</td>
+					<td>${totalCount - ((currentPage - 1) * pageSize + status.index)}</td>
 					<td class="clickable-title">${inquiry.inquiryTitle}</td>
 					<td><fmt:formatDate value="${inquiry.inquiryRegdate}"
 							pattern="yyyy-MM-dd" /></td>
@@ -45,10 +45,12 @@
 				<tr class="inquiry-detail" style="display: none;">
 					<td colspan="4">
 						<div style="margin-bottom: 10px;">
-							<strong style="color: green;">[문의내용] </strong> ${inquiry.inquiryContent}
+							<strong style="color: green;">[문의내용]</strong>
+							<pre style="white-space: pre-wrap; margin: 4px 0 0;">${inquiry.inquiryContent}</pre>
 						</div> <c:if test="${inquiry.inquiryReply != null}">
 							<div style="margin-bottom: 10px;">
-								<strong style="color: green;">[답변] </strong> ${inquiry.inquiryReply}
+								<strong style="color: green;">[답변]</strong>
+								<pre style="white-space: pre-wrap; margin: 4px 0 0;">${inquiry.inquiryReply}</pre>
 							</div>
 						</c:if> <c:if test="${inquiry.inquiryReply == null}">
 							<div style="text-align: right;">
@@ -61,6 +63,25 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<c:if test="${totalPages > 1}">
+		<div class="pagination" style="margin-top: 20px; text-align: center;">
+			<c:if test="${currentPage > 1}">
+				<button class="page-btn" data-page="1">«</button>
+				<button class="page-btn" data-page="${currentPage - 1}">‹</button>
+			</c:if>
+
+			<c:forEach begin="1" end="${totalPages}" var="i">
+				<button class="page-btn ${i == currentPage ? 'active' : ''}"
+					data-page="${i}">${i}</button>
+			</c:forEach>
+
+			<c:if test="${currentPage < totalPages}">
+				<button class="page-btn" data-page="${currentPage + 1}">›</button>
+				<button class="page-btn" data-page="${totalPages}">»</button>
+			</c:if>
+		</div>
+	</c:if>
+
 </div>
 
 <!-- 문의 작성 모달 -->
@@ -79,45 +100,3 @@
 		</div>
 	</div>
 </div>
-
-<script>
-	// 제목 클릭 시 상세 토글
-	document.querySelectorAll(".inquiry-summary").forEach(row => {
-		row.addEventListener("click", function () {
-			const detailRow = this.nextElementSibling;
-			if (detailRow && detailRow.classList.contains("inquiry-detail")) {
-				detailRow.style.display = detailRow.style.display === "none" ? "table-row" : "none";
-			}
-		});
-	});
-
-	// 삭제 버튼 클릭
-	document.querySelectorAll(".deleteBtn").forEach(btn => {
-		btn.addEventListener("click", function (e) {
-			e.stopPropagation();
-			const id = this.dataset.id;
-
-			showConfirmModal("정말 삭제하시겠습니까?", () => {
-				fetch("/mypage/inquiry/delete", {
-					method: "POST",
-					headers: { "Content-Type": "application/x-www-form-urlencoded" },
-					body: new URLSearchParams({ inquiryId: id })
-				})
-					.then(res => res.text())
-					.then(result => {
-						if (result === "success") {
-							showModalWithCallback("문의글이 삭제되었습니다.", () => {
-								loadTab("inquiry");
-							});
-						} else {
-							showModal("문의글 삭제에 실패했습니다.");
-						}
-					})
-					.catch(() => {
-						showModal("서버 오류가 발생했습니다.");
-					});
-			});
-		});
-	});
-
-</script>
