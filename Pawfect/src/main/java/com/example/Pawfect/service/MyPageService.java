@@ -24,6 +24,16 @@ public class MyPageService {
 		return myPageMapper.getBookmarks(userId);
 	}
 
+	// 전체 북마크 수 조회
+	public int getBookmarkCount(String userId) {
+		return myPageMapper.getBookmarkCount(userId);
+	}
+
+	// 페이징된 북마크 리스트 조회
+	public List<BookmarkDto> getBookmarksPaged(String userId, int offset, int limit) {
+		return myPageMapper.getBookmarksPaged(userId, offset, limit);
+	}
+
 	// 내가 쓴 게시글
 	public List<PostDto> getMyPosts(String userId) {
 		return myPageMapper.getMyPosts(userId);
@@ -95,7 +105,7 @@ public class MyPageService {
 		return myPageMapper.deleteInquiry(userId, inquiryId) > 0;
 	}
 
-	// 전체 문의 개수 조회 
+	// 전체 문의 개수 조회
 	public int getInquiryCount(String userId) {
 		return myPageMapper.getInquiryCount(userId);
 	}

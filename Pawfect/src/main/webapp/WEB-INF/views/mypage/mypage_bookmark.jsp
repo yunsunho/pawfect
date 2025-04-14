@@ -21,14 +21,35 @@
 									<img src="/images/no-image.png" alt="이미지 없음" />
 								</c:otherwise>
 							</c:choose>
+							<div class="bookmark-info">
+								<h3>${bookmark.title}</h3>
+								<p>${bookmark.addr1}</p>
+							</div>
 						</a>
-						<div class="bookmark-info">
-							<h3>${bookmark.title}</h3>
-							<p>${bookmark.addr1}</p>
-						</div>
 					</div>
 				</c:forEach>
 			</div>
+
+			<!-- 페이징 버튼 -->
+			<c:if test="${totalPages > 1}">
+				<div class="pagination"
+					style="text-align: center; margin-top: 30px;">
+					<c:if test="${currentPage > 1}">
+						<button class="page-btn" data-page="1">«</button>
+						<button class="page-btn" data-page="${currentPage - 1}">‹</button>
+					</c:if>
+
+					<c:forEach begin="1" end="${totalPages}" var="i">
+						<button class="page-btn ${i == currentPage ? 'active' : ''}"
+							data-page="${i}">${i}</button>
+					</c:forEach>
+
+					<c:if test="${currentPage < totalPages}">
+						<button class="page-btn" data-page="${currentPage + 1}">›</button>
+						<button class="page-btn" data-page="${totalPages}">»</button>
+					</c:if>
+				</div>
+			</c:if>
 		</c:otherwise>
 	</c:choose>
 </div>

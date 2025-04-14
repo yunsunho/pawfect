@@ -14,6 +14,13 @@ public interface MyPageMapper {
 	// 북마크 리스트
 	List<BookmarkDto> getBookmarks(String userId);
 
+	// 전체 북마크 개수 조회
+	int getBookmarkCount(String userId);
+
+	// 페이징된 북마크 리스트 조회
+	List<BookmarkDto> getBookmarksPaged(@Param("userId") String userId, @Param("offset") int offset,
+			@Param("limit") int limit);
+
 	// 내가 쓴 게시글
 	List<PostDto> getMyPosts(String userId);
 

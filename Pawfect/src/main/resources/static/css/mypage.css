@@ -406,6 +406,7 @@ body {
 	font-weight: bold;
 }
 
+/* 페이징 */
 .pagination {
 	margin-top: 20px;
 }
@@ -431,7 +432,6 @@ body {
 }
 
 /* 북마크 */
-/* 북마크 탭 */
 .bookmark-tab {
 	max-width: 1000px;
 	margin: 0 auto;

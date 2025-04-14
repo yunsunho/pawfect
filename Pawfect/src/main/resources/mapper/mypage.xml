@@ -36,7 +36,33 @@
 		mapY
 		FROM bookmark
 		WHERE userId = #{userId}
+		ORDER BY
+		bookmarkRegdate DESC
+	</select>
+
+	<!-- 전체 북마크 수 조회 -->
+	<select id="getBookmarkCount" resultType="int">
+		SELECT COUNT(*)
+		FROM bookmark
+		WHERE userId = #{userId}
+	</select>
+
+	<!-- 페이징된 북마크 리스트 조회 -->
+	<select id="getBookmarksPaged"
+		resultType="com.example.Pawfect.dto.BookmarkDto">
+		SELECT
+		userId,
+		contentId,
+		contentTypeId,
+		title,
+		addr1,
+		firstimage,
+		mapX,
+		mapY
+		FROM bookmark
+		WHERE userId = #{userId}
 		ORDER BY bookmarkRegdate DESC
+		LIMIT #{limit} OFFSET #{offset}
 	</select>
 
 	<!-- 내가 쓴 게시글 -->

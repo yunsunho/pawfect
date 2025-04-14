@@ -1,11 +1,10 @@
 // 탭 로딩 
-function loadTab(tabName) {
-	fetch(`/mypage/tab/${tabName}`)
+function loadTab(tabName, page = 1) {
+	fetch(`/mypage/tab/${tabName}?page=${page}`)
 		.then((res) => res.text())
 		.then((html) => {
 			document.getElementById("mypage-content-area").innerHTML = html;
 
-			// 프로필 탭이면 이벤트 바인딩
 			if (tabName === "profile") {
 				initProfileTabEvents();
 			} else if (tabName === "info") {
@@ -15,7 +14,7 @@ function loadTab(tabName) {
 			} else if (tabName === "inquiry") {
 				initInquiryTabEvents();
 			} else if (tabName === "bookmark") {
-				initBookmarkTabEvents(); 
+				initBookmarkTabEvents();
 			}
 		})
 		.catch((err) => console.error("탭 로딩 실패", err));
@@ -613,7 +612,12 @@ function initPasswordTabEvents() {
 
 // 북마크 탭 기능
 function initBookmarkTabEvents() {
-	console.log("북마크 탭 이벤트 초기화됨");
+	document.querySelectorAll(".page-btn").forEach(btn => {
+		btn.addEventListener("click", function() {
+			const page = this.dataset.page;
+			loadTab("bookmark", page);
+		});
+	});
 }
 
 // 문의 탭 기능

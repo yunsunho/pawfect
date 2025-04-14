@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -61,17 +62,29 @@ public class MyPageController {
 	}
 
 	@GetMapping("/tab/bookmark")
-	public String loadBookmarkTab(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+	public String loadBookmarkTab(@AuthenticationPrincipal CustomUserDetails userDetails, Model model,
+			@RequestParam(defaultValue = "1") int page) {
+		if (userDetails == null) {
+			return "redirect:/loginForm";
+		}
+
 		String userId = userDetails.getUser().getUserId();
-		List<BookmarkDto> bookmarks = myPageService.getBookmarks(userId);
-		
-		 // 🔍 디버깅용 출력
-	    System.out.println("▶ 북마크 수: " + bookmarks.size());
-	    for (BookmarkDto dto : bookmarks) {
-	        System.out.println(" - " + dto.getTitle() + " / " + dto.getContentId());
-	    }
-	    
+		int pageSize = 9;
+		int offset = (page - 1) * pageSize;
+
+		// 전체 북마크 수
+		int totalCount = myPageService.getBookmarkCount(userId);
+
+		// 페이징된 북마크 리스트
+		List<BookmarkDto> bookmarks = myPageService.getBookmarksPaged(userId, offset, pageSize);
+
+		int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
 		model.addAttribute("bookmarks", bookmarks);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("totalCount", totalCount);
 		return "mypage/mypage_bookmark";
 	}
 }
