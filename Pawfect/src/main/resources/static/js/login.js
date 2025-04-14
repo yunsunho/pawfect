@@ -10,6 +10,19 @@ document.addEventListener("DOMContentLoaded", function() {
 	const loginForm = document.querySelector("form");
 	const userIdInput = document.getElementById("userId");
 	const pwdInput = document.getElementById("pwd");
+	
+	const redirectUrl = sessionStorage.getItem("afterLoginRedirect");
+	  if (redirectUrl) {
+	    fetch("/login/setRedirect", {
+	      method: "POST",
+	      headers: {
+	        "Content-Type": "application/json"
+	      },
+	      body: JSON.stringify({ url: redirectUrl })
+	    }).then(() => {
+	      sessionStorage.removeItem("afterLoginRedirect");
+	    });
+	  }
 
 	// 폼 제출 전 유효성 검사
 	loginForm.addEventListener("submit", function(event) {

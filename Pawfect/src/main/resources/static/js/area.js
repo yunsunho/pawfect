@@ -1,4 +1,61 @@
-// area.js
+// 모달 (확인)
+function showModal(message) {
+	const modal = document.getElementById("commonModal");
+	const msgBox = document.getElementById("modalMessage");
+	if (modal && msgBox) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+	}
+}
+
+function closeModal() {
+	const modal = document.getElementById("commonModal");
+	if (modal) modal.style.display = "none";
+}
+
+// 컨펌 모달 (확인/취소)
+function showConfirmModal(message, onConfirm) {
+	const modal = document.getElementById("confirmModal");
+	const msgBox = document.getElementById("confirmModalMessage");
+	const confirmBtn = document.getElementById("btnConfirmYes");
+	const cancelBtn = document.getElementById("btnConfirmNo");
+
+	if (modal && msgBox) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+		// 확인
+		confirmBtn.onclick = () => {
+			modal.style.display = "none";
+			onConfirm();
+		};
+		// 취소
+		cancelBtn.onclick = () => {
+			modal.style.display = "none";
+		};
+	}
+}
+
+function showModalWithCallback(message, callback) {
+	const modal = document.getElementById("commonModal");
+	const msgBox = document.getElementById("modalMessage");
+	const confirmBtn = modal.querySelector("button");
+
+	if (modal && msgBox && confirmBtn) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+
+		const handler = () => {
+			modal.style.display = "none";
+			confirmBtn.removeEventListener("click", handler);
+			if (typeof callback === "function") {
+				callback();
+			}
+		};
+		confirmBtn.addEventListener("click", handler);
+	}
+}
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.theme-container');
@@ -18,10 +75,39 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentPage = 1;
 
   let sigunguData = {};
-
+	
   const bookmarkArray = typeof bookmarked === 'string'
     ? bookmarked.toString().split(",").map(Number)
     : Array.isArray(bookmarked) ? bookmarked : [];
+
+  // ✅ 로그인 후 자동 북마크 실행
+  const pending = sessionStorage.getItem("pendingBookmark");
+  if (pending) {
+    const dto = JSON.parse(pending);
+
+    fetch("/travel/bookmark/toggle", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(dto)
+    })
+      .then(res => res.text())
+	  .then(result => {
+	      const contentId = Number(dto.contentId);
+	      const index = bookmarkArray.indexOf(contentId);
+
+	      if (result === "saved") {
+	        alert("북마크 추가됨 (자동 실행)");
+	        if (index === -1) bookmarkArray.push(contentId);
+	      } else if (result === "deleted") {
+	        alert("북마크 삭제됨 (자동 실행)");
+	        if (index > -1) bookmarkArray.splice(index, 1);
+	      }
+	      sessionStorage.removeItem("pendingBookmark");
+	      fetchAndRender(); // 마커 갱신
+	    });
+  }
 
   document.addEventListener("click", function (e) {
     if (e.target.classList.contains("bookmark")) {
@@ -43,22 +129,36 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         body: JSON.stringify(dto)
       })
-        .then(res => {
-          if (res.redirected) {
-            location.href = res.url;
-            return;
-          }
-          return res.text();
-        })
-        .then(result => {
-          if (result === "saved") {
-            alert("북마크 추가됨");
-            btn.textContent = "✅";
-          } else if (result === "deleted") {
-            alert("북마크 삭제됨");
-            btn.textContent = "🔖";
-          }
-        });
+	  .then(res => {
+	    if (res.redirected) {
+	      const currentUrl = location.pathname + location.search;
+	      sessionStorage.setItem("afterLoginRedirect", currentUrl);
+	      sessionStorage.setItem("pendingBookmark", JSON.stringify(dto));
+
+	      // ✅ 모달 띄우기
+	      showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
+	        location.href = res.url;
+	      });
+	      return;
+	    }
+	    return res.text();
+	  })
+		.then(result => {
+		  if (!result) return;
+		  const contentId = Number(dto.contentId);
+		  const index = bookmarkArray.indexOf(contentId);
+
+		  if (result === "saved") {
+		    alert("북마크 추가됨");
+		    if (index === -1) bookmarkArray.push(contentId); // 직접 배열 수정
+		    btn.textContent = "✅";
+		  } else if (result === "deleted") {
+		    alert("북마크 삭제됨");
+		    if (index > -1) bookmarkArray.splice(index, 1); // 배열에서 제거
+		    btn.textContent = "🔖";
+		  }
+		});
+
     }
   });
 
@@ -151,8 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.json())
     .then(data => {
       sigunguData = data;
-      console.log("시군구 데이터 불러옴", sigunguData);
-
       areaTabs.forEach(tab => {
         tab.addEventListener('click', () => {
           areaTabs.forEach(t => t.classList.remove('active'));

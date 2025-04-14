@@ -1,3 +1,61 @@
+// 모달 (확인)
+function showModal(message) {
+	const modal = document.getElementById("commonModal");
+	const msgBox = document.getElementById("modalMessage");
+	if (modal && msgBox) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+	}
+}
+
+function closeModal() {
+	const modal = document.getElementById("commonModal");
+	if (modal) modal.style.display = "none";
+}
+
+// 컨펌 모달 (확인/취소)
+function showConfirmModal(message, onConfirm) {
+	const modal = document.getElementById("confirmModal");
+	const msgBox = document.getElementById("confirmModalMessage");
+	const confirmBtn = document.getElementById("btnConfirmYes");
+	const cancelBtn = document.getElementById("btnConfirmNo");
+
+	if (modal && msgBox) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+		// 확인
+		confirmBtn.onclick = () => {
+			modal.style.display = "none";
+			onConfirm();
+		};
+		// 취소
+		cancelBtn.onclick = () => {
+			modal.style.display = "none";
+		};
+	}
+}
+
+function showModalWithCallback(message, callback) {
+	const modal = document.getElementById("commonModal");
+	const msgBox = document.getElementById("modalMessage");
+	const confirmBtn = modal.querySelector("button");
+
+	if (modal && msgBox && confirmBtn) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+
+		const handler = () => {
+			modal.style.display = "none";
+			confirmBtn.removeEventListener("click", handler);
+			if (typeof callback === "function") {
+				callback();
+			}
+		};
+		confirmBtn.addEventListener("click", handler);
+	}
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.theme-container');
   const sortSelect = document.querySelector('.sort-box select');
@@ -19,10 +77,39 @@ document.addEventListener('DOMContentLoaded', () => {
     '별점순': '',
     '북마크순': ''
   };
-
+  
   let selectedContentTypeId = parseInt(new URLSearchParams(location.search).get("contentTypeId")) || 12;
   let selectedArrange = 'O';
   let currentPage = 1;
+  let bookmarkArray = Array.isArray(bookmarked) ? bookmarked : [];
+  
+  const pending = sessionStorage.getItem("pendingBookmark");
+   if (pending) {
+     const dto = JSON.parse(pending);
+
+     fetch("/travel/bookmark/toggle", {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json"
+       },
+       body: JSON.stringify(dto)
+     })
+     .then(res => res.text())
+	 .then(result => {
+	     const contentId = Number(dto.contentId);
+	     const index = bookmarkArray.indexOf(contentId);
+
+	     if (result === "saved") {
+	       alert("북마크 추가됨 (자동 실행)");
+	       if (index === -1) bookmarkArray.push(contentId);
+	     } else if (result === "deleted") {
+	       alert("북마크 삭제됨 (자동 실행)");
+	       if (index > -1) bookmarkArray.splice(index, 1);
+	     }
+	     sessionStorage.removeItem("pendingBookmark");
+	     fetchAndRender(); // 마커 갱신
+	   });
+   }
 
   document.addEventListener("click", function(e) {
     if (e.target.classList.contains("bookmark")) {
@@ -38,30 +125,45 @@ document.addEventListener('DOMContentLoaded', () => {
         addr1: btn.dataset.addr1
       };
 
-      fetch("/travel/bookmark/toggle", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dto)
-      })
-      .then(res => {
-        if (res.redirected) {
-          location.href = res.url;
-          return;
-        }
-        return res.text();
-      })
-      .then(result => {
-        if (!result) return;
-        if (result === "saved") {
-          alert("북마크 추가됨");
-          btn.textContent = "✅";
-        } else if (result === "deleted") {
-          alert("북마크 삭제됨");
-          btn.textContent = "🔖";
-        }
-      });
+	  // 북마크 버튼 눌렀을 때
+	  fetch("/travel/bookmark/toggle", {
+	    method: "POST",
+	    headers: {
+	      "Content-Type": "application/json"
+	    },
+	    body: JSON.stringify(dto)
+	  })
+	  .then(res => {
+	    if (res.redirected) {
+	      const currentUrl = location.pathname + location.search;
+	      sessionStorage.setItem("afterLoginRedirect", currentUrl);
+	      sessionStorage.setItem("pendingBookmark", JSON.stringify(dto));
+
+	      // ✅ 모달 띄우기
+	      showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
+	        location.href = res.url;
+	      });
+	      return;
+	    }
+	    return res.text();
+	  })
+
+	  .then(result => {
+	    if (!result) return;
+	    const contentId = Number(dto.contentId);
+	    const index = bookmarkArray.indexOf(contentId);
+
+	    if (result === "saved") {
+	      alert("북마크 추가됨");
+	      if (index === -1) bookmarkArray.push(contentId); // 직접 배열 수정
+	      btn.textContent = "✅";
+	    } else if (result === "deleted") {
+	      alert("북마크 삭제됨");
+	      if (index > -1) bookmarkArray.splice(index, 1); // 배열에서 제거
+	      btn.textContent = "🔖";
+	    }
+	  });
+
     }
   });
 
@@ -71,8 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await response.json();
       const data = result.list;
       const totalPages = result.totalPages;
-
-      const bookmarkArray = Array.isArray(bookmarked) ? bookmarked : [];
 
       container.innerHTML = '';
 
