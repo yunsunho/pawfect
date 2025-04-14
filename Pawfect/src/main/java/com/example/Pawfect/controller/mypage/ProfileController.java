@@ -18,6 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/mypage")
 public class ProfileController {
+	
 	private final MyPageService myPageService;
 
 	// 프로필 정보 수정 (닉네임, 반려동물 정보)

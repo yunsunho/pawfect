@@ -32,11 +32,13 @@
 	</div>
 
 	<!-- 버튼 -->
-	<div class="form-actions save-btn-row" style="margin-top: 30px;">
+	<div class="form-actions save-btn-row"
+		style="margin-top: 30px; display: flex; justify-content: center;">
 		<button class="edit-btn" id="btnSavePwd" type="button"
 			style="background-color: #3d4fa1; color: white; font-weight: bold;">
 			변경하기</button>
 	</div>
+
 
 	<!-- 공통 모달 -->
 	<div id="commonModal" class="modal" style="display: none;">

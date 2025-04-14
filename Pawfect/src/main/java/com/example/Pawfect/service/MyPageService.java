@@ -84,4 +84,14 @@ public class MyPageService {
 		String encodedPwd = encoder.encode(newPwd);
 		return myPageMapper.updatePwd(userId, encodedPwd) > 0;
 	}
+	
+	// 1:1 문의글 작성
+	public boolean insertInquiry(InquiryDto inquiryDto) {
+		return myPageMapper.insertInquiry(inquiryDto) > 0;
+	}
+	
+	// 문의글 삭제
+	public boolean deleteInquiry(String userId, int inquiryId) {
+	    return myPageMapper.deleteInquiry(userId, inquiryId) > 0;
+	}
 }

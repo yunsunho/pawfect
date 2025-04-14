@@ -293,3 +293,107 @@ body {
 #logoutBtn:hover {
 	background-color: #f9f9f9;
 }
+
+/* 문의 */
+.inquiry-tab {
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.inquiry-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.inquiry-title {
+	font-size: 24px;  
+	font-weight: bold;
+	text-align: left;
+	margin-bottom: 12px;
+	position: relative;
+}
+.inquiry-title::after {
+	content: '';
+	display: block;
+	width: 131px;
+	height: 3px;
+	background-color: gray;
+	margin-top: 3px;
+	border-radius: 3px;
+}
+
+.inquiry-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+	font-size: 13px;
+}
+.inquiry-table th,
+.inquiry-table td {
+	border: 1px solid #e0e0e0;
+	padding: 12px;
+	text-align: center;
+	font-size: 13px;
+}
+.inquiry-table thead {
+	background-color: #f4c542;
+	font-weight: bold;
+}
+.inquiry-table tr:not(.inquiry-detail):hover {
+	background-color: #f9f9f9;
+}
+
+.inquiry-table td.clickable-title {
+	text-align: left;
+	padding-left: 16px;
+	cursor: pointer;
+}
+
+.inquiry-table .inquiry-detail {
+	background-color: #fffef5;
+	font-size: 13px;
+}
+.inquiry-table .inquiry-detail td {
+	text-align: left;
+	padding: 20px;
+	line-height: 1.6;
+}
+
+/* 문의글 작성 모달 */
+#inquiryModal .modal-content {
+	max-width: 500px;
+	margin: 200px auto;
+	padding: 20px 30px;
+	background: white;
+	border-radius: 12px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+	text-align: center;
+}
+
+#inquiryModal input[type="text"],
+#inquiryModal textarea {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	font-size: 13px;
+	box-sizing: border-box;
+}
+
+#inquiryModal textarea {
+	height: 150px;
+	resize: vertical;
+}
+
+.status-complete {
+	color: green; 
+	font-weight: bold;
+}
+
+.status-pending {
+	color: red;
+	font-weight: bold;
+}

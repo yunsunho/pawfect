@@ -45,4 +45,10 @@ public interface MyPageMapper {
 
 	// 비밀번호 업데이트
 	int updatePwd(@Param("userId") String userId, @Param("encodedPwd") String encodedPwd);
+	
+	// 1:1 문의글 작성
+	int insertInquiry(InquiryDto inquiryDto);
+	
+	// 문의글 삭제
+	int deleteInquiry(@Param("userId") String userId, @Param("inquiryId") int inquiryId);
 }

@@ -136,4 +136,25 @@
 		#{userId}
 	</update>
 
+	<!-- 1:1 문의글 작성 -->
+	<insert id="insertInquiry">
+		INSERT INTO inquiry (
+		inquiryTitle,
+		userId,
+		inquiryContent
+		) VALUES (
+		#{inquiryTitle},
+		#{userId},
+		#{inquiryContent}
+		)
+	</insert>
+
+	<!--1:1 문의글 삭제 -->
+	<delete id="deleteInquiry">
+		DELETE FROM inquiry
+		WHERE inquiryId = #{inquiryId}
+		AND userId = #{userId}
+		AND inquiryReply IS NULL
+	</delete>
+
 </mapper>

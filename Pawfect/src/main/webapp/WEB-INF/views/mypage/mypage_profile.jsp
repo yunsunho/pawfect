@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <div class="profile-tab">
 	<!-- 프로필 이미지 -->
@@ -67,7 +67,9 @@
 
 	<!-- 저장 버튼 -->
 	<div class="form-actions save-btn-row">
-		<button id="btnSaveProfile" class="edit-btn">저장</button>
+		<button id="btnSaveProfile" class="edit-btn" type="button"
+			style="background-color: #3d4fa1; color: white; font-weight: bold;">
+			저장</button>
 	</div>
 </div>
 
