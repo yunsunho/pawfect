@@ -236,3 +236,13 @@ body {
     font-size: 14px;
     cursor: pointer;
 }
+
+.like-form {
+  text-align: right;
+}
+
+#like-btn {
+	margin: auto;
+	padding: 5px;
+	background-color: #FEF9D9;
+}

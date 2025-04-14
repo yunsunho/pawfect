@@ -220,4 +220,10 @@
 	<delete id="removeLike" parameterType="map">
 		DELETE FROM post_likes WHERE userId = #{userId} AND postId = #{postId}
 	</delete>
+	
+	<select id="getHotPosts" resultType="com.example.Pawfect.dto.PostDto">
+		SELECT * FROM post 
+		WHERE DATE(postRegdate)=CURDATE()
+		ORDER BY postViewCount DESC
+	</select>
 </mapper>

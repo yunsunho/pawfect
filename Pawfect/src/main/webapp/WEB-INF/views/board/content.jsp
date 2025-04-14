@@ -84,8 +84,26 @@
 				<p>${postDto.postContent}</p>
 			</div>
 			
-			<!-- comment section -->
+			
+			<!-- like post button -->
+			<div class="like-form">
+				<form action="like" method="post" name="like-form">
+					<input type="hidden" name="num" value="${num}"> 
+					<button id="like-btn" type="submit">
+						<!-- if liked then solid, otherwise regular-->
+						<c:if test="${userLiked eq 1}">
+							<i class="fa-solid fa-heart" style="color: #ed719e;"></i>
+						</c:if>
+						<c:if test="${userLiked eq 0}">
+							<i class="fa-regular fa-heart" style="color: #ed719e;"></i>
+						</c:if>
+						${btn_like}
+					</button>
+				</form>
+			</div>
 			<hr id="divider-bottom">
+			
+			<!-- comment section -->
 			<div class="comment-section">
 				<h3>${str_comment}&nbsp;(${postDto.commentCount})</h3>
 				<form class="comment-form" action="comment" method="post">

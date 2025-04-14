@@ -40,6 +40,7 @@
 <c:set var="str_total_posts" value="총 게시글"/>
 <c:set var="str_total_comments" value="총 댓글"/>
 <c:set var="str_total_users" value="회원 수"/>
+<c:set var="label_hot" value="HOT 게시글"/>
 
 <!-- content.jsp -->
 <!-- dropdown menu -->
@@ -53,6 +54,9 @@
 <c:set var="placeholder_reply" value="답글을 입력하세요"/>
 <c:set var="btn_submit" value="등록"/>
 <c:set var="btn_reply" value="답글"/>
+<!-- like -->
+<c:set var="btn_like" value="추천"/>
+
 
 <!-- writeForm.jsp -->
 <c:set var="page_write" value="게시물 작성"/>

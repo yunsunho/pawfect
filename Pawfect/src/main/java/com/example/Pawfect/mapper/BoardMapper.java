@@ -41,5 +41,7 @@ public interface BoardMapper {
 	public int countUserLike(Map<String, Object> map);
 	public int addLike(Map<String, Object> map);
 	public int removeLike(Map<String, Object> map);
+	
+	public List<PostDto> getHotPosts();
 
 }
