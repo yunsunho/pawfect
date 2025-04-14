@@ -28,12 +28,20 @@ public class BoardContentController {
 	public String content( 
 		@RequestParam int num, Model model
 		) throws Exception {
-		PostDto postDto = boardService.getPost(num); 
+		PostDto postDto = boardService.getPost(num);
+		postDto.setFormattedDate(boardService.formatPostDate(postDto.getPostRegdate()));
+		
 		UserDto userDto = boardService.getLoggedInUser();
+		boolean isLoggedIn = (userDto!=null);
 		boolean isUserPost = userDto!=null && postDto.getUserId().equals(userDto.getUserId());
 		
 		if (!isUserPost) {
 			boardService.incrementViewCount(num);
+		}
+		
+		int userLiked = 0;
+		if (isLoggedIn) {
+			userLiked = boardService.userLikedPost(userDto.getUserId(), postDto.getPostId());
 		}
 		
 		// Stats
@@ -49,6 +57,7 @@ public class BoardContentController {
 		model.addAttribute("postDto", postDto);
 		model.addAttribute("userDto", userDto);
 		model.addAttribute("isUserPost", isUserPost);
+		model.addAttribute("userLiked", userLiked);
 		
 		// Comment section
 		List<CommentDto> commentDtos = boardService.getComments(num);

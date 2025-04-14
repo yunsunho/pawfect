@@ -30,7 +30,9 @@ document.addEventListener("DOMContentLoaded", function() {
 			document.querySelectorAll(".mypage-sidebar li").forEach((t) => t.classList.remove("active"));
 			this.classList.add("active");
 			const tabName = this.dataset.tab;
-			loadTab(tabName);
+			if (tabName) {
+				loadTab(tabName);
+			}
 		});
 	});
 });
@@ -600,6 +602,34 @@ function initPasswordTabEvents() {
 			});
 	});
 }
+
+// 로그아웃
+document.addEventListener("DOMContentLoaded", function() {
+	const defaultTab = document.querySelector('.mypage-sidebar li[data-tab="profile"]');
+	if (defaultTab) {
+		defaultTab.classList.add("active");
+		loadTab("profile");
+	}
+
+	document.querySelectorAll(".mypage-sidebar li").forEach((tab) => {
+		tab.addEventListener("click", function() {
+			document.querySelectorAll(".mypage-sidebar li").forEach((t) => t.classList.remove("active"));
+			this.classList.add("active");
+			const tabName = this.dataset.tab;
+			if (tabName) loadTab(tabName);
+		});
+	});
+
+	// 로그아웃 버튼
+	const logoutBtn = document.getElementById("logoutBtn");
+	if (logoutBtn) {
+		logoutBtn.addEventListener("click", () => {
+			showConfirmModal("정말 로그아웃하시겠습니까?", () => {
+				location.href = "/logout";
+			});
+		});
+	}
+});
 
 // 모달
 function showModal(message) {

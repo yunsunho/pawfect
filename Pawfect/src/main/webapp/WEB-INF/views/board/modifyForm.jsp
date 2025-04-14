@@ -68,7 +68,7 @@
 				    <div class="button-container">
 				    	<div class="button-inner-container">
 				    		<button class="submit-btn" type="submit">${btn_modify}</button>
-				        	<button class="cancel-btn">${btn_cancel}</button>
+				        	<button class="cancel-btn" type="button" onclick="window.location.href='/board/content?num=${postDto.postId}'">${btn_cancel}</button>
 				    	</div>
 				    </div>
 			    </form>
