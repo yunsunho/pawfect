@@ -1,8 +1,12 @@
 package com.example.Pawfect.controller.user;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
@@ -14,4 +18,11 @@ public class LoginController {
 		model.addAttribute("message", message);
 		return "user/loginForm";
 	}
+	
+	@PostMapping("/login/setRedirect")
+	@ResponseBody
+	public void setRedirect(@RequestBody Map<String, String> data, HttpSession session) {
+	    session.setAttribute("afterLoginRedirect", data.get("url"));
+	}
+
 }
