@@ -42,12 +42,10 @@
 		<p id="emailResult" class="nickname-hint" style="margin-top: 5px;"></p>
 	</div>
 
-
-
 	<!-- 전화번호 -->
 	<div class="box">
 		<div class="input-group">
-			<label for="userTel">전화번호</label>
+			<label for="userTel1">전화번호</label>
 			<div style="display: flex; gap: 5px;">
 				<input type="text" id="userTel1" maxlength="3" style="width: 60px;"
 					readonly /> <input type="text" id="userTel2" maxlength="4"
@@ -59,6 +57,7 @@
 			<button class="edit-btn" id="editTelBtn">수정</button>
 		</div>
 	</div>
+
 
 	<!-- 저장 버튼 -->
 	<div class="form-actions save-btn-row">
