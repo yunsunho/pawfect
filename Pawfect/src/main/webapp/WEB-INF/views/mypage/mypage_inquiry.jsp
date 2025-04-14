@@ -53,8 +53,7 @@
 						</c:if> <c:if test="${inquiry.inquiryReply == null}">
 							<div style="text-align: right;">
 								<button class="deleteBtn edit-btn"
-									data-id="${inquiry.inquiryId}"
-									style="background-color: #e74c3c; color: white;">삭제</button>
+									data-id="${inquiry.inquiryId}">삭제</button>
 							</div>
 						</c:if>
 					</td>
