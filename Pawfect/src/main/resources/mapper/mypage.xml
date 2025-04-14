@@ -26,20 +26,43 @@
 	<select id="getBookmarks"
 		resultType="com.example.Pawfect.dto.BookmarkDto">
 		SELECT
-		p.contentId,
-		p.title,
-		p.addr1,
-		p.addr2,
-		p.firstImage2,
-		p.mapX,
-		p.mapY,
-		b.bookmarkRegdate
-		FROM bookmark b
-		JOIN place p ON
-		b.contentId = p.contentId
-		WHERE b.userId = #{userId}
+		userId,
+		contentId,
+		contentTypeId,
+		title,
+		addr1,
+		firstimage,
+		mapX,
+		mapY
+		FROM bookmark
+		WHERE userId = #{userId}
 		ORDER BY
-		b.bookmarkRegdate DESC
+		bookmarkRegdate DESC
+	</select>
+
+	<!-- 전체 북마크 수 조회 -->
+	<select id="getBookmarkCount" resultType="int">
+		SELECT COUNT(*)
+		FROM bookmark
+		WHERE userId = #{userId}
+	</select>
+
+	<!-- 페이징된 북마크 리스트 조회 -->
+	<select id="getBookmarksPaged"
+		resultType="com.example.Pawfect.dto.BookmarkDto">
+		SELECT
+		userId,
+		contentId,
+		contentTypeId,
+		title,
+		addr1,
+		firstimage,
+		mapX,
+		mapY
+		FROM bookmark
+		WHERE userId = #{userId}
+		ORDER BY bookmarkRegdate DESC
+		LIMIT #{limit} OFFSET #{offset}
 	</select>
 
 	<!-- 내가 쓴 게시글 -->
@@ -153,8 +176,30 @@
 	<delete id="deleteInquiry">
 		DELETE FROM inquiry
 		WHERE inquiryId = #{inquiryId}
-		AND userId = #{userId}
+		AND
+		userId = #{userId}
 		AND inquiryReply IS NULL
 	</delete>
+
+	<!-- 전체 문의 개수 조회 -->
+	<select id="getInquiryCount" resultType="int">
+		SELECT COUNT(*)
+		FROM
+		inquiry
+		WHERE userId = #{userId}
+	</select>
+
+	<!-- 페이징된 문의 리스트 조회 -->
+	<select id="getMyInquiriesPaged"
+		resultType="com.example.Pawfect.dto.InquiryDto">
+		SELECT inquiryId, userId, inquiryTitle, inquiryContent,
+		inquiryReply,
+		inquiryRegdate, inquiryStatus
+		FROM inquiry
+		WHERE userId =
+		#{userId}
+		ORDER BY inquiryRegdate DESC
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
 
 </mapper>

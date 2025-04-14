@@ -19,12 +19,26 @@ public class InquiryController {
 
 	// 내가 작성한 문의 목록 보기
 	@GetMapping("/tab/inquiry")
-	public String loadInquiryTab(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
-		String userId = userDetails.getUser().getUserId();
-		List<InquiryDto> inquiries = myPageService.getMyInquiries(userId);
-		model.addAttribute("inquiries", inquiries);
-		return "mypage/mypage_inquiry";
+	public String loadInquiryTab(@AuthenticationPrincipal CustomUserDetails userDetails,
+	                             @RequestParam(defaultValue = "1") int page, Model model) {
+
+	    String userId = userDetails.getUser().getUserId();
+
+	    int pageSize = 10;
+	    int totalInquiries = myPageService.getInquiryCount(userId);
+	    int offset = (page - 1) * pageSize;
+	    List<InquiryDto> inquiries = myPageService.getMyInquiriesPaged(userId, offset, pageSize);
+	    int totalPages = (int) Math.ceil((double) totalInquiries / pageSize);
+
+	    model.addAttribute("inquiries", inquiries);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("totalCount", totalInquiries);
+	    model.addAttribute("pageSize", pageSize);
+
+	    return "mypage/mypage_inquiry";
 	}
+
 
 	// 문의 작성 처리
 	@PostMapping("/inquiry/write")
@@ -36,14 +50,14 @@ public class InquiryController {
 		boolean result = myPageService.insertInquiry(inquiryDto);
 		return result ? "success" : "fail";
 	}
-	
+
 	// 문의글 삭제
 	@PostMapping("/inquiry/delete")
 	@ResponseBody
 	public String deleteInquiry(@AuthenticationPrincipal CustomUserDetails userDetails,
-	                            @RequestParam("inquiryId") int inquiryId) {
-	    String userId = userDetails.getUser().getUserId();
-	    boolean result = myPageService.deleteInquiry(userId, inquiryId);
-	    return result ? "success" : "fail";
+			@RequestParam("inquiryId") int inquiryId) {
+		String userId = userDetails.getUser().getUserId();
+		boolean result = myPageService.deleteInquiry(userId, inquiryId);
+		return result ? "success" : "fail";
 	}
 }
