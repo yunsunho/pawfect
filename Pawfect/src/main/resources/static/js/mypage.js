@@ -14,6 +14,8 @@ function loadTab(tabName) {
 				initPasswordTabEvents();
 			} else if (tabName === "inquiry") {
 				initInquiryTabEvents();
+			} else if (tabName === "bookmark") {
+				initBookmarkTabEvents(); 
 			}
 		})
 		.catch((err) => console.error("탭 로딩 실패", err));
@@ -609,15 +611,20 @@ function initPasswordTabEvents() {
 	});
 }
 
+// 북마크 탭 기능
+function initBookmarkTabEvents() {
+	console.log("북마크 탭 이벤트 초기화됨");
+}
+
 // 문의 탭 기능
 function initInquiryTabEvents() {
 	// 제목 클릭 시 상세 보기 토글
 	document.querySelectorAll(".inquiry-summary").forEach(row => {
-		row.addEventListener("click", function () {
+		row.addEventListener("click", function() {
 			const detailRow = this.nextElementSibling;
 			if (detailRow && detailRow.classList.contains("inquiry-detail")) {
 				const isOpen = detailRow.style.display === "table-row";
-				
+
 				document.querySelectorAll(".inquiry-detail").forEach(d => d.style.display = "none");
 				document.querySelectorAll(".inquiry-summary").forEach(s => s.classList.remove("open"));
 
@@ -709,7 +716,7 @@ function initInquiryTabEvents() {
 function loadInquiryPage(page) {
 	fetch(`/mypage/tab/inquiry?page=${page}`, {
 		headers: {
-			'X-Requested-With': 'XMLHttpRequest'  
+			'X-Requested-With': 'XMLHttpRequest'
 		}
 	})
 		.then(res => {

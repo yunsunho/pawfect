@@ -59,4 +59,19 @@ public class MyPageController {
 
 		return "mypage/mypage_profile";
 	}
+
+	@GetMapping("/tab/bookmark")
+	public String loadBookmarkTab(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+		String userId = userDetails.getUser().getUserId();
+		List<BookmarkDto> bookmarks = myPageService.getBookmarks(userId);
+		
+		 // 🔍 디버깅용 출력
+	    System.out.println("▶ 북마크 수: " + bookmarks.size());
+	    for (BookmarkDto dto : bookmarks) {
+	        System.out.println(" - " + dto.getTitle() + " / " + dto.getContentId());
+	    }
+	    
+		model.addAttribute("bookmarks", bookmarks);
+		return "mypage/mypage_bookmark";
+	}
 }
