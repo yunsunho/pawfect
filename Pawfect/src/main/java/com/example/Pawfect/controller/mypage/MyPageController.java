@@ -55,6 +55,7 @@ public class MyPageController {
 
 		model.addAttribute("user", user);
 		model.addAttribute("canEditNickname", canEditNickname);
+		model.addAttribute("now", new java.util.Date());
 
 		return "mypage/mypage_profile";
 	}

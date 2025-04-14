@@ -9,5 +9,6 @@ public class ProfileUpdateDto {
     private String userId;       
     private String userNickname; 
     private String petName;      
-    private Integer petType;     
+    private Integer petType;    
+    private boolean nicknameChanged;
 }

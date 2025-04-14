@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
 
 <div class="profile-tab">
 	<!-- 프로필 이미지 -->
@@ -8,7 +8,8 @@
 		<div class="profile-img-box">
 			<c:choose>
 				<c:when test="${not empty user.userImage}">
-					<img class="profile-img" src="${user.userImage}" alt="프로필 이미지" />
+					<img class="profile-img" src="${user.userImage}?v=${now.time}"
+						alt="프로필 이미지" />
 				</c:when>
 				<c:otherwise>
 					<img class="profile-img" src="/images/default_profile.jpg"
@@ -16,13 +17,13 @@
 				</c:otherwise>
 			</c:choose>
 			<br />
-			<button class="edit-btn" id="editProfileImgBtn">프로필 이미지 수정</button>
+			<button class="edit-btn" id="editProfileImgBtn">수정</button>
+			<button class="edit-btn" id="deleteProfileImgBtn">삭제</button>
 			<input type="file" name="profileImage" id="profileImageInput"
 				accept="image/*" style="display: none;" />
 		</div>
 	</div>
 
-	<!-- 프로필 정보 -->
 	<!-- 닉네임 -->
 	<div class="box" style="margin-bottom: 20px;">
 		<label for="nickname">닉네임</label><br />
@@ -75,5 +76,16 @@
 	<div class="modal-content">
 		<p id="modalMessage">메시지</p>
 		<button onclick="closeModal()">확인</button>
+	</div>
+</div>
+
+<!-- 삭제 확인 모달 -->
+<div id="confirmModal" class="modal">
+	<div class="modal-content">
+		<p id="confirmModalMessage">정말 삭제하시겠습니까?</p>
+		<div class="modal-buttons">
+			<button id="btnConfirmYes">확인</button>
+			<button id="btnConfirmNo">취소</button>
+		</div>
 	</div>
 </div>
