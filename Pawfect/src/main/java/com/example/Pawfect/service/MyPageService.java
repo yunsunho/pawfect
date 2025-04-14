@@ -84,14 +84,24 @@ public class MyPageService {
 		String encodedPwd = encoder.encode(newPwd);
 		return myPageMapper.updatePwd(userId, encodedPwd) > 0;
 	}
-	
+
 	// 1:1 문의글 작성
 	public boolean insertInquiry(InquiryDto inquiryDto) {
 		return myPageMapper.insertInquiry(inquiryDto) > 0;
 	}
-	
+
 	// 문의글 삭제
 	public boolean deleteInquiry(String userId, int inquiryId) {
-	    return myPageMapper.deleteInquiry(userId, inquiryId) > 0;
+		return myPageMapper.deleteInquiry(userId, inquiryId) > 0;
+	}
+
+	// 전체 문의 개수 조회 
+	public int getInquiryCount(String userId) {
+		return myPageMapper.getInquiryCount(userId);
+	}
+
+	// 페이징된 문의 리스트 조회
+	public List<InquiryDto> getMyInquiriesPaged(String userId, int offset, int limit) {
+		return myPageMapper.getMyInquiriesPaged(userId, offset, limit);
 	}
 }

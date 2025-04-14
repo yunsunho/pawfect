@@ -22,7 +22,7 @@ userIdInput.addEventListener("blur", () => setTimeout(() => idCheckList.style.di
 
 userIdInput.addEventListener("input", () => {
 	userIdInput.value = userIdInput.value.replace(/\s/g, '');
-	
+
 	const userId = userIdInput.value.trim();
 	const lengthValid = userId.length >= 4 && userId.length <= 12;
 	const patternValid = /^[A-Za-z0-9]{4,12}$/.test(userId);
@@ -61,7 +61,7 @@ function checkId() {
 		.then(data => {
 			result.innerText = data;
 			result.style.color = data.includes("사용 가능") ? "green" : "red";
-			
+
 			updateStatusIcon("id", data.includes("사용 가능"));
 		})
 		.catch(() => {
@@ -81,7 +81,7 @@ pwdCheckInput.addEventListener("blur", () => setTimeout(() => pwdCheckList.style
 // 비밀번호 입력 조건 (길이, 조합만 처리)
 pwdInput.addEventListener("input", () => {
 	pwdInput.value = pwdInput.value.replace(/\s/g, '');
-	
+
 	const pwd = pwdInput.value.trim();
 	const lengthValid = pwd.length >= 8;
 	const patternValid = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-])/.test(pwd);
@@ -94,7 +94,7 @@ pwdInput.addEventListener("input", () => {
 	document.getElementById("pwd-condition-pattern").textContent = "영문, 숫자, 특수문자 포함";
 
 	updateStatusIcon('pwd', isValid);
-	
+
 	// 비밀번호 일치 재검사
 	const currentPwdCheck = pwdCheckInput.value.trim();
 	if (currentPwdCheck !== "") {
@@ -118,7 +118,7 @@ pwdCheckInput.addEventListener("blur", () => {
 
 pwdCheckInput.addEventListener("input", () => {
 	pwdCheckInput.value = pwdCheckInput.value.replace(/\s/g, '');
-	
+
 	const pwd = pwdInput.value.trim();
 	const pwdCheck = pwdCheckInput.value.trim();
 	const isValid = pwd && pwd === pwdCheck;
@@ -133,8 +133,8 @@ pwdCheckInput.addEventListener("input", () => {
 // 이메일 조건
 document.getElementById("email").addEventListener("input", () => {
 	const email = document.getElementById("email").value.trim();
-	const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-	// updateStatusIcon('email', isValid);
+	const isValid = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email);
+	updateStatusIcon('email', isValid);
 });
 
 // 이름 조건 (한글 1~6자)
@@ -146,7 +146,7 @@ userNameInput.addEventListener("blur", () => setTimeout(() => nameCheckList.styl
 
 userNameInput.addEventListener("input", () => {
 	userNameInput.value = userNameInput.value.replace(/\s/g, '');
-	
+
 	const name = userNameInput.value.trim();
 	const isValid = /^[가-힣]{1,6}$/.test(name);
 
@@ -166,9 +166,9 @@ function sendEmailAuth() {
 	const spinner = document.getElementById("email-spinner");
 
 	// 이메일 형식 검사
-	const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+	const emailValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 	if (!emailValid) {
-		result.innerText = "이메일 형식을 다시 확인해주세요.";
+		result.innerText = "올바른 이메일 형식을 입력해주세요.";
 		result.style.color = "red";
 		return;
 	}
@@ -179,9 +179,9 @@ function sendEmailAuth() {
 		.then(data => {
 			result.innerText = data;
 			result.style.color = data.includes("사용 가능") ? "green" : "red";
-			
+
 			updateStatusIcon("email", data.includes("사용 가능"));
-			
+
 			// 중복된 이메일일 경우 -> 인증 중단
 			if (data.includes("이미 사용 중")) {
 				showModal("이미 사용 중인 이메일입니다. 다른 이메일을 입력해주세요.");
@@ -223,7 +223,6 @@ function sendEmailAuth() {
 // 이메일 타이머
 function startEmailTimer() {
 	const timerEl = document.getElementById("email-timer");
-	timeLeft = 300;
 	clearInterval(emailTimer);
 
 	emailTimer = setInterval(() => {
@@ -301,7 +300,7 @@ const userNicknameInput = document.getElementById("userNickname");
 
 userNicknameInput.addEventListener("input", () => {
 	userNicknameInput.value = userNicknameInput.value.replace(/\s/g, '');
-	
+
 	const nickname = userNicknameInput.value.trim();
 	const isValid = /^[가-힣a-zA-Z0-9]{2,10}$/.test(nickname); // 조건: 한글/영문/숫자 2~10자
 
@@ -378,8 +377,8 @@ function validateSignupForm() {
 	}
 
 	// 6. 이메일 형식 검사
-	const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-	if (!emailValid) {
+	const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+	if (!emailPattern.test(email)) {
 		showModal("올바른 이메일 형식을 입력해주세요.");
 		return false;
 	}

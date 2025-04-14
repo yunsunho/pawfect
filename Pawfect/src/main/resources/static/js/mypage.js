@@ -361,8 +361,9 @@ function initInfoTabEvents() {
 		emailStatus.textContent = "";
 		emailResult.textContent = "";
 
-		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-			emailStatus.textContent = "이메일 형식을 다시 확인해주세요.";
+		const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+		if (!emailPattern.test(email)) {
+			emailStatus.textContent = "올바른 이메일 형식을 입력해주세요.";
 			emailStatus.style.color = "red";
 			return;
 		}
@@ -612,10 +613,18 @@ function initPasswordTabEvents() {
 function initInquiryTabEvents() {
 	// 제목 클릭 시 상세 보기 토글
 	document.querySelectorAll(".inquiry-summary").forEach(row => {
-		row.addEventListener("click", function() {
+		row.addEventListener("click", function () {
 			const detailRow = this.nextElementSibling;
 			if (detailRow && detailRow.classList.contains("inquiry-detail")) {
-				detailRow.style.display = detailRow.style.display === "none" ? "table-row" : "none";
+				const isOpen = detailRow.style.display === "table-row";
+				
+				document.querySelectorAll(".inquiry-detail").forEach(d => d.style.display = "none");
+				document.querySelectorAll(".inquiry-summary").forEach(s => s.classList.remove("open"));
+
+				if (!isOpen) {
+					detailRow.style.display = "table-row";
+					this.classList.add("open");
+				}
 			}
 		});
 	});
@@ -687,6 +696,33 @@ function initInquiryTabEvents() {
 			})
 			.catch(() => showModal("서버 오류가 발생했습니다."));
 	});
+
+	// 페이징 버튼 이벤트
+	document.querySelectorAll(".page-btn").forEach(btn => {
+		btn.addEventListener("click", function() {
+			const page = this.dataset.page;
+			loadInquiryPage(page);
+		});
+	});
+}
+
+function loadInquiryPage(page) {
+	fetch(`/mypage/tab/inquiry?page=${page}`, {
+		headers: {
+			'X-Requested-With': 'XMLHttpRequest'  
+		}
+	})
+		.then(res => {
+			if (!res.ok) throw new Error("페이지 로딩 실패");
+			return res.text();
+		})
+		.then(html => {
+			document.getElementById("mypage-content-area").innerHTML = html;
+			initInquiryTabEvents();
+		})
+		.catch(err => {
+			console.error("문의 탭 로딩 실패:", err);
+		});
 }
 
 function closeInquiryModal() {

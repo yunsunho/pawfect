@@ -153,8 +153,28 @@
 	<delete id="deleteInquiry">
 		DELETE FROM inquiry
 		WHERE inquiryId = #{inquiryId}
-		AND userId = #{userId}
+		AND
+		userId = #{userId}
 		AND inquiryReply IS NULL
 	</delete>
 
+	<!-- 전체 문의 개수 조회 -->
+	<select id="getInquiryCount" resultType="int">
+		SELECT COUNT(*)
+		FROM
+		inquiry
+		WHERE userId = #{userId}
+	</select>
+
+	<!-- 페이징된 문의 리스트 조회 -->
+	<select id="getMyInquiriesPaged"
+		resultType="com.example.Pawfect.dto.InquiryDto">
+		SELECT inquiryId, userId, inquiryTitle, inquiryContent, inquiryReply,
+		inquiryRegdate, inquiryStatus
+		FROM inquiry
+		WHERE userId = #{userId}
+		ORDER BY inquiryRegdate DESC
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
 </mapper>
