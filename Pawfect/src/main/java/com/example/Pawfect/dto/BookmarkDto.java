@@ -1,8 +1,10 @@
 package com.example.Pawfect.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class BookmarkDto {
 	private String userId;
 	private int contentId;

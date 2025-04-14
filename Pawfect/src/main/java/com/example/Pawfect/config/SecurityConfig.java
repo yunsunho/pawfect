@@ -52,7 +52,7 @@ public class SecurityConfig {
 						.requestMatchers("/admin/**").hasAuthority("ADMIN")
 						.requestMatchers(
 								"/mypage/**", 
-								"/board/write", "/board/comment", "/board/like",
+								"/board/write", "/board/comment", "/board/like", "/board/commentlist",
 								"/travel/bookmark/**", "/travel/review/**").authenticated()
 						.anyRequest().permitAll())
 				.formLogin(login -> login

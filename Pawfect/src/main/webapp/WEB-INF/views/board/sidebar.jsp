@@ -24,8 +24,8 @@
 	      	
 	      	<h3>${label_redirect}</h3>
 	      	<ul class="quick-links">
-		        <li><a href="/board?myPost=true&myComment=false">${str_view_my_posts}</a></li>
-		        <li><a href="/board?myComment=true&myPost=false">${str_view_my_comments}</a></li>
+		        <li><a href="/board?myPost=true">${str_view_my_posts}</a></li>
+		        <li><a href="/board/commentlist">${str_view_my_comments}</a></li>
 		        <li><a href="#">${str_community_guideline}</a></li>
 	        </ul>
 	        

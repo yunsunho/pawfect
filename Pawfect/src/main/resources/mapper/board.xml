@@ -129,6 +129,37 @@
 		ORDER BY com_ref ASC, com_re_step ASC
 	</select>
 	
+	<!-- get user-specific comments (list_comment.jsp) -->
+	<select id="getUserCommentCount" resultType="int" parameterType="map">
+		SELECT COUNT(*) FROM comment WHERE userId=#{userId}
+		<if test="keyword != null and keyword != ''">
+	        AND comContent LIKE CONCAT('%', #{keyword}, '%')
+	    </if>
+	    <if test="startDate != null and endDate != null">
+	        AND comRegdate BETWEEN #{startDate} AND DATE_ADD(#{endDate}, INTERVAL 1 DAY)
+	    </if>
+	</select>
+	<select id="getUserComments" resultType="com.example.Pawfect.dto.CommentDto" parameterType="map">
+		SELECT
+			c.commentId,
+			c.userId,
+			c.postId,
+			c.comContent,
+			c.comRegdate,
+			p.postTitle
+		FROM comment c
+		JOIN post p ON c.postId = p.postId
+		WHERE c.userId = #{userId}
+	    <if test="keyword != null and keyword != ''">
+	        AND c.comContent LIKE CONCAT('%', #{keyword}, '%')
+	    </if>
+	    <if test="startDate != null and endDate != null">
+	        AND c.comRegdate BETWEEN #{startDate} AND DATE_ADD(#{endDate}, INTERVAL 1 DAY)
+	    </if>
+	    ORDER BY c.comRegdate DESC
+	    LIMIT #{start}, #{pageSize}
+	</select>
+	
 	<!-- insert top-level comment -->
 	<insert id="insertComment" parameterType="com.example.Pawfect.dto.CommentDto" useGeneratedKeys="true" keyProperty="commentId">
 	    INSERT INTO comment (

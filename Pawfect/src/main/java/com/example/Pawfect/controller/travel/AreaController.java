@@ -13,12 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.Pawfect.auth.CustomUserDetails;
+import com.example.Pawfect.service.BookmarkService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import com.example.Pawfect.service.BookmarkService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,14 +31,16 @@ public class AreaController {
 
     private final BookmarkService bookmarkService;
 
-    // 👉 테마 리스트 뷰 이동
     @GetMapping("/areaList")
-    public String areaListPage(@RequestParam(defaultValue = "") String areaCode, HttpSession session, Model model) {
+    public String areaListPage(Model model) {
         model.addAttribute("currentPage", "area");
         model.addAttribute("showSubmenu", true);
 
-        String userId = (String) session.getAttribute("userId");
-        if (userId != null) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            String userId = userDetails.getUser().getUserId();
+
             List<Integer> bookmarks = bookmarkService.findContentIdsByUserId(userId);
             model.addAttribute("myBookmarks", bookmarks);
         }
@@ -44,15 +48,13 @@ public class AreaController {
         return "travel/areaList";
     }
 
-
-    // 👉 AJAX 테마 목록 데이터
     @GetMapping("/api/areaData")
     @ResponseBody
     public Map<String, Object> getAreaData(
-    		@RequestParam(required = false) String areaCode,
-    	    @RequestParam(required = false) String sigunguCode,
-    	    @RequestParam(defaultValue = "O") String arrange,
-    	    @RequestParam(defaultValue = "1") int pageNo) throws Exception {
+            @RequestParam(required = false) String areaCode,
+            @RequestParam(required = false) String sigunguCode,
+            @RequestParam(defaultValue = "O") String arrange,
+            @RequestParam(defaultValue = "1") int pageNo) throws Exception {
 
         String encoded = URLEncoder.encode(serviceKey, "UTF-8");
         List<Map<String, String>> areaList = new ArrayList<>();
@@ -85,7 +87,7 @@ public class AreaController {
         for (JsonNode item : items) {
             areaList.add(Map.of(
                     "contentid", item.path("contentid").asText(),
-                    "contenttypeid", item.path("contenttypeid").asText(), 
+                    "contenttypeid", item.path("contenttypeid").asText(),
                     "title", item.path("title").asText(),
                     "addr1", item.path("addr1").asText(),
                     "firstimage", item.path("firstimage").asText(),

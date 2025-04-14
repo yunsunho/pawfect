@@ -44,7 +44,10 @@
 				찾기</a> | <a href="/signup">회원가입</a>
 		</div>
 	</div>
-
+	<button id="homeBtn" class="home-btn" onclick="location.href='/main'"
+		title="홈으로">
+		<span class="home-icon">🏠</span>
+	</button>
 </body>
 <script src="/js/login.js"></script>
 </html>

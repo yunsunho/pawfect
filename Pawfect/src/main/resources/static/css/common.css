@@ -162,6 +162,34 @@ body {
   border-color: #ff922b;
 }
 
+/* 홈버튼 */
+.home-btn {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	background-color: #f4c542;
+	color: black;
+	border: none;
+	border-radius: 10px; 
+	width: 60px;
+	height: 50px;
+	font-size: 24px;
+	cursor: pointer;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transition: background-color 0.2s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.home-btn:hover {
+	background-color: #e6b400;
+}
+
+.home-icon {
+	line-height: 1;
+}
+
 /* 모달 스타일 */
 .modal {
     display: none;

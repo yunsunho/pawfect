@@ -12,6 +12,7 @@ import com.example.Pawfect.dto.PostDto;
 public interface BoardMapper {
 	public PostDto getPost(int num);
 	public List<PostDto> getPosts(Map<String, Object> filterMap);
+	
 	public int getPostCount(Map<String, Object> filterMap);
 	
 	public int insertPost(PostDto postDto);
@@ -29,6 +30,9 @@ public interface BoardMapper {
 	
 	public CommentDto getCommentById(int commentId);
 	public List<CommentDto> getComments(int postId);
+	public int getUserCommentCount(Map<String, Object> map);
+	public List<CommentDto> getUserComments(Map<String, Object> map);
+	
 	public int insertComment(CommentDto commentDto);
 	public int updateCommentRef(int commentId);
 	public int updateReStep(Map<String, Object> map);

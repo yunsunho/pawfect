@@ -21,6 +21,8 @@ userIdInput.addEventListener("focus", () => idCheckList.style.display = "block")
 userIdInput.addEventListener("blur", () => setTimeout(() => idCheckList.style.display = "none", 200));
 
 userIdInput.addEventListener("input", () => {
+	userIdInput.value = userIdInput.value.replace(/\s/g, '');
+	
 	const userId = userIdInput.value.trim();
 	const lengthValid = userId.length >= 4 && userId.length <= 12;
 	const patternValid = /^[A-Za-z0-9]{4,12}$/.test(userId);
@@ -48,7 +50,7 @@ function checkId() {
 	// 아이디 유효성 먼저 검사
 	const idPattern = /^[A-Za-z0-9]{4,12}$/;
 	if (!idPattern.test(userId) || /\s/.test(userId)) {
-		result.innerText = "아이디 형식을 다시 확인해주세요. (4~12자, 영문/숫자, 공백 불가)";
+		result.innerText = "아이디는 4~12자의 영문 또는 숫자만 사용할 수 있습니다.";
 		result.style.color = "red";
 		return;
 	}
@@ -78,6 +80,8 @@ pwdCheckInput.addEventListener("blur", () => setTimeout(() => pwdCheckList.style
 
 // 비밀번호 입력 조건 (길이, 조합만 처리)
 pwdInput.addEventListener("input", () => {
+	pwdInput.value = pwdInput.value.replace(/\s/g, '');
+	
 	const pwd = pwdInput.value.trim();
 	const lengthValid = pwd.length >= 8;
 	const patternValid = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-])/.test(pwd);
@@ -90,6 +94,16 @@ pwdInput.addEventListener("input", () => {
 	document.getElementById("pwd-condition-pattern").textContent = "영문, 숫자, 특수문자 포함";
 
 	updateStatusIcon('pwd', isValid);
+	
+	// 비밀번호 일치 재검사
+	const currentPwdCheck = pwdCheckInput.value.trim();
+	if (currentPwdCheck !== "") {
+		const isMatch = pwd === currentPwdCheck;
+		const matchCondition = document.getElementById("pwd-match-condition");
+		matchCondition.className = isMatch ? "valid" : "invalid";
+		matchCondition.textContent = "비밀번호 일치";
+		updateStatusIcon('pwdCheck', isMatch);
+	}
 });
 
 // 비밀번호 확인 입력에서만 일치 검사
@@ -103,6 +117,8 @@ pwdCheckInput.addEventListener("blur", () => {
 });
 
 pwdCheckInput.addEventListener("input", () => {
+	pwdCheckInput.value = pwdCheckInput.value.replace(/\s/g, '');
+	
 	const pwd = pwdInput.value.trim();
 	const pwdCheck = pwdCheckInput.value.trim();
 	const isValid = pwd && pwd === pwdCheck;
@@ -129,6 +145,8 @@ userNameInput.addEventListener("focus", () => nameCheckList.style.display = "blo
 userNameInput.addEventListener("blur", () => setTimeout(() => nameCheckList.style.display = "none", 200));
 
 userNameInput.addEventListener("input", () => {
+	userNameInput.value = userNameInput.value.replace(/\s/g, '');
+	
 	const name = userNameInput.value.trim();
 	const isValid = /^[가-힣]{1,6}$/.test(name);
 
@@ -166,7 +184,7 @@ function sendEmailAuth() {
 			
 			// 중복된 이메일일 경우 -> 인증 중단
 			if (data.includes("이미 사용 중")) {
-				alert("이미 사용 중인 이메일입니다. 다른 이메일을 입력해주세요.");
+				showModal("이미 사용 중인 이메일입니다. 다른 이메일을 입력해주세요.");
 				return;
 			}
 
@@ -230,7 +248,7 @@ function verifyEmailCode() {
 	const signupBtn = document.getElementById("signupBtn");
 
 	if (!code) {
-		alert("인증코드를 입력해주세요!");
+		showModal("인증코드를 입력해주세요.");
 		return;
 	}
 
@@ -282,6 +300,8 @@ function updateFullTel() {
 const userNicknameInput = document.getElementById("userNickname");
 
 userNicknameInput.addEventListener("input", () => {
+	userNicknameInput.value = userNicknameInput.value.replace(/\s/g, '');
+	
 	const nickname = userNicknameInput.value.trim();
 	const isValid = /^[가-힣a-zA-Z0-9]{2,10}$/.test(nickname); // 조건: 한글/영문/숫자 2~10자
 
@@ -323,21 +343,21 @@ function validateSignupForm() {
 		!userName || hasWhitespace(userName) ||
 		!userNickname || hasWhitespace(userNickname)
 	) {
-		alert("모든 필수 항목을 정확히 입력해주세요. (공백 금지)");
+		showModal("모든 필수 항목을 정확히 입력해주세요.");
 		return false;
 	}
 
 	// 2. 아이디 유효성 검사
 	const idValid = /^[A-Za-z0-9]{4,12}$/.test(userId);
 	if (!idValid) {
-		alert("아이디는 4~12자의 영문 또는 숫자만 사용할 수 있습니다. (공백 불가)");
+		showModal("아이디는 4~12자의 영문 또는 숫자만 사용할 수 있습니다.");
 		return false;
 	}
 
 	// 3. 아이디 중복확인 여부
 	const idCheckResult = document.getElementById("check-result").innerText;
 	if (!idCheckResult.includes("사용 가능")) {
-		alert("아이디 중복 확인을 해주세요.");
+		showModal("아이디 중복 확인을 해주세요.");
 		return false;
 	}
 
@@ -347,41 +367,41 @@ function validateSignupForm() {
 		/[0-9]/.test(pwd) &&
 		/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(pwd);
 	if (!pwdValid) {
-		alert("비밀번호는 8자 이상, 영문/숫자/특수문자를 모두 포함해야 합니다. (공백 불가)");
+		showModal("비밀번호는 8자 이상, 영문/숫자/특수문자를\n모두 포함해야 합니다.");
 		return false;
 	}
 
 	// 5. 비밀번호 일치 확인
 	if (pwd !== pwdCheck) {
-		alert("비밀번호가 일치하지 않습니다.");
+		showModal("비밀번호가 일치하지 않습니다.");
 		return false;
 	}
 
 	// 6. 이메일 형식 검사
 	const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 	if (!emailValid) {
-		alert("올바른 이메일 형식을 입력해주세요.");
+		showModal("올바른 이메일 형식을 입력해주세요.");
 		return false;
 	}
 
 	// 7. 이메일 인증 여부
 	const emailVerifyResult = document.getElementById("email-verify-result").innerText;
 	if (!emailVerifyResult.includes("인증 완료")) {
-		alert("이메일 인증을 완료해주세요.");
+		showModal("이메일 인증을 완료해주세요.");
 		return false;
 	}
 
 	// 8. 이름 유효성 검사
 	const nameValid = /^[가-힣]{1,6}$/.test(userName);
 	if (!nameValid) {
-		alert("이름은 한글 1~6자여야 합니다. (공백 불가)");
+		showModal("이름은 한글 1~6자여야 합니다.");
 		return false;
 	}
 
 	// 9. 닉네임 유효성 검사
 	const nicknameValid = /^[가-힣a-zA-Z0-9]{2,10}$/.test(userNickname);
 	if (!nicknameValid) {
-		alert("닉네임은 한글, 영문, 숫자 조합의 2~10자여야 합니다. (공백 불가)");
+		showModal("닉네임은 한글, 영문, 숫자 조합의 2~10자여야 합니다.");
 		return false;
 	}
 
@@ -392,4 +412,20 @@ function validateSignupForm() {
 	}
 
 	return true;
+}
+
+// 공통 모달
+function showModal(message) {
+	const modal = document.getElementById("commonModal");
+	const msgBox = document.getElementById("modalMessage");
+
+	if (modal && msgBox) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+	}
+}
+
+function closeModal() {
+	const modal = document.getElementById("commonModal");
+	if (modal) modal.style.display = "none";
 }

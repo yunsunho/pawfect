@@ -129,6 +129,14 @@ public class BoardService {
 		return boardMapper.countUserLike(map);
 	}
 	
+	public int getUserCommentCount(Map<String, Object> map) {
+		return boardMapper.getUserCommentCount(map);
+	}
+	
+	public List<CommentDto> getUserComments(Map<String, Object> map) {
+		return boardMapper.getUserComments(map);
+	}
+	
 	public int addLike(String userId, int postId) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("userId", userId);
