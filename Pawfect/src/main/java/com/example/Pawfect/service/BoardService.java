@@ -122,6 +122,14 @@ public class BoardService {
 		return boardMapper.insertReplyComment(comment);
 	}
 	
+	public int deleteComment(int commendId) {
+		return boardMapper.deleteComment(commendId);
+	}
+	
+	public int modifyComment(CommentDto commentDto) {
+		return boardMapper.modifyComment(commentDto);
+	}
+	
 	public int userLikedPost(String userId, int postId) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("userId", userId);

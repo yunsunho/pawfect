@@ -120,6 +120,37 @@ public class BoardContentController {
 		return "board/message";
 	}
 	
+	@PostMapping("/deletecomment")
+	public String deleteComment(@RequestParam int commentId, 
+		@RequestParam int num, Model model) {
+		int result = boardService.deleteComment(commentId);
+		
+		String msg = null;
+		String redirectUrl = "/board/content?num=" + num;
+		if (result != 1) {
+			msg = "댓글 삭제에 실패하였습니다. 다시 시도해주세요.";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("redirectUrl", redirectUrl);
+		return "board/message";
+	}
+	
+	@PostMapping("/modifycomment")
+	public String modifyComment(@ModelAttribute CommentDto commentDto,
+			@RequestParam int num, Model model) {
+		int result = boardService.modifyComment(commentDto);
+		String msg = null;
+		String redirectUrl = "/board/content?num=" + num;
+		if (result != 1) {
+			msg = "댓글 삭제에 실패하였습니다. 다시 시도해주세요.";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("redirectUrl", redirectUrl);
+		return "board/message";
+	}
+	
 	@PostMapping("/like")
 	public String like(@RequestParam int num, Model model) {
 		UserDto userDto = boardService.getLoggedInUser();

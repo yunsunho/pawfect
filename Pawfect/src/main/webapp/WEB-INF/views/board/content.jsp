@@ -92,10 +92,10 @@
 					<button id="like-btn" type="submit">
 						<!-- if liked then solid, otherwise regular-->
 						<c:if test="${userLiked eq 1}">
-							<i class="fa-solid fa-heart" style="color: #ed719e;"></i>
+							<i class="fa-solid fa-paw" style="color: #ed719e;"></i>
 						</c:if>
 						<c:if test="${userLiked eq 0}">
-							<i class="fa-regular fa-heart" style="color: #ed719e;"></i>
+							<i class="fa-regular fa-paw" style="color: #ed719e;"></i>
 						</c:if>
 						${btn_like}
 					</button>
@@ -134,11 +134,43 @@
 									<span class="comment-writer">${commentDto.displayName}</span>
 									<span class="comment-time">${commentDto.formattedDate}</span>
 								</div>
-								<div class="comment-content">${commentDto.comContent}</div>
+								<div class="comment-content">
+									<c:if test="${not commentDto.comDeleteStatus}">
+										<p id="comment-text-${commentDto.commentId}">${commentDto.comContent}</p>
+								
+										<!-- hidden textarea for editing -->
+										<form id="edit-form-${commentDto.commentId}" action="/board/modifycomment" method="post" style="display: none;">
+											<input type="hidden" name="commentId" value="${commentDto.commentId}">
+											<input type="hidden" name="num" value="${num}">
+											<textarea class="comContent" required style="width: 100%; height: 60%;">${commentDto.comContent}</textarea>
+											<div class="edit-buttons">
+												<button type="submit" class="reply-submit-btn">${btn_submit}</button>
+												<button type="button" class="reply-cancel-btn" onclick="cancelEditComment(${commentDto.commentId})">${btn_cancel}</button>
+											</div>
+										</form>
+									</c:if>
+									<c:if test="${commentDto.comDeleteStatus}">
+										<p style="color: #A8A8A8">${str_deleted_comment}</p>
+									</c:if>
+								</div>
 								<div class="comment-actions">
 									<button class="reply-btn" data-comment-id="${commentDto.commentId}" onclick="toggleReplyBox(this)">
 										${btn_reply}
 									</button>
+									<c:if test="${not empty userDto}">
+										<c:if test="${userDto.userId eq commentDto.userId}">
+											<form name="delete-comment" action="deletecomment" method="post">
+												<input type="hidden" name="commentId" value="${commentDto.commentId}">
+												<input type="hidden" name="num" value="${postDto.postId}">
+												<button id="delete-comment-btn">${btn_delete_comment}</button>
+											</form>
+											<form name="modify-comment" action="modifycomment" method="post">
+												<button id="modify-comment-btn" data-comment-id="${commentDto.commentId}" onclick="toggleModifyBox(this)">
+													${btn_modify_comment}
+												</button>
+											</form>
+										</c:if>
+									</c:if>
 								</div>
 								<div class="reply-form" id="reply-form-${commentDto.commentId}" style="display: none; margin-top: 10px;">
 									<form method="post" action="/board/reply">
