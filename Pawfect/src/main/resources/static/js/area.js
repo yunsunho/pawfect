@@ -1,5 +1,3 @@
-// area.js
-
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.theme-container');
   const sortSelect = document.querySelector('.sort-box select');
@@ -18,10 +16,39 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentPage = 1;
 
   let sigunguData = {};
-
+	
   const bookmarkArray = typeof bookmarked === 'string'
     ? bookmarked.toString().split(",").map(Number)
     : Array.isArray(bookmarked) ? bookmarked : [];
+
+  // ✅ 로그인 후 자동 북마크 실행
+  const pending = sessionStorage.getItem("pendingBookmark");
+  if (pending) {
+    const dto = JSON.parse(pending);
+
+    fetch("/travel/bookmark/toggle", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(dto)
+    })
+      .then(res => res.text())
+	  .then(result => {
+	      const contentId = Number(dto.contentId);
+	      const index = bookmarkArray.indexOf(contentId);
+
+	      if (result === "saved") {
+	        alert("북마크 추가됨 (자동 실행)");
+	        if (index === -1) bookmarkArray.push(contentId);
+	      } else if (result === "deleted") {
+	        alert("북마크 삭제됨 (자동 실행)");
+	        if (index > -1) bookmarkArray.splice(index, 1);
+	      }
+	      sessionStorage.removeItem("pendingBookmark");
+	      fetchAndRender(); // 마커 갱신
+	    });
+  }
 
   document.addEventListener("click", function (e) {
     if (e.target.classList.contains("bookmark")) {
@@ -36,34 +63,42 @@ document.addEventListener('DOMContentLoaded', () => {
         addr1: btn.dataset.addr1
       };
 
-	  // 북마크 버튼 눌렀을 때
-	  fetch("/travel/bookmark/toggle", {
-	    method: "POST",
-	    headers: {
-	      "Content-Type": "application/json"
-	    },
-	    body: JSON.stringify(dto)
-	  })
-	  .then(res => {
-	    if (res.redirected) {
-	      // ✅ 현재 경로 저장 (예: /themeList?contentTypeId=12)
-	      const currentUrl = location.pathname + location.search;
-	      sessionStorage.setItem("afterLoginRedirect", currentUrl);
-	      location.href = res.url;
-	      return;
-	    }
-	    return res.text();
-	  })
+      fetch("/travel/bookmark/toggle", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dto)
+      })
+        .then(res => {
+			if (res.redirected) {
+			  const currentUrl = location.pathname + location.search;
 
-        .then(result => {
-          if (result === "saved") {
-            alert("북마크 추가됨");
-            btn.textContent = "✅";
-          } else if (result === "deleted") {
-            alert("북마크 삭제됨");
-            btn.textContent = "🔖";
-          }
-        });
+			  // ✅ 북마크 정보 저장
+			  sessionStorage.setItem("afterLoginRedirect", currentUrl);
+			  sessionStorage.setItem("pendingBookmark", JSON.stringify(dto)); // 👈 이거 추가
+
+			  location.href = res.url; // 로그인 폼으로 이동
+			  return;
+			}
+          return res.text();
+        })
+		.then(result => {
+		  if (!result) return;
+		  const contentId = Number(dto.contentId);
+		  const index = bookmarkArray.indexOf(contentId);
+
+		  if (result === "saved") {
+		    alert("북마크 추가됨");
+		    if (index === -1) bookmarkArray.push(contentId); // 직접 배열 수정
+		    btn.textContent = "✅";
+		  } else if (result === "deleted") {
+		    alert("북마크 삭제됨");
+		    if (index > -1) bookmarkArray.splice(index, 1); // 배열에서 제거
+		    btn.textContent = "🔖";
+		  }
+		});
+
     }
   });
 
@@ -156,8 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.json())
     .then(data => {
       sigunguData = data;
-      console.log("시군구 데이터 불러옴", sigunguData);
-
       areaTabs.forEach(tab => {
         tab.addEventListener('click', () => {
           areaTabs.forEach(t => t.classList.remove('active'));
