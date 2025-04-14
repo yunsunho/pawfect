@@ -12,6 +12,8 @@ function loadTab(tabName) {
 				initInfoTabEvents();
 			} else if (tabName === "password") {
 				initPasswordTabEvents();
+			} else if (tabName === "inquiry") {
+				initInquiryTabEvents();
 			}
 		})
 		.catch((err) => console.error("탭 로딩 실패", err));
@@ -30,7 +32,9 @@ document.addEventListener("DOMContentLoaded", function() {
 			document.querySelectorAll(".mypage-sidebar li").forEach((t) => t.classList.remove("active"));
 			this.classList.add("active");
 			const tabName = this.dataset.tab;
-			loadTab(tabName);
+			if (tabName) {
+				loadTab(tabName);
+			}
 		});
 	});
 });
@@ -196,7 +200,7 @@ function initProfileTabEvents() {
 			.then((res) => res.text())
 			.then((result) => {
 				if (result === "success") {
-					// 2. 이미지 변경이 있었다면 처리
+					// 이미지 변경이 있었다면 처리
 					if (imageChanged) {
 						if (tempImageFormData === "delete") {
 							// 이미지 삭제
@@ -213,13 +217,16 @@ function initProfileTabEvents() {
 								method: "POST",
 								body: tempImageFormData,
 							})
-								.then((res) => res.text())
-								.then((dbPath) => {
-									if (dbPath && dbPath !== "") {
+								.then((res) => res.json())
+								.then((data) => {
+									if (data.result === "success") {
 										fetch("/mypage/profile/image/save", {
 											method: "POST",
 											headers: { "Content-Type": "application/json" },
-											body: JSON.stringify({ imagePath: dbPath }),
+											body: JSON.stringify({
+												imagePath: data.imagePath,
+												originalFilename: data.originalFilename,
+											}),
 										})
 											.then((res) => res.text())
 											.then(() => {
@@ -600,6 +607,162 @@ function initPasswordTabEvents() {
 			});
 	});
 }
+
+// 문의 탭 기능
+function initInquiryTabEvents() {
+	// 제목 클릭 시 상세 보기 토글
+	document.querySelectorAll(".inquiry-summary").forEach(row => {
+		row.addEventListener("click", function() {
+			const detailRow = this.nextElementSibling;
+			if (detailRow && detailRow.classList.contains("inquiry-detail")) {
+				detailRow.style.display = detailRow.style.display === "none" ? "table-row" : "none";
+			}
+		});
+	});
+
+	// 삭제 버튼 처리
+	document.querySelectorAll(".deleteBtn").forEach(btn => {
+		btn.addEventListener("click", function(e) {
+			e.stopPropagation();
+			const id = this.dataset.id;
+
+			showConfirmModal("정말 삭제하시겠습니까?", () => {
+				fetch("/mypage/inquiry/delete", {
+					method: "POST",
+					headers: { "Content-Type": "application/x-www-form-urlencoded" },
+					body: new URLSearchParams({ inquiryId: id })
+				})
+					.then(res => res.text())
+					.then(result => {
+						if (result === "success") {
+							showModalWithCallback("문의글이 삭제되었습니다.", () => {
+								loadTab("inquiry");
+							});
+						} else {
+							showModal("문의글 삭제에 실패했습니다.");
+						}
+					})
+					.catch(() => showModal("서버 오류가 발생했습니다."));
+			});
+		});
+	});
+
+	// 모달 열기
+	const writeBtn = document.getElementById("btnWriteInquiry");
+	writeBtn?.addEventListener("click", () => {
+		document.getElementById("inquiryModal").style.display = "block";
+	});
+
+	// 모달 닫기
+	window.closeInquiryModal = function() {
+		document.getElementById("inquiryModal").style.display = "none";
+	};
+
+	// 작성 처리
+	const submitBtn = document.getElementById("btnSubmitInquiry");
+	submitBtn?.addEventListener("click", () => {
+		const title = document.getElementById("inquiryTitle").value.trim();
+		const content = document.getElementById("inquiryContent").value.trim();
+
+		if (!title || !content) {
+			showModal("제목과 내용을 모두 입력해주세요.");
+			return;
+		}
+
+		fetch("/mypage/inquiry/write", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ inquiryTitle: title, inquiryContent: content })
+		})
+			.then(res => res.text())
+			.then(result => {
+				if (result === "success") {
+					showModalWithCallback("문의가 등록되었습니다.", () => {
+						window.closeInquiryModal();
+						loadTab("inquiry");
+					});
+				} else {
+					showModal("등록에 실패했습니다.");
+				}
+			})
+			.catch(() => showModal("서버 오류가 발생했습니다."));
+	});
+}
+
+function closeInquiryModal() {
+	document.getElementById("inquiryModal").style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	const writeBtn = document.getElementById("btnWriteInquiry");
+	const submitBtn = document.getElementById("btnSubmitInquiry");
+	// 작성 버튼 클릭 시 모달 열기
+	if (writeBtn) {
+		writeBtn.addEventListener("click", () => {
+			document.getElementById("inquiryModal").style.display = "block";
+		});
+	}
+	// 작성 요청
+	if (submitBtn) {
+		submitBtn.addEventListener("click", () => {
+			const title = document.getElementById("inquiryTitle").value.trim();
+			const content = document.getElementById("inquiryContent").value.trim();
+
+			if (!title || !content) {
+				showModal("제목과 내용을 모두 입력해주세요.");
+				return;
+			}
+
+			fetch("/mypage/inquiry/write", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ inquiryTitle: title, inquiryContent: content })
+			})
+				.then(res => res.text())
+				.then(result => {
+					if (result === "success") {
+						showModalWithCallback("문의가 등록되었습니다.", () => {
+							closeInquiryModal();
+							loadTab("inquiry");
+						});
+					} else {
+						showModal("문의 등록에 실패했습니다.");
+					}
+				})
+				.catch(() => {
+					showModal("서버 오류가 발생했습니다.");
+				});
+		});
+	}
+});
+
+// 로그아웃
+document.addEventListener("DOMContentLoaded", function() {
+	const defaultTab = document.querySelector('.mypage-sidebar li[data-tab="profile"]');
+	if (defaultTab) {
+		defaultTab.classList.add("active");
+		loadTab("profile");
+	}
+
+	document.querySelectorAll(".mypage-sidebar li").forEach((tab) => {
+		tab.addEventListener("click", function() {
+			document.querySelectorAll(".mypage-sidebar li").forEach((t) => t.classList.remove("active"));
+			this.classList.add("active");
+			const tabName = this.dataset.tab;
+			if (tabName) loadTab(tabName);
+		});
+	});
+
+	// 로그아웃 버튼
+	const logoutBtn = document.getElementById("logoutBtn");
+	if (logoutBtn) {
+		logoutBtn.addEventListener("click", () => {
+			showConfirmModal("정말 로그아웃하시겠습니까?", () => {
+				location.href = "/logout";
+			});
+		});
+	}
+});
 
 // 모달
 function showModal(message) {

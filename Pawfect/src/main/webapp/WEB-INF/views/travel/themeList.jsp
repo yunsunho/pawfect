@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%@ page pageEncoding="UTF-8" %>
 <c:set var="currentPage" value="theme" />
 
@@ -29,6 +31,17 @@
 <div class="theme-container"></div>
 
 <div id="pagination" class="pagination"></div>
+
+<c:if test="${not empty myBookmarks}">
+  <script>
+    const bookmarked = ${fn:join(myBookmarks, ',')}; // 예: 101,102,103
+  </script>
+</c:if>
+<c:if test="${empty myBookmarks}">
+  <script>
+    const bookmarked = "";
+  </script>
+</c:if>
 
 <script src="/js/theme.js"></script>
 </body>

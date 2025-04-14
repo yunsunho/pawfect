@@ -12,6 +12,7 @@ public class UserDto {
 	private String userTel;
 	private String userNickname;
 	private String userImage;
+	private String userImageOrigin;
 	private Timestamp userRegdate;
 	private String petName;
 	private int petType;
