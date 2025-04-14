@@ -38,20 +38,25 @@ document.addEventListener('DOMContentLoaded', () => {
         addr1: btn.dataset.addr1
       };
 
-      fetch("/travel/bookmark/toggle", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dto)
-      })
-      .then(res => {
-        if (res.redirected) {
-          location.href = res.url;
-          return;
-        }
-        return res.text();
-      })
+	  // 북마크 버튼 눌렀을 때
+	  fetch("/travel/bookmark/toggle", {
+	    method: "POST",
+	    headers: {
+	      "Content-Type": "application/json"
+	    },
+	    body: JSON.stringify(dto)
+	  })
+	  .then(res => {
+	    if (res.redirected) {
+	      // ✅ 현재 경로 저장 (예: /themeList?contentTypeId=12)
+	      const currentUrl = location.pathname + location.search;
+	      sessionStorage.setItem("afterLoginRedirect", currentUrl);
+	      location.href = res.url;
+	      return;
+	    }
+	    return res.text();
+	  })
+
       .then(result => {
         if (!result) return;
         if (result === "saved") {
