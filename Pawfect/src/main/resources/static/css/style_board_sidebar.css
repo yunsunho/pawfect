@@ -43,7 +43,7 @@ ul {
 	gap: none;
 }
  
-.quick-links li {
+.quick-links, .trending-links li {
 	font-size: 14px;
 	margin-bottom: 5px;
 }
@@ -137,4 +137,8 @@ ul {
 .quick-links a {
 	color: #585858;
 	text-decoration: none;
+}
+
+.trending-links a {
+	color: #B0E0E6;
 }

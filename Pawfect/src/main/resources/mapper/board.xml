@@ -211,6 +211,19 @@
 		)
 	</insert>
 	
+	<update id="deleteComment" parameterType="int">
+		UPDATE comment
+		SET comDeleteStatus = 1
+		WHERE commentId = #{commentId}
+	</update>
+	
+	<update id="modifyComment" parameterType="com.example.Pawfect.dto.CommentDto">
+		UPDATE comment
+		SET comEditStatus = 1,
+		comContent = #{comContent}
+		WHERE commentId = #{commentId}
+	</update>
+	
 	<select id="countUserLike" resultType="int" parameterType="map">
 		SELECT COUNT(*) FROM post_likes WHERE userId = #{userId} AND postId = #{postId}
 	</select>
@@ -220,4 +233,10 @@
 	<delete id="removeLike" parameterType="map">
 		DELETE FROM post_likes WHERE userId = #{userId} AND postId = #{postId}
 	</delete>
+	
+	<select id="getHotPosts" resultType="com.example.Pawfect.dto.PostDto">
+		SELECT * FROM post 
+		WHERE DATE(postRegdate)=CURDATE()
+		ORDER BY postViewCount DESC
+	</select>
 </mapper>
