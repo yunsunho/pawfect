@@ -198,7 +198,7 @@ function initProfileTabEvents() {
 			.then((res) => res.text())
 			.then((result) => {
 				if (result === "success") {
-					// 2. 이미지 변경이 있었다면 처리
+					// 이미지 변경이 있었다면 처리
 					if (imageChanged) {
 						if (tempImageFormData === "delete") {
 							// 이미지 삭제
@@ -215,13 +215,16 @@ function initProfileTabEvents() {
 								method: "POST",
 								body: tempImageFormData,
 							})
-								.then((res) => res.text())
-								.then((dbPath) => {
-									if (dbPath && dbPath !== "") {
+								.then((res) => res.json()) 
+								.then((data) => {
+									if (data.result === "success") {
 										fetch("/mypage/profile/image/save", {
 											method: "POST",
 											headers: { "Content-Type": "application/json" },
-											body: JSON.stringify({ imagePath: dbPath }),
+											body: JSON.stringify({
+												imagePath: data.imagePath,
+												originalFilename: data.originalFilename,
+											}),
 										})
 											.then((res) => res.text())
 											.then(() => {

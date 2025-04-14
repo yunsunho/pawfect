@@ -57,13 +57,13 @@ public class MyPageService {
 	}
 
 	// 프로필 이미지 경로 업데이트
-	public boolean updateProfileImage(String userId, String imagePath) {
-		return myPageMapper.updateProfileImage(userId, imagePath) > 0;
+	public boolean updateProfileImage(String userId, String imagePath, String originalFilename) {
+		return myPageMapper.updateProfileImage(userId, imagePath, originalFilename) > 0;
 	}
 
 	public boolean deleteProfileImage(String userId) {
 		String defaultPath = "/images/default_profile.jpg";
-		return myPageMapper.updateProfileImage(userId, defaultPath) > 0;
+		return myPageMapper.updateProfileImage(userId, defaultPath, "") > 0;
 	}
 
 	// 이메일/전화번호 정보 수정

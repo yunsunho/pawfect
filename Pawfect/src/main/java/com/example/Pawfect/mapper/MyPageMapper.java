@@ -33,7 +33,9 @@ public interface MyPageMapper {
 	boolean canEditNickname(String userId);
 	
 	// 프로필 이미지 경로 업데이트
-	int updateProfileImage(String userId, String imagePath);
+	int updateProfileImage(@Param("userId") String userId,
+            @Param("imagePath") String imagePath,
+            @Param("originalFilename") String originalFilename);
 	
 	// 내 정보 업데이트
 	int updateUserInfo(InfoUpdateDto dto);

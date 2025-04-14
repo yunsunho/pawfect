@@ -39,15 +39,16 @@ public class ProfileController {
 	// 프로필 이미지 수정
 	@PostMapping("/profile/image")
 	@ResponseBody
-	public String updateProfileImage(@AuthenticationPrincipal CustomUserDetails userDetails,
+	public Map<String, String> updateProfileImage(@AuthenticationPrincipal CustomUserDetails userDetails,
 			@RequestParam("profileImage") MultipartFile file) {
 
 		if (file.isEmpty())
-			return "";
+			return Map.of("result", "fail");
 
 		String uploadDir = System.getProperty("user.dir") + "/upload/profile/";
-		String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-		File saveFile = new File(uploadDir, filename);
+		String originalFilename = file.getOriginalFilename();
+		String uuidFilename = UUID.randomUUID() + "_" + originalFilename;
+		File saveFile = new File(uploadDir, uuidFilename);
 
 		try {
 			if (!saveFile.getParentFile().exists()) {
@@ -55,12 +56,13 @@ public class ProfileController {
 			}
 
 			file.transferTo(saveFile);
-			String dbPath = "/profile-img/" + filename;
+			String dbPath = "/profile-img/" + uuidFilename;
 
-			return dbPath;
+			// 경로와 원본 파일명 모두 리턴
+			return Map.of("result", "success", "imagePath", dbPath, "originalFilename", originalFilename);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return "";
+			return Map.of("result", "fail");
 		}
 	}
 
@@ -81,8 +83,10 @@ public class ProfileController {
 			@RequestBody Map<String, String> body) {
 		String userId = userDetails.getUser().getUserId();
 		String imagePath = body.get("imagePath");
+		String originalFilename = body.get("originalFilename");
 
-		boolean result = myPageService.updateProfileImage(userId, imagePath);
+		boolean result = myPageService.updateProfileImage(userId, imagePath, originalFilename);
 		return result ? "success" : "fail";
 	}
+
 }
