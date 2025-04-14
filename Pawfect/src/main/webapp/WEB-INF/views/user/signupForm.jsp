@@ -169,6 +169,21 @@
 		</form>
 	</div>
 
+	<!-- 공통 모달 -->
+	<div id="commonModal" class="modal">
+		<div class="modal-content">
+			<p id="modalMessage"></p>
+			<div class="modal-buttons">
+				<button onclick="closeModal()">확인</button>
+			</div>
+		</div>
+	</div>
+
 	<script src="/js/signup.js"></script>
+
+	<button id="homeBtn" class="home-btn" onclick="location.href='/main'"
+		title="홈으로">
+		<span class="home-icon">🏠</span>
+	</button>
 </body>
 </html>

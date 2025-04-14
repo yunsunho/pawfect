@@ -122,12 +122,13 @@ body {
 	background-color: #ddd;
 }
 
-/* main-box {
-	background-color: #f9f9f9;
-	padding: 30px;
-	border-radius: 14px;
-	box-shadow: 0 2px 8px rgb(0, 0, 0, 0.05);
-} */
+.delete-btn {
+	color: black;
+}
+
+.delete-btn:hover {
+	background-color: #ddd;
+}
 
 .input-group {
 	display: flex;
