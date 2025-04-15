@@ -461,11 +461,48 @@
 <!-- 💬 리뷰 영역 -->
 <div class="review-section">
   <h3>리뷰</h3>
-  <textarea placeholder="로그인 후 작성 가능합니다." disabled></textarea>
-  <button disabled>등록</button>
-</div>
+  
+ <!-- 로그인한 사용자만 리뷰 작성 가능 -->
+  
+     <form action="/travel/reviewWrite" method="post" enctype="multipart/form-data">
+	  <div class="review-form">
+	  <c:if test="${not empty user}">
+	    <textarea name="reviewContent" placeholder="리뷰를 작성해주세요." required></textarea>
+	  </c:if>
+	  <c:if test="${empty user}">
+      	<textarea placeholder="로그인 후 작성 가능합니다." disabled></textarea>
+      </c:if>
+	    <label for="reviewRating">평점:</label>
+	    <select name="reviewRating" required>
+	      <option value="1">★</option>
+	      <option value="2">★★</option>
+	      <option value="3">★★★</option>
+	      <option value="4">★★★★</option>
+	      <option value="5">★★★★★</option>
+	    </select>
+	
+	    <div class="file-input-container">
+		  <input type="file" name="reviewImages" id="reviewImages" multiple accept="image/*" style="display:none;">
+		  <button type="button" id="fileButton">사진 첨부</button>
+		  <span id="fileName">선택된 파일 없음</span> <!-- 선택된 파일 이름을 보여주는 영역 -->
+		  <div id="preview-container" class="preview-container"></div>
+		</div>
 
-</div>
+	
+	    <input type="hidden" name="contentId" value="${contentId}">
+	    <input type="hidden" name="contentTypeId" value="${contentTypeId}">
+		
+		<c:if test="${not empty user}">
+	    	<button type="submit">등록</button>
+	  	</c:if>
+	  	<c:if test="${empty user}">
+      		<button disabled>등록</button>
+      	</c:if>
+	  </div>
+	</form>
+
+
 <script src="/js/detail.js"></script>
 </body>
 </html>
+

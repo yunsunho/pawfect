@@ -6,11 +6,13 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.Pawfect.auth.CustomUserDetails;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,7 +26,13 @@ public class DetailController {
     public String getDetailPage(
             @PathVariable String contentId,
             @PathVariable String contentTypeId,
-            Model model) throws Exception {
+            Model model,
+            @AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
+
+        // 로그인된 사용자 확인
+        if (userDetails != null) {
+            model.addAttribute("user", userDetails.getUser());  // 로그인된 사용자 정보 추가
+        }
 
         String encodedKey = URLEncoder.encode(serviceKey, "UTF-8");
         RestTemplate restTemplate = new RestTemplate();

@@ -4,14 +4,39 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.Pawfect.mapper.ReviewMapper">
 
-    <insert id="insertReview" useGeneratedKeys="true" keyProperty="reviewId">
-        INSERT INTO review (contentId, userId, reviewRating, reviewContent)
-        VALUES (#{contentId}, #{userId}, #{reviewRating}, #{reviewContent})
+    <select id="selectReviewsByContentId" resultType="com.example.Pawfect.dto.ReviewDto">
+        SELECT reviewId, contentId, userId, reviewRating, reviewContent, reviewRegdate
+        FROM review
+        WHERE contentId = #{contentId}
+        ORDER BY reviewRegdate DESC
+    </select>
+
+    <!-- 리뷰 저장 -->
+    <insert id="insertReview">
+        INSERT INTO review(contentId, userId, reviewContent, reviewRating)
+        VALUES(#{contentId}, #{userId}, #{reviewContent}, #{reviewRating})
     </insert>
 
-    <insert id="insertReviewImage">
-        INSERT INTO review_images (reviewId, reviewImage, reviewImageOrder)
-        VALUES (#{reviewId}, #{reviewImage}, #{reviewImageOrder})
+    <!-- 마지막 삽입된 reviewId 가져오기 -->
+    <select id="getLastInsertedReviewId" resultType="int">
+        SELECT LAST_INSERT_ID()
+    </select>
+
+    <!-- 리뷰 이미지 저장 -->
+    <insert id="insertReviewImageWithOrder">
+        INSERT INTO review_images(reviewId, reviewImage, reviewImageOrder)
+        VALUES(#{reviewId}, #{imagePath}, #{imageOrder})
     </insert>
+    
+    <select id="selectReviewImagesByOrder" resultType="String">
+        SELECT reviewImage
+        FROM review_images
+        WHERE reviewId = #{contentId}
+        ORDER BY reviewImageOrder
+    </select>
 
 </mapper>
+
+
+
+
