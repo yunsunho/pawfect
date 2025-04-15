@@ -54,5 +54,6 @@
   </div>
 </div>
 <script src="/js/area.js"></script>
+<script src="/js/modal.js"></script>
 </body>
 </html>
