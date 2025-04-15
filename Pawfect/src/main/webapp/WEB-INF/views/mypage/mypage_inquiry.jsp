@@ -6,9 +6,7 @@
 <div class="inquiry-tab">
 	<div class="inquiry-header">
 		<h2 class="inquiry-title">1:1 문의 내역</h2>
-		<button id="btnWriteInquiry" class="edit-btn" type="button"
-			style="background-color: #3d4fa1; color: white; font-weight: bold;">
-			문의 작성</button>
+		<button id="btnWriteInquiry" class="edit-btn write-btn" type="button">문의 작성</button>
 	</div>
 
 	<table class="inquiry-table">

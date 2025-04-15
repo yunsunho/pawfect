@@ -15,17 +15,20 @@
 						<a href="/detail/${bookmark.contentId}/${bookmark.contentTypeId}"
 							class="bookmark-link"> <c:choose>
 								<c:when test="${not empty bookmark.firstimage}">
-									<img src="${bookmark.firstimage}" alt="이미지" />
+									<img src="${bookmark.firstimage}" alt="이미지"/>
 								</c:when>
 								<c:otherwise>
-									<img src="/images/no-image.png" alt="이미지 없음" />
+									<img src="/images/no-image.png" alt="이미지 없음"/>
 								</c:otherwise>
 							</c:choose>
-							<div class="bookmark-info">
-								<h3>${bookmark.title}</h3>
-								<p>${bookmark.addr1}</p>
-							</div>
 						</a>
+						<div class="bookmark-info">
+							<h3>
+								<a href="/detail/${bookmark.contentId}/${bookmark.contentTypeId}"
+									class="bookmark-title-link"> ${bookmark.title} </a>
+							</h3>
+							<p>${bookmark.addr1}</p>
+						</div>
 					</div>
 				</c:forEach>
 			</div>

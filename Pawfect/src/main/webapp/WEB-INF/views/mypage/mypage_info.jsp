@@ -58,14 +58,13 @@
 		</div>
 	</div>
 
-
-	<!-- 저장 버튼 -->
-	<div class="form-actions save-btn-row" style="margin-top: 30px;">
-		<button id="btnSaveInfo" class="edit-btn" type="button"
-			style="background-color: #3d4fa1; color: white; font-weight: bold;">
-			저장</button>
+	<!-- 저장 / 탈퇴 버튼 -->
+	<div class="form-actions-row"
+		style="display: flex; justify-content: space-between; margin-top: 30px;">
+		<button id="btnWithdraw" class="edit-btn withdraw-btn" type="button">회원
+			탈퇴</button>
+		<button id="btnSaveInfo" class="edit-btn save-btn" type="button">저장</button>
 	</div>
-
 
 	<!-- 공통 모달 -->
 	<div id="commonModal" class="modal">
@@ -74,4 +73,18 @@
 			<button onclick="closeModal()">확인</button>
 		</div>
 	</div>
+
+	<!-- 탈퇴 비밀번호 입력 모달 -->
+	<div id="withdrawPwdModal" class="modal" style="display: none;">
+		<div class="modal-content">
+			<h3>비밀번호 확인</h3>
+			<input type="password" id="withdrawPwdInput" placeholder="현재 비밀번호 입력" style="width: 300px;"/>
+			<div style="margin-top: 10px;">
+				<button id="confirmPwdBtn" class="edit-btn">확인</button>
+				<button onclick="closeModalById('withdrawPwdModal')"
+					class="edit-btn">취소</button>
+			</div>
+		</div>
+	</div>
+
 </div>

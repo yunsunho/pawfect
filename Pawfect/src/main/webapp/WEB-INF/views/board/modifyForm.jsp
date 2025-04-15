@@ -10,7 +10,6 @@
 	    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 	    <link rel="stylesheet" href="/css/style_board.css">
 	    <link rel="stylesheet" type="text/css" href="/css/style_board_write.css">
-	    <link rel="stylesheet" href="/css/common.css">
 	    <link rel="stylesheet" href="/css/style_board_sidebar.css">
 	    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 	    <script src="/js/script_board.js" defer></script>

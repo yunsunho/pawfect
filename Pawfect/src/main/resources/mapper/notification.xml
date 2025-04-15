@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.Pawfect.mapper.NotificationMapper">
+
+	<insert id="insertNotification"
+		parameterType="com.example.Pawfect.dto.NotificationDto">
+		INSERT INTO notification (
+		senderId, receiverId,
+		notiType, notiContent, notiUrl
+		) VALUES (
+		#{senderId}, #{receiverId},
+		#{notiType}, #{notiContent}, #{notiUrl}
+		)
+	</insert>
+
+	<select id="getNotificationsByReceiver"
+		resultType="com.example.Pawfect.dto.NotificationDto">
+		SELECT * FROM notification
+		WHERE receiverId = #{receiverId}
+		AND notiRegdate >= NOW() - INTERVAL 7 DAY
+		ORDER BY notiRegdate DESC
+	</select>
+
+	<update id="markAsRead">
+		UPDATE notification
+		SET notiReadStatus = true
+		WHERE
+		notificationId = #{notificationId}
+	</update>
+
+</mapper>

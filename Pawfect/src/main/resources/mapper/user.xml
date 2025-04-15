@@ -10,7 +10,7 @@
 		resultType="com.example.Pawfect.dto.UserDto">
 		SELECT *
 		FROM user
-		WHERE userId = #{userId}
+		WHERE BINARY userId = #{userId}
 	</select>
 
 	<!-- 회원가입 - 사용자 INSERT -->
@@ -29,7 +29,7 @@
 	<!-- 아이디 중복 확인 -->
 	<select id="countByUserId" parameterType="string"
 		resultType="int">
-		SELECT COUNT(*) FROM user WHERE userId = #{userId}
+		SELECT COUNT(*) FROM user WHERE BINARY userId = #{userId}
 	</select>
 
 	<!-- 이메일 중복 확인 -->
