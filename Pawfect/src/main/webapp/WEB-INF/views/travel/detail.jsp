@@ -502,7 +502,8 @@
 	</form>
 
 
-<script src="/js/detail.js"></script>
+<script src="<c:url value='/js/detail.js'/>"></script>
+
 </body>
 </html>
 

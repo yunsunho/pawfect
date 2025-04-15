@@ -17,25 +17,26 @@ document.addEventListener("DOMContentLoaded", function () {
     marker.setMap(map);
 
     // 메인 슬라이드 초기화
-    let mainSlideIndex = 0;
-    const slider = document.querySelector(".main-slider");
-    const slides = document.querySelectorAll(".main-slide");
+	let mainSlideIndex = 0;
+	const slider = document.querySelector(".main-slider");
+	const slides = document.querySelectorAll(".main-slide");
 
-    function changeMainSlide(n) {
-        mainSlideIndex += n;
+	window.changeMainSlide = function (n) {
+	    mainSlideIndex += n;
+	    if (mainSlideIndex >= slides.length) mainSlideIndex = 0;
+	    if (mainSlideIndex < 0) mainSlideIndex = slides.length - 1;
 
-        if (mainSlideIndex >= slides.length) mainSlideIndex = 0;
-        if (mainSlideIndex < 0) mainSlideIndex = slides.length - 1;
+	    console.log(`Slider moved to: ${mainSlideIndex}`); // 디버깅용 로그
 
-        slider.style.transform = `translateX(-${mainSlideIndex * 100}%)`;
-    }
-
+	    slider.style.transform = `translateX(-${mainSlideIndex * 100}%)`;
+	}
+	
     changeMainSlide(0);  // 초기화
 
     // 객실 슬라이드 초기화
     let slideIndices = [];
 
-    function plusSlide(n, roomIndex) {
+    window.plusSlide = function (n, roomIndex) {
         showSlide(slideIndices[roomIndex] += n, roomIndex);
     }
 

@@ -95,11 +95,8 @@
 
 /* 공통 이미지 슬라이드 (상단) */
 .main-slider-wrapper {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  max-width: 800px;
-  margin: auto;
+    position: relative;
+    overflow: hidden;
 }
 
 .main-slider {
