@@ -23,6 +23,17 @@ body {
   color: #f4c542;
 }
 
+.icon {
+  color: black;
+  transition: color 0.3s ease;
+}
+.icon:hover {
+  color: #f4c542;
+}
+.icon svg {
+  stroke: currentColor;
+}
+
 /* 상단 네비게이션 */
 .nav {
   display: flex;

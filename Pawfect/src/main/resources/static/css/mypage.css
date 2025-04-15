@@ -455,6 +455,15 @@ body {
 	border-radius: 3px;
 }
 
+.bookmark-title-link {
+	text-decoration: none;
+	color: inherit;
+}
+
+.bookmark-title-link:hover {
+	text-decoration: underline;
+}
+
 .bookmark-list {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));

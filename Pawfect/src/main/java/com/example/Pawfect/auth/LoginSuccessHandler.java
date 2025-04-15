@@ -34,7 +34,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	        }
 	    }
 
-	    System.out.println("✅ 로그인 성공, 이동할 위치: " + redirectUrl);
 	    response.sendRedirect(redirectUrl);
 	}
 
