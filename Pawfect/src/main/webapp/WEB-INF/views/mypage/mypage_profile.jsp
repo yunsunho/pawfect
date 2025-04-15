@@ -67,9 +67,7 @@
 
 	<!-- 저장 버튼 -->
 	<div class="form-actions save-btn-row">
-		<button id="btnSaveProfile" class="edit-btn" type="button"
-			style="background-color: #3d4fa1; color: white; font-weight: bold;">
-			저장</button>
+		<button id="btnSaveProfile" class="edit-btn save-btn" type="button">저장</button>
 	</div>
 </div>
 

@@ -492,6 +492,56 @@ function initInfoTabEvents() {
 				showModal("오류가 발생했습니다.");
 			});
 	});
+
+	// 회원 탈퇴 버튼
+	const withdrawBtn = document.getElementById("btnWithdraw");
+	if (withdrawBtn) {
+		withdrawBtn.addEventListener("click", () => {
+			document.getElementById("withdrawPwdModal").style.display = "block";
+		});
+	}
+
+	// 비밀번호 확인 -> 탈퇴 확인 -> 탈퇴 처리
+	const confirmPwdBtn = document.getElementById("confirmPwdBtn");
+	if (confirmPwdBtn) {
+		confirmPwdBtn.addEventListener("click", () => {
+			const inputPwd = document.getElementById("withdrawPwdInput").value.trim();
+			if (!inputPwd) {
+				showModal("비밀번호를 입력해주세요.");
+				return;
+			}
+
+			// 서버에 비밀번호 확인 요청
+			fetch("/mypage/info/check-password", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ pwd: inputPwd })
+			})
+				.then(res => res.text())
+				.then(result => {
+					if (result === "match") {
+						closeModalById("withdrawPwdModal");
+						showConfirmModal("정말 탈퇴하시겠습니까?", () => {
+							fetch("/mypage/info/withdraw", { method: "POST" })
+								.then(res => res.text())
+								.then(response => {
+									if (response === "success") {
+										showModalWithCallback("회원 탈퇴가 완료되었습니다.", () => {
+											location.href = "/logout";
+										});
+									} else {
+										showModal("탈퇴 처리에 실패했습니다.");
+									}
+								});
+						});
+					} else {
+						closeModalById("withdrawPwdModal");
+						document.getElementById("withdrawPwdInput").value = "";
+						showModal("비밀번호가 일치하지 않습니다.");
+					}
+				});
+		});
+	}
 }
 
 // 타이머 시작
@@ -512,6 +562,12 @@ function startEmailTimer() {
 		timerEl.textContent = `남은 시간: ${min}:${sec}`;
 		timeLeft--;
 	}, 1000);
+}
+
+// 공통 모달 닫기 함수
+function closeModalById(id) {
+	const modal = document.getElementById(id);
+	if (modal) modal.style.display = "none";
 }
 
 // 비밀번호 변경 탭 기능
@@ -717,6 +773,7 @@ function initInquiryTabEvents() {
 	});
 }
 
+// 문의
 function loadInquiryPage(page) {
 	fetch(`/mypage/tab/inquiry?page=${page}`, {
 		headers: {
@@ -736,6 +793,7 @@ function loadInquiryPage(page) {
 		});
 }
 
+// 문의
 function closeInquiryModal() {
 	document.getElementById("inquiryModal").style.display = "none";
 }

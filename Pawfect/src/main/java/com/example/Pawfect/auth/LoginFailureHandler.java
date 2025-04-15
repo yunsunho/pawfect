@@ -20,20 +20,31 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 			AuthenticationException exception) throws IOException {
 
 		String message = "로그인 실패! 다시 시도해주세요.";
-
+		Throwable cause = exception.getCause(); 
+		
 		if (exception instanceof UsernameNotFoundException) {
 			message = "존재하지 않는 아이디입니다. 다시 확인해주세요.";
 		} else if (exception instanceof BadCredentialsException) {
 			message = "일치하지 않는 비밀번호입니다. 다시 확인해주세요.";
 		} else if (exception instanceof DisabledException) {
 			String reason = exception.getMessage();
-			if ("정지된 계정입니다.".equals(reason)) {
+			if ("BANNED".equals(reason)) {
 				message = "정지된 계정입니다.";
-			} else if ("탈퇴된 계정입니다.".equals(reason)) {
+			} else if ("WITHDRAWN".equals(reason)) {
 				message = "탈퇴한 계정입니다.";
 			} else {
 				message = "비활성화된 계정입니다.";
 			}
+		} else if (cause instanceof DisabledException) {
+			// DaoAuthenticationProvider가 감싼 경우
+			String reason = cause.getMessage();
+			if ("BANNED".equals(reason)) {
+				message = "정지된 계정입니다.";
+			} else if ("WITHDRAWN".equals(reason)) {
+				message = "탈퇴한 계정입니다.";
+			} else {
+				message = "비활성화된 계정입니다.";
+			} 
 		} else if (exception instanceof LockedException) {
 			message = "잠긴 계정입니다.";
 		}

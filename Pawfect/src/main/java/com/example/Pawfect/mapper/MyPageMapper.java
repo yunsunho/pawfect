@@ -22,10 +22,10 @@ public interface MyPageMapper {
 			@Param("limit") int limit);
 
 	// 내가 쓴 게시글
-	List<PostDto> getMyPosts(String userId);
+//	List<PostDto> getMyPosts(String userId);
 
 	// 내가 쓴 댓글
-	List<CommentDto> getMyComments(String userId);
+//	List<CommentDto> getMyComments(String userId);
 
 	// 내가 보낸 문의
 	List<InquiryDto> getMyInquiries(String userId);
@@ -45,6 +45,9 @@ public interface MyPageMapper {
 
 	// 내 정보 업데이트
 	int updateUserInfo(InfoUpdateDto dto);
+
+	// 회원 탈퇴
+	int withdrawUser(@Param("userId") String userId);
 
 	// 현재 암호화된 비밀번호 가져오기
 	String getPwdByUserId(String userId);

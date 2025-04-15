@@ -30,14 +30,14 @@ public class MyPageController {
 
 		MyPageUserDto user = myPageService.getUserSummary(userId);
 		List<BookmarkDto> bookmarks = myPageService.getBookmarks(userId);
-		List<PostDto> posts = myPageService.getMyPosts(userId);
-		List<CommentDto> comments = myPageService.getMyComments(userId);
+//		List<PostDto> posts = myPageService.getMyPosts(userId);
+//		List<CommentDto> comments = myPageService.getMyComments(userId);
 		List<InquiryDto> inquiries = myPageService.getMyInquiries(userId);
 
 		model.addAttribute("user", user);
 		model.addAttribute("bookmarks", bookmarks);
-		model.addAttribute("posts", posts);
-		model.addAttribute("comments", comments);
+//		model.addAttribute("posts", posts);
+//		model.addAttribute("comments", comments);
 		model.addAttribute("inquiries", inquiries);
 
 		return "mypage/mypage";
