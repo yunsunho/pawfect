@@ -46,7 +46,14 @@
   </script>
 </c:if>
 
-
+<div id="confirmModal" class="modal">
+  <div class="modal-content">
+    <p id="confirmModalMessage"></p>
+    <button id="btnConfirmYes">예</button>
+    <button id="btnConfirmNo">아니요</button>
+  </div>
+</div>
 <script src="/js/theme.js"></script>
+<script src="/js/modal.js"></script>
 </body>
 </html>
