@@ -142,7 +142,7 @@
 										<form id="edit-form-${commentDto.commentId}" action="/board/modifycomment" method="post" style="display: none;">
 											<input type="hidden" name="commentId" value="${commentDto.commentId}">
 											<input type="hidden" name="num" value="${num}">
-											<textarea class="comContent" required style="width: 100%; height: 60%;">${commentDto.comContent}</textarea>
+											<textarea name="comContent" class="comContent" required style="width: 100%; height: 60%;">${commentDto.comContent}</textarea>
 											<div class="edit-buttons">
 												<button type="submit" class="reply-submit-btn">${btn_submit}</button>
 												<button type="button" class="reply-cancel-btn" onclick="cancelEditComment(${commentDto.commentId})">${btn_cancel}</button>
