@@ -3,7 +3,169 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.Pawfect.mapper.AdminMapper">
-	<select id="getAllUsers" resultType="com.example.Pawfect.dto.UserDto">
+	<select id="getUserCount" resultType="int" parameterType="map">
+		SELECT COUNT(*) FROM user
+		WHERE 1=1
+		<if test="keyword != null and keyword !=''">
+			AND userId LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND userRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	<select id="getAllUsers" resultType="com.example.Pawfect.dto.UserDto" parameterType="map">
 		SELECT * FROM user
+		WHERE 1=1
+		<if test="keyword != null and keyword !=''">
+			AND userId LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND userRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+		LIMIT #{start}, #{pageSize}
+	</select>
+	
+	<select id="getPostCount" resultType="int" parameterType="map">
+		SELECT COUNT(*) FROM post
+		WHERE 1=1
+		<if test="keyword != null and keyword !=''">
+			AND postTitle LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND postRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	<select id="getAllPosts" resultType="com.example.Pawfect.dto.PostDto" parameterType="map">
+		SELECT * FROM post
+		WHERE 1=1
+		<if test="keyword != null and keyword !=''">
+			AND postTitle LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND postRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+		LIMIT #{start}, #{pageSize}
+	</select>
+	
+	
+	<select id="getCommentCount" resultType="int" parameterType="map">
+		SELECT COUNT(*) from comment
+		WHERE 1=1
+		<if test="keyword != null and keyword !=''">
+			AND comContent LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND comRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	<select id="getAllComments" resultType="com.example.Pawfect.dto.CommentDto" parameterType="map">
+		SELECT * from comment
+		<if test="keyword != null and keyword !=''">
+			WHERE comContent LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND comRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+		LIMIT #{start}, #{pageSize}
+	</select>
+	
+	<select id="getReviewCount" resultType="com.example.Pawfect.dto.ReviewDto" parameterType="map">
+		SELECT COUNT(*) from review
+		WHERE 1=1
+		<if test="keyword != null and keyword !=''">
+			AND reviewContent LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND reviewRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	<select id="getAllReviews" resultType="com.example.Pawfect.dto.ReviewDto" parameterType="map">
+		SELECT * from review
+		WHERE 1=1
+		<if test="keyword != null and keyword !=''">
+			AND reviewContent LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND reviewRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+		LIMIT #{start}, #{pageSize}
+	</select>
+	
+	<select id="getInquiryCount" resultType="int" parameterType="map">
+		SELECT COUNT(*) from inquiry
+		WHERE 1=1
+		<if test="keyword != null and keyword !=''">
+			AND inquiryTitle LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND inquiryRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	<select id="getAllInquiries" resultType="com.example.Pawfect.dto.InquiryDto" parameterType="map">
+		SELECT * from inquiry
+		WHERE 1=1
+		<if test="keyword != null and keyword !=''">
+			AND inquiryTitle LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND inquiryRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="handled != null and handled != '' and handled !=0">
+			AND inquiryStatus = 1
+		</if>
+		<if test="unhandled != null and unhandled != '' and unhandled !=0">
+			AND inquiryStatus = 0
+		</if>
+		LIMIT #{start}, #{pageSize}
+	</select>
+	<select id="getHandledInquiryCount" resultType="int" parameterType="map">
+		SELECT COUNT(*) from inquiry
+		WHERE inquiryStatus = 1
+		<if test="keyword != null and keyword !=''">
+			AND inquiryTitle LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND inquiryRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	<select id="getUnhandledInquiryCount" resultType="int" parameterType="map">
+		SELECT COUNT(*) from inquiry
+		WHERE inquiryStatus = 0
+		<if test="keyword != null and keyword !=''">
+			AND inquiryTitle LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND inquiryRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	
+	<select id="getInquiryById" resultType="com.example.Pawfect.dto.InquiryDto" parameterType="int">
+		SELECT * from inquiry
+		WHERE inquiryId = #{inquiryId}
+	</select>
+	
+	<update id="replyToInquiry" parameterType="com.example.Pawfect.dto.InquiryDto">
+		UPDATE inquiry
+		SET inquiryReply = #{inquiryReply},
+			inquiryStatus = #{inquiryStatus},
+			adminId = #{adminId}
+		WHERE inquiryId = #{inquiryId}
+	</update>
+	
+	<!--STATS-->
+	<select id="getTotalReviewCount" resultType="int">
+		SELECT COUNT(*) FROM review
+	</select>
+	<select id="getActiveUserCount" resultType="int">
+		SELECT COUNT(*) FROM user
+		WHERE userStatus = 'ACTIVE'
+	</select>
+	<select id="getBannedUserCount" resultType="int">
+		SELECT COUNT(*) FROM user
+		WHERE userStatus = 'BANNED'
+	</select>
+	<select id="getWithdrawnUserCount" resultType="int">
+		SELECT COUNT(*) FROM user
+		WHERE userStatus = 'WITHDRAWN'
 	</select>
 </mapper>

@@ -15,4 +15,6 @@ public class InquiryDto {
     private boolean inquiryStatus;
     private String adminId;
     private Timestamp inquiryRegdate;
+    
+    private String formattedDate;
 }
