@@ -23,13 +23,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 		}
 
 		if ("BANNED".equalsIgnoreCase(user.getUserStatus())) {
-			throw new DisabledException("정지된 계정입니다.");
+			throw new DisabledException("BANNED");
 		}
 
 		if ("WITHDRAWN".equalsIgnoreCase(user.getUserStatus())) {
-			throw new DisabledException("탈퇴된 계정입니다.");
+			throw new DisabledException("WITHDRAWN");
 		}
 
 		return new CustomUserDetails(user);
 	}
-}
+}	

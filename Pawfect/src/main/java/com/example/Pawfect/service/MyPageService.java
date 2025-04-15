@@ -35,14 +35,14 @@ public class MyPageService {
 	}
 
 	// 내가 쓴 게시글
-	public List<PostDto> getMyPosts(String userId) {
-		return myPageMapper.getMyPosts(userId);
-	}
+//	public List<PostDto> getMyPosts(String userId) {
+//		return myPageMapper.getMyPosts(userId);
+//	}
 
 	// 내가 쓴 댓글
-	public List<CommentDto> getMyComments(String userId) {
-		return myPageMapper.getMyComments(userId);
-	}
+//	public List<CommentDto> getMyComments(String userId) {
+//		return myPageMapper.getMyComments(userId);
+//	}
 
 	// 내가 보낸 문의
 	public List<InquiryDto> getMyInquiries(String userId) {
@@ -80,6 +80,11 @@ public class MyPageService {
 	public boolean updateUserInfo(InfoUpdateDto dto) {
 		return myPageMapper.updateUserInfo(dto) > 0;
 	}
+	
+	// 회원 탈퇴 (userStatus = 'WITHDRAWN')
+	public boolean withdrawUser(String userId) {
+		return myPageMapper.withdrawUser(userId) > 0;
+	}
 
 	// 비밀번호 일치 확인 (현재 비밀번호 검증용)
 	public boolean checkPwdMatch(String userId, String inputPwd) {
@@ -87,7 +92,7 @@ public class MyPageService {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder.matches(inputPwd, encryptedPwd);
 	}
-
+	
 	// 비밀번호 업데이트
 	public boolean updatePwd(String userId, String newPwd) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

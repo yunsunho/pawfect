@@ -137,6 +137,34 @@ body {
 	margin-bottom: 10px;
 }
 
+/* 회원 탈퇴 버튼 */
+.withdraw-btn {
+	background-color: #eee;
+	color: #333;
+	font-weight: normal;
+	padding: 6px 14px;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.withdraw-btn:hover {
+	background-color: #ddd;
+}
+
+/* 저장 버튼*/
+.save-btn {
+	background-color: #3d4fa1;
+	color: white;
+	font-weight: bold;
+	transition: background-color 0.2s;
+}
+
+.save-btn:hover {
+	background-color: #2e3f8e;
+}
+
 .input-group label{
 	margin-top: 10px;
 	white-space: nowrap;
@@ -369,6 +397,16 @@ body {
 	font-weight: bold;
 }
 
+.write-btn {
+	background-color: #3d4fa1;
+	color: white;
+	font-weight: bold;
+}
+
+.write-btn:hover {
+	background-color: #2e3f8e;
+}
+
 /* 문의글 작성 모달 */
 #inquiryModal .modal-content {
 	max-width: 500px;
@@ -453,6 +491,15 @@ body {
 	background-color: gray;
 	margin-top: 3px;
 	border-radius: 3px;
+}
+
+.bookmark-title-link {
+	text-decoration: none;
+	color: inherit;
+}
+
+.bookmark-title-link:hover {
+	text-decoration: underline;
 }
 
 .bookmark-list {

@@ -10,12 +10,12 @@
 	<div class="box">
 		<div class="input-group">
 			<label for="currentPwd" class="input-label">현재 비밀번호</label> <input
-				type="password" id="currentPwd" placeholder="현재 비밀번호 입력" />
+				type="password" id="currentPwd" placeholder="현재 비밀번호 입력" style="width: 200px;"/>
 		</div>
 
 		<div class="input-group">
 			<label for="newPwd" class="input-label">새 비밀번호</label> <input
-				type="password" id="newPwd" placeholder="새 비밀번호 입력" />
+				type="password" id="newPwd" placeholder="새 비밀번호 입력" style="width: 200px;"/>
 			<ul class="check-list" id="pwd-check-list" style="display: none;">
 				<li id="pwd-condition-length" class="invalid">8자 이상</li>
 				<li id="pwd-condition-pattern" class="invalid">영문, 숫자, 특수문자 포함</li>
@@ -23,7 +23,7 @@
 		</div>
 		<div class="input-group">
 			<label for="newPwdCheck" class="input-label">새 비밀번호 확인</label> <input
-				type="password" id="newPwdCheck" placeholder="비밀번호 다시 입력" />
+				type="password" id="newPwdCheck" placeholder="비밀번호 다시 입력" style="width: 200px;"/>
 			<ul class="check-list" id="pwd-match-check-list"
 				style="display: none;">
 				<li id="pwd-match-condition" class="invalid">비밀번호 일치</li>
@@ -31,11 +31,10 @@
 		</div>
 	</div>
 
-	<!-- 버튼 -->
+	<!-- 비밀번호 변경 버튼 -->
 	<div class="form-actions save-btn-row"
 		style="margin-top: 30px; display: flex; justify-content: center;">
-		<button class="edit-btn" id="btnSavePwd" type="button"
-			style="background-color: #3d4fa1; color: white; font-weight: bold;">
+		<button class="edit-btn save-btn" id="btnSavePwd" type="button">
 			변경하기</button>
 	</div>
 

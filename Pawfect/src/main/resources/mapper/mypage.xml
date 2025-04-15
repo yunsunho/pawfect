@@ -43,7 +43,8 @@
 	<!-- 전체 북마크 수 조회 -->
 	<select id="getBookmarkCount" resultType="int">
 		SELECT COUNT(*)
-		FROM bookmark
+		FROM
+		bookmark
 		WHERE userId = #{userId}
 	</select>
 
@@ -61,29 +62,30 @@
 		mapY
 		FROM bookmark
 		WHERE userId = #{userId}
-		ORDER BY bookmarkRegdate DESC
+		ORDER BY
+		bookmarkRegdate DESC
 		LIMIT #{limit} OFFSET #{offset}
 	</select>
 
 	<!-- 내가 쓴 게시글 -->
-	<select id="getMyPosts"
+	<!-- <select id="getMyPosts"
 		resultType="com.example.Pawfect.dto.PostDto">
 		SELECT *
 		FROM post
 		WHERE userId = #{userId}
 		ORDER BY
 		postRegdate DESC
-	</select>
+	</select> -->
 
 	<!-- 내가 쓴 댓글 -->
-	<select id="getMyComments"
+	<!-- <select id="getMyComments"
 		resultType="com.example.Pawfect.dto.CommentDto">
 		SELECT *
 		FROM comment
 		WHERE userId = #{userId}
 		ORDER BY
 		comRegdate DESC
-	</select>
+	</select> -->
 
 	<!-- 내가 보낸 문의 -->
 	<select id="getMyInquiries"
@@ -135,11 +137,19 @@
 		WHERE userId = #{userId}
 	</update>
 
+	<!-- 회원 정보 업데이트 -->
 	<update id="updateUserInfo">
 		UPDATE user
 		SET
 		email = #{email},
 		userTel = #{userTel}
+		WHERE userId = #{userId}
+	</update>
+
+	<!-- 회원 탈퇴 -->
+	<update id="withdrawUser">
+		UPDATE user
+		SET userStatus = 'WITHDRAWN'
 		WHERE userId = #{userId}
 	</update>
 

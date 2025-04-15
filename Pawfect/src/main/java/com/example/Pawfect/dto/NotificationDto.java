@@ -15,4 +15,5 @@ public class NotificationDto {
     private String notiUrl;
     private boolean notiReadStatus;
     private Timestamp notiRegdate;
+    private String formattedTime;
 }

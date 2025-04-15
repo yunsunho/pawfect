@@ -81,6 +81,7 @@ public class BoardContentController {
 	public String comment(@ModelAttribute CommentDto commentDto, Model model) {
 		UserDto userDto = boardService.getLoggedInUser();
 		commentDto.setUserId(userDto.getUserId());
+		commentDto.setUserNickname(userDto.getUserNickname());
 		
 		int result = boardService.insertTopLevelComment(commentDto);
 		String msg = null;
@@ -104,6 +105,7 @@ public class BoardContentController {
 			return "redirect:/loginForm";
 		}
 		commentDto.setUserId(userDto.getUserId());
+		commentDto.setUserNickname(userDto.getUserNickname());	
 		int parentCommentId = commentDto.getParentCommentId();
 		
 		int result = boardService.insertReplyComment(commentDto, parentCommentId);
@@ -149,7 +151,7 @@ public class BoardContentController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("redirectUrl", redirectUrl);
 		return "board/message";
-	}
+	}	
 	
 	@PostMapping("/like")
 	public String like(@RequestParam int num, Model model) {

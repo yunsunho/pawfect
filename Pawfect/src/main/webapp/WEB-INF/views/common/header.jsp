@@ -3,6 +3,8 @@
 
 <!-- 상단 메뉴 -->
 <header class="header">
+  <link rel="stylesheet" href="/css/notification.css">
+
   <div class="logo"><span>Paw</span>fect Tour</div>
   <nav class="nav">
     <a href="/main" class="${currentPage eq 'main' ? 'active' : ''}">홈</a>
@@ -11,11 +13,21 @@
     <a href="/board" class="${currentPage eq 'community' ? 'active' : ''}">커뮤니티</a>
   </nav>
   <div class="icons">
-     <a href="/map"> <span class="icon">📍</span> </a>
-    <span class="icon notification">🔔</span>
-    <a href="/mypage" class="icon user">👤</a> 
+     <a href="/map"><span class="icon">
+	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pinned-icon lucide-map-pinned"><path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/></svg></span></a>
+    
+    <span class="icon notification" id="notiIcon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-icon lucide-bell"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+    </span>
+    
+    <a href="/mypage" class="icon user">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-round-icon lucide-circle-user-round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
+    </a> 
   </div>
 </header>
+
+<jsp:include page="/WEB-INF/views/user/notification.jsp"/>
+<script src="/js/notification.js"></script>
 
 <c:if test="${currentPage eq 'theme'}">
   <div class="theme-submenu">
