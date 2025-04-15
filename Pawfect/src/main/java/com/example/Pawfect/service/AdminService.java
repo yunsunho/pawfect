@@ -18,31 +18,63 @@ public class AdminService {
 	@Autowired
 	private AdminMapper adminMapper;
 	
+	public int getUserCount(Map<String, Object> map) {
+		return adminMapper.getUserCount(map);
+	}
 	public List<UserDto> getAllUsers(Map<String, Object> map) {
 		return adminMapper.getAllUsers(map);
 	}
 	
+	public int getPostCount(Map<String, Object> map) {
+		return adminMapper.getPostCount(map);
+	}
 	public List<PostDto> getAllPosts(Map<String, Object> map) {
 		return adminMapper.getAllPosts(map);
 	}
 	
+	public int getCommentCount(Map<String, Object> map) {
+		return adminMapper.getCommentCount(map);
+	}
 	public List<CommentDto> getAllComments(Map<String, Object> map) {
 		return adminMapper.getAllComments(map);
 	}
 	
+	public int getReviewCount(Map<String, Object> map) {
+		return adminMapper.getReviewCount(map);
+	}
 	public List<ReviewDto> getallReviews(Map<String, Object> map) {
 		return adminMapper.getAllReviews(map);
 	}
 	
+	public int getInquiryCount(Map<String, Object> map) {
+		return adminMapper.getInquiryCount(map);
+	}
 	public List<InquiryDto> getAllInquiries(Map<String, Object> map) {
 		return adminMapper.getAllInquiries(map);
 	}
-	
-	public List<InquiryDto> getHandledInquiries(Map<String, Object> map) {
-		return adminMapper.getHandledInquiries(map);
+	public int getHandledInquiryCount(Map<String, Object> map) {
+		return adminMapper.getHandledInquiryCount(map);
+	}
+	public int getUnhandledInquiryCount(Map<String, Object> map) {
+		return adminMapper.getUnhandledInquiryCount(map);
+	}
+	public InquiryDto getInquiryById(int inquiryId) {
+		return adminMapper.getInquiryById(inquiryId);
+	}
+	public int replyToInquiry(InquiryDto inquiryDto) {
+		return adminMapper.replyToInquiry(inquiryDto);
 	}
 	
-	public List<InquiryDto> getUnhandledInquiries(Map<String, Object> map) {
-		return adminMapper.getUnhandledInquiries(map);
+	public int getTotalReviewCount() {
+		return adminMapper.getTotalReviewCount();
+	}
+	public int getActiveUserCount() {
+		return adminMapper.getActiveUserCount();
+	}
+	public int getBannedUserCount() {
+		return adminMapper.getBannedUserCount();
+	}
+	public int getWithdrawnUserCount() {
+		return adminMapper.getWithdrawnUserCount();
 	}
 }

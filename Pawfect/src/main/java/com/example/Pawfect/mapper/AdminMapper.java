@@ -13,11 +13,28 @@ import com.example.Pawfect.dto.UserDto;
 
 @Mapper
 public interface AdminMapper {
+	public int getUserCount(Map<String, Object> map);
 	public List<UserDto> getAllUsers(Map<String, Object> map);
+	
+	public int getPostCount(Map<String, Object> map);
 	public List<PostDto> getAllPosts(Map<String, Object> map);
+	
+	public int getCommentCount(Map<String, Object> map);
 	public List<CommentDto> getAllComments(Map<String, Object> map);
+	
+	public int getReviewCount(Map<String, Object> map);
 	public List<ReviewDto> getAllReviews(Map<String, Object> map);
+	
+	public int getInquiryCount(Map<String, Object> map);
 	public List<InquiryDto> getAllInquiries(Map<String, Object> map);
-	public List<InquiryDto> getHandledInquiries(Map<String, Object> map);
-	public List<InquiryDto> getUnhandledInquiries(Map<String, Object> map);
+	
+	public int getHandledInquiryCount(Map<String, Object> map);
+	public int getUnhandledInquiryCount(Map<String, Object> map);
+	public InquiryDto getInquiryById(int inquiryId);
+	public int replyToInquiry(InquiryDto dto);
+	
+	public int getTotalReviewCount();
+	public int getActiveUserCount();
+	public int getBannedUserCount();
+	public int getWithdrawnUserCount();
 }
