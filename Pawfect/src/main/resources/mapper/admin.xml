@@ -3,7 +3,73 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.Pawfect.mapper.AdminMapper">
-	<select id="getAllUsers" resultType="com.example.Pawfect.dto.UserDto">
+	<select id="getAllUsers" resultType="com.example.Pawfect.dto.UserDto" parameterType="map">
 		SELECT * FROM user
+		<if test="keyword != null and keyword !=''">
+			WHERE userId LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND userRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	
+	<select id="getAllPosts" resultType="com.example.Pawfect.dto.PostDto" parameterType="map">
+		SELECT * FROM post
+		<if test="keyword != null and keyword !=''">
+			WHERE postTitle LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND postRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	
+	<select id="getAllComments" resultType="com.example.Pawfect.dto.CommentDto" parameterType="map">
+		SELECT * from comment
+		<if test="keyword != null and keyword !=''">
+			WHERE comContent LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND comRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	<select id="getAllReviews" resultType="com.example.Pawfect.dto.ReviewDto" parameterType="map">
+		SELECT * from review
+		<if test="keyword != null and keyword !=''">
+			WHERE reviewContent LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND reviewRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	
+	
+	<select id="getAllInquiries" resultType="com.example.Pawfect.dto.InquiryDto" parameterType="map">
+		SELECT * from inquiry
+		<if test="keyword != null and keyword !=''">
+			WHERE inquiryTitle LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND inquiryRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	<select id="getHandledInquiries" resultType="com.example.Pawfect.dto.InquiryDto" parameterType="map">
+		SELECT * from inquiry
+		WHERE inquiryStatus = 1
+		<if test="keyword != null and keyword !=''">
+			AND inquiryTitle LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND inquiryRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</select>
+	<select id="getUnhandledInquiries" resultType="com.example.Pawfect.dto.InquiryDto" parameterType="map">
+		SELECT * from inquiry
+		WHERE inquiryStatus = 0
+		<if test="keyword != null and keyword !=''">
+			AND inquiryTitle LIKE CONCAT('%' #{keyword}, '%')
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND inquiryRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
 	</select>
 </mapper>
