@@ -277,9 +277,41 @@ select {
     background-color: #45a049;
 }
 
+.preview-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
 .preview-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    margin: 5px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 8px;
+}
+
+.delete-btn {
+  all: unset; 
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 3px 6px;
+  z-index: 1000;
+}
+.upload-info {
+  display: flex;
+  align-items: center; /* 버튼과 문구 높이 맞춤 */
+  gap: 10px; /* 간격 조절 */
+  margin-top: 10px;
+}
+
+.file-limit-msg {
+  font-size: 14px;
+  color: #666;
 }

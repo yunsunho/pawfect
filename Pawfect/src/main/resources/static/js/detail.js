@@ -61,34 +61,108 @@ document.addEventListener("DOMContentLoaded", function () {
 	// 파일 첨부 미리보기
     const fileButton = document.getElementById("fileButton");
     const fileInput = document.getElementById("reviewImages");
-
+	let allFiles = [];
+	
     fileButton.addEventListener("click", function () {
         fileInput.click();  // 파일 선택 창 열기
     });
 
     // 파일 선택 후 미리보기
-    fileInput.addEventListener("change", function (event) {
-        const files = event.target.files;
-        const previewContainer = document.getElementById("preview-container");
+	const MAX_IMAGES = 5;
+	fileInput.addEventListener("change", function (event) {
+	    const newFiles = Array.from(event.target.files);
+	    const previewContainer = document.getElementById("preview-container");
 
-        // 기존 미리보기 이미지 초기화 하지 않고 새로운 이미지를 추가
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const reader = new FileReader();
+	    const currentCount = allFiles.length;
 
-            reader.onload = function (e) {
-                const img = document.createElement("img");
-                img.src = e.target.result;
-                img.classList.add("preview-image");
-                previewContainer.appendChild(img);
-            };
+	    if (currentCount + newFiles.length > MAX_IMAGES) {
+	        alert(`이미지는 최대 ${MAX_IMAGES}장까지 첨부할 수 있습니다.`);
+	        return;
+	    }
 
-            reader.readAsDataURL(file); // 파일을 Data URL 형식으로 읽어서 미리보기
-        }
+	    newFiles.forEach((file, index) => {
+	        allFiles.push(file); // ✅ allFiles에 추가
 
-        // 선택된 파일 갯수 표시 (선택된 파일이 있을 경우에만 갱신)
-        const fileCount = files.length;
-        const fileLabel = document.querySelector("#fileButton + span");
-        fileLabel.textContent = `${fileCount}개의 사진 선택됨`;
-    });
+	        const reader = new FileReader();
+	        reader.onload = function (e) {
+	            const wrapper = document.createElement("div");
+	            wrapper.className = "preview-wrapper";
+
+	            const img = document.createElement("img");
+	            img.src = e.target.result;
+	            img.classList.add("preview-image");
+
+	            const deleteBtn = document.createElement("button");
+	            deleteBtn.innerText = "×";
+	            deleteBtn.classList.add("delete-btn");
+				deleteBtn.style.width = "20px";
+				deleteBtn.style.height = "20px";
+				deleteBtn.style.padding = "0";
+				deleteBtn.style.lineHeight = "20px";
+				deleteBtn.style.fontSize = "12px";
+				deleteBtn.style.fontWeight = "bold";
+				deleteBtn.style.textAlign = "center";
+				deleteBtn.style.border = "none";
+				deleteBtn.style.background = "#bababa";
+				deleteBtn.style.color = "white";
+				deleteBtn.style.borderRadius = "30%";
+				deleteBtn.style.cursor = "pointer";
+				deleteBtn.style.position = "absolute";
+				deleteBtn.style.top = "-8px";
+				deleteBtn.style.right = "-8px";
+				deleteBtn.style.zIndex = "1000";
+
+	            // 파일 삭제 버튼 클릭 시
+	            deleteBtn.addEventListener("click", function () {
+	                const idx = Array.from(previewContainer.children).indexOf(wrapper);
+	                allFiles.splice(idx, 1); // ✅ 실제 배열에서도 제거
+	                wrapper.remove();
+	                resetFileInput(); // ✅ input 갱신
+	            });
+
+	            wrapper.appendChild(img);
+	            wrapper.appendChild(deleteBtn);
+	            previewContainer.appendChild(wrapper);
+	        };
+
+	        reader.readAsDataURL(file);
+	    });
+		console.log("제출 직전 파일 목록:", fileInput.files);
+		for (const file of fileInput.files) {
+		  console.log("파일:", file.name, file.size);
+		}
+
+	    resetFileInput(); // ✅ input 갱신
+	    //fileInput.value = "";
+	});
+
+    // 선택된 파일 갯수 표시 (선택된 파일이 있을 경우에만 갱신)
+	function resetFileInput() {
+        const dataTransfer = new DataTransfer();
+        allFiles.forEach(file => dataTransfer.items.add(file));
+        fileInput.files = dataTransfer.files;
+    }
+	
+	// 리뷰 폼 제출 시 유효성 검사 + 로그인 체크
+	document.querySelector("form").addEventListener("submit", function (event) {
+		const isLoggedIn = document.body.dataset.loggedIn === "true";
+		
+	    // 로그인 확인
+		if (!isLoggedIn) {
+	        event.preventDefault(); // 제출 막기
+	        showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
+	            location.href = "/loginForm";
+	        });
+	        return;
+	    }
+
+	    if (fileInput.files.length === 0) {
+	        event.preventDefault();
+	        showModal("이미지를 최소 1장 이상 첨부해주세요.");
+			closeModal;
+	        return;
+	    }
+	});
+	
 });
+
