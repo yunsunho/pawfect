@@ -497,6 +497,7 @@ function initInfoTabEvents() {
 	const withdrawBtn = document.getElementById("btnWithdraw");
 	if (withdrawBtn) {
 		withdrawBtn.addEventListener("click", () => {
+			document.getElementById("withdrawPwdInput").value = "";
 			document.getElementById("withdrawPwdModal").style.display = "block";
 		});
 	}
