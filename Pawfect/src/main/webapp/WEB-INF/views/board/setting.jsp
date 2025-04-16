@@ -21,7 +21,7 @@
 <c:set var="label_title" value="제목"/>
 <c:set var="label_writer" value="작성자"/>
 <c:set var="label_date" value="작성일"/>
-<c:set var="label_likes" value="추천"/>
+<c:set var="label_likes" value="좋아요"/>
 <c:set var="label_views" value="조회"/>
 
 <c:set var="label_post_title" value="게시글 제목"/>
@@ -60,7 +60,7 @@
 <c:set var="str_deleted_comment" value="삭제된 댓글입니다."/>
 <c:set var="str_comment_editted" value="수정됨"/>
 <!-- like -->
-<c:set var="btn_like" value="추천"/>
+<c:set var="btn_like" value="좋아요"/>
 
 
 <!-- writeForm.jsp -->

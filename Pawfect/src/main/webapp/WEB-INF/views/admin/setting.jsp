@@ -6,7 +6,7 @@
 
 <!-- menu -->
 <c:set var="sidebar_manage_site" value="사이트 관리"/>
-<c:set var="sidebar_manage_users" value="사용자 관리"/>
+<c:set var="sidebar_manage_users" value="회원 관리"/>
 <c:set var="sidebar_manage_posts" value="게시물 관리"/>
 <c:set var="sidebar_manage_comments" value="댓글 관리"/>
 <c:set var="sidebar_manage_reviews" value="리뷰 관리"/>
