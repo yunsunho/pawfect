@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let newMarkers = [];
 
     places.forEach(place => {
-      // ⛳ 마커 아이콘 경로 설정
+      // 마커 아이콘 경로 설정
       let iconPath = "";
       switch (place.contenttypeid) {
         case "12": iconPath = "/images/marker/marker-tour.png"; break;
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       newMarkers.push(marker);
 
-      // 📝 리스트 카드
+      // 리스트 카드
       const card = document.createElement('div');
       card.className = 'place-card';
       card.setAttribute('data-contentid', place.contentid);
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       placeList.appendChild(card);
 
-      // 🧭 마커 클릭 시 인포윈도우
+      // 마커 클릭 시 인포윈도우
 	  kakao.maps.event.addListener(marker, 'click', () => {
 	    map.setCenter(position);
 
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	        <h4 style="margin: 8px 0 4px; font-size: 16px; cursor: pointer;" onclick="window.location.href='/detail/${place.contentid}/${place.contenttypeid}'">${place.title}</h4>
 	        <p style="margin: 0; font-size: 14px; color: #555;">${place.addr1}</p>
 	        <div style="margin-top: 8px; text-align: right;">
-	          <span class="bookmark" onclick="toggleBookmark('${place.contentid}')" style="cursor: pointer;">🔖</span>
+	          <span class="bookmark" onclick="toggleBookmark('${place.contentid}')" style="cursor: pointer;"></span>
 	        </div>
 	      </div>
 	    `;
@@ -148,8 +148,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const radiusValue = document.getElementById("radiusValue");
 
   radiusInput.addEventListener("input", () => {
-    radiusValue.textContent = radiusInput.value;
-  });
+      radiusValue.textContent = radiusInput.value;
+	  radiusValue.textContent = radiusInput.value / 1000; // 초기 표시값 설정
+   });
 
   // 설정 버튼 누르면 패널 토글
   document.getElementById("mapSettingsBtn").addEventListener("click", () => {

@@ -46,6 +46,12 @@
   </script>
 </c:if>
 
+<div id="commonModal" class="modal">
+  <div class="modal-content">
+    <p id="modalMessage"></p>
+    <button onclick="closeModal()">확인</button>
+  </div>
+</div>
 <div id="confirmModal" class="modal">
   <div class="modal-content">
     <p id="confirmModalMessage"></p>

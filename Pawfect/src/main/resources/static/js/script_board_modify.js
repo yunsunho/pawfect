@@ -42,22 +42,11 @@ window.addEventListener("DOMContentLoaded", () => {
         if (targetForm) {
             const quillContent = quill.root.innerHTML;
             const selectedTag = document.querySelector("input[name='tag-select']:checked");
-            const subjectInput = document.querySelector("input[name='postTitle']");
-
-            if (!subjectInput.value.trim()) {
-                alert(msg_subject);
-                subjectInput.focus();
-                return;
-            }
-
-            if (!quillContent || quillContent === "<p><br></p>") {
-                alert(msg_content);
-                return;
-            }
 
             targetForm.querySelector("input[name='postContent']").value = quillContent;
             targetForm.querySelector("input[name='postType']").value = selectedTag ? selectedTag.value : "";
 
+            closeConfirmModal();
             targetForm.submit();
         }
     });
@@ -66,10 +55,43 @@ window.addEventListener("DOMContentLoaded", () => {
 // Show confirmation modal
 function openConfirmModal(buttonElement) {
     targetForm = buttonElement.closest("form");
+    const subjectInput = targetForm.querySelector("input[name='postTitle']");
+    const quillContent = quill.root.innerHTML;
+
+    // 제목 유효성 검사
+    if (!subjectInput.value.trim()) {
+        showModal(msg_subject);
+        subjectInput.focus();
+        return;
+    }
+
+    // 내용 유효성 검사
+    if (!quillContent || quillContent === "<p><br></p>") {
+        showModal(msg_content);
+        return;
+    }
+
+    // 유효성 통과 → 확인 모달 열기
     document.getElementById("confirmModal").style.display = "block";
 }
 
 // Close confirmation modal
 function closeConfirmModal() {
     document.getElementById("confirmModal").style.display = "none";
+}
+
+// Show general alert modal
+function showModal(message) {
+    const modal = document.getElementById("commonModal");
+    const msgBox = document.getElementById("modalMessage");
+    if (modal && msgBox) {
+        msgBox.innerText = message;
+        modal.style.display = "block";
+    }
+}
+
+// Close general alert modal
+function closeModal() {
+    const modal = document.getElementById("commonModal");
+    if (modal) modal.style.display = "none";
 }

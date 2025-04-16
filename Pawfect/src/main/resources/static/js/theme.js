@@ -64,10 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	     const index = bookmarkArray.indexOf(contentId);
 
 	     if (result === "saved") {
-	       alert("북마크 추가됨 (자동 실행)");
+				showModal("북마크 추가 (자동 실행)");
+			  	closeModal;
 	       if (index === -1) bookmarkArray.push(contentId);
 	     } else if (result === "deleted") {
-	       alert("북마크 삭제됨 (자동 실행)");
+				showModal("북마크 삭제 (자동 실행)");
+			  	closeModal;
 	       if (index > -1) bookmarkArray.splice(index, 1);
 	     }
 	     sessionStorage.removeItem("pendingBookmark");
@@ -116,15 +118,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	    if (!result) return;
 	    const contentId = Number(dto.contentId);
 	    const index = bookmarkArray.indexOf(contentId);
+	    const textOnly = btn.textContent.replace(/[^\d]/g, '');
+	    let count = parseInt(textOnly) || 0;
 
 	    if (result === "saved") {
-	      alert("북마크 추가됨");
-	      if (index === -1) bookmarkArray.push(contentId); // 직접 배열 수정
-	      btn.textContent = "✅";
+	      showModal("북마크 추가");
+	      closeModal;
+	      if (index === -1) bookmarkArray.push(contentId);
+	      btn.innerHTML = `✅ ${count + 1}`;
 	    } else if (result === "deleted") {
-	      alert("북마크 삭제됨");
-	      if (index > -1) bookmarkArray.splice(index, 1); // 배열에서 제거
-	      btn.textContent = "🔖";
+	      showModal("북마크 삭제");
+	      closeModal;
+	      if (index > -1) bookmarkArray.splice(index, 1);
+	      btn.innerHTML = `🔖 ${Math.max(0, count - 1)}`;
 	    }
 	  });
 
@@ -145,25 +151,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const card = document.createElement("div");
         card.className = "theme-card";
-        card.innerHTML = `
-          <a href="/detail/${item.contentid}/${item.contenttypeid}" class="theme-link">
-            <img src="${item.firstimage || '/images/no-image.png'}" alt="이미지 없음">
-            <div class="theme-info">
-              <h3>${item.title}</h3>
-              <p>${item.addr1}</p>
-            </div>
-          </a>
-          <div class="bookmark"
-               data-contentid="${item.contentid}"
-               data-contenttypeid="${item.contenttypeid}"
-               data-title="${item.title}"
-               data-firstimage="${item.firstimage}"
-               data-mapx="${item.mapx}"
-               data-mapy="${item.mapy}"
-               data-addr1="${item.addr1}">
-            ${isBookmarked ? "✅" : "🔖"}
-          </div>
-        `;
+		card.innerHTML = `
+		  <div class="card-top-bar">
+		    <div class="rating">⭐ ${item.rating ?? '-'}</div>
+			<div class="bookmark"
+			     data-contentid="${item.contentid}"
+			     data-contenttypeid="${item.contenttypeid}"
+			     data-title="${item.title}"
+			     data-firstimage="${item.firstimage}"
+			     data-mapx="${item.mapx}"
+			     data-mapy="${item.mapy}"
+			     data-addr1="${item.addr1}">
+			  ${isBookmarked ? "✅" : "🔖"} ${item.bookmarkCount ?? 0}
+			</div>
+		  </div>
+
+		  <a href="/detail/${item.contentid}/${item.contenttypeid}" class="theme-link">
+		    <img src="${item.firstimage || '/images/no-image.png'}" alt="이미지 없음">
+		    <div class="theme-info">
+		      <h3>${item.title}</h3>
+		      <p>${item.addr1}</p>
+		    </div>
+		  </a>
+		`;
         container.appendChild(card);
       });
 

@@ -46,5 +46,4 @@ public interface BoardMapper {
 	public int removeLike(Map<String, Object> map);
 	
 	public List<PostDto> getHotPosts();
-
 }

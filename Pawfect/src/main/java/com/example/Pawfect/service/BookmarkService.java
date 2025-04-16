@@ -29,5 +29,13 @@ public class BookmarkService {
 	public List<Integer> findContentIdsByUserId(String userId) {
 	    return bookmarkMapper.selectContentIdsByUserId(userId);
 	}
+	public int getBookmarkCount(int contentId) {
+	    return bookmarkMapper.getBookmarkCount(contentId);
+	}
+
+	public int countByContentId(int contentId) {
+	    return bookmarkMapper.countByContentId(contentId);
+	}
+
 
 }
