@@ -21,4 +21,6 @@ public class UserDto {
 
 	private boolean admin;
 	private String userStatus; // ACTIVE, BANNED, WITHDRAWN
+	
+	private String formattedDate;
 }
