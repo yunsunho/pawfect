@@ -96,3 +96,6 @@
 
 <!-- modal -->
 <c:set var="msg_loading" value="잠시 후 페이지가 이동합니다..."/>
+<c:set var="modal_confirm_write" value="정말로 게시물을 등록하시겠습니까?"/>
+<c:set var="modal_btn_confirm" value="확인"/>
+<c:set var="modal_btn_cancel" value="취소"/>
