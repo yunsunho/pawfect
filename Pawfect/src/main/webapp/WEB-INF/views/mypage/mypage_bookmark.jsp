@@ -15,16 +15,17 @@
 						<a href="/detail/${bookmark.contentId}/${bookmark.contentTypeId}"
 							class="bookmark-link"> <c:choose>
 								<c:when test="${not empty bookmark.firstimage}">
-									<img src="${bookmark.firstimage}" alt="이미지"/>
+									<img src="${bookmark.firstimage}" alt="이미지" />
 								</c:when>
 								<c:otherwise>
-									<img src="/images/no-image.png" alt="이미지 없음"/>
+									<img src="/images/no-image.png" alt="이미지 없음" />
 								</c:otherwise>
 							</c:choose>
 						</a>
 						<div class="bookmark-info">
 							<h3>
-								<a href="/detail/${bookmark.contentId}/${bookmark.contentTypeId}"
+								<a
+									href="/detail/${bookmark.contentId}/${bookmark.contentTypeId}"
 									class="bookmark-title-link"> ${bookmark.title} </a>
 							</h3>
 							<p>${bookmark.addr1}</p>
@@ -37,14 +38,24 @@
 			<c:if test="${totalPages > 1}">
 				<div class="pagination"
 					style="text-align: center; margin-top: 30px;">
+
 					<c:if test="${currentPage > 1}">
 						<button class="page-btn" data-page="1">«</button>
 						<button class="page-btn" data-page="${currentPage - 1}">‹</button>
 					</c:if>
 
-					<c:forEach begin="1" end="${totalPages}" var="i">
-						<button class="page-btn ${i == currentPage ? 'active' : ''}"
-							data-page="${i}">${i}</button>
+					<%
+					int currentPageVal = (request.getAttribute("currentPage") != null) ? (Integer) request.getAttribute("currentPage") : 1;
+					int totalPagesVal = (request.getAttribute("totalPages") != null) ? (Integer) request.getAttribute("totalPages") : 1;
+
+					int pageBlockSize = 5;
+					int startPage = ((currentPageVal - 1) / pageBlockSize) * pageBlockSize + 1;
+					int endPage = Math.min(startPage + pageBlockSize - 1, totalPagesVal);
+					%>
+
+					<c:forEach begin="<%=startPage%>" end="<%=endPage%>" var="i">
+						<c:set var="iVal" value="${i}" />
+						<button class="page-btn ${iVal == currentPage ? 'active' : ''}" data-page="${iVal}">${iVal}</button>
 					</c:forEach>
 
 					<c:if test="${currentPage < totalPages}">

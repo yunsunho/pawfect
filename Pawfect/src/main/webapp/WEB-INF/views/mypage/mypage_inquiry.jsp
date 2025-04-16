@@ -6,7 +6,8 @@
 <div class="inquiry-tab">
 	<div class="inquiry-header">
 		<h2 class="inquiry-title">1:1 문의 내역</h2>
-		<button id="btnWriteInquiry" class="edit-btn write-btn" type="button">문의 작성</button>
+		<button id="btnWriteInquiry" class="edit-btn write-btn" type="button">문의
+			작성</button>
 	</div>
 
 	<table class="inquiry-table">
@@ -61,6 +62,17 @@
 			</c:forEach>
 		</tbody>
 	</table>
+
+	<%-- 페이징 처리 --%>
+	<%
+	int currentPageVal = (request.getAttribute("currentPage") != null) ? (Integer) request.getAttribute("currentPage") : 1;
+	int totalPagesVal = (request.getAttribute("totalPages") != null) ? (Integer) request.getAttribute("totalPages") : 1;
+
+	int pageBlockSize = 5;
+	int startPage = ((currentPageVal - 1) / pageBlockSize) * pageBlockSize + 1;
+	int endPage = Math.min(startPage + pageBlockSize - 1, totalPagesVal);
+	%>
+
 	<c:if test="${totalPages > 1}">
 		<div class="pagination" style="margin-top: 20px; text-align: center;">
 			<c:if test="${currentPage > 1}">
@@ -68,9 +80,10 @@
 				<button class="page-btn" data-page="${currentPage - 1}">‹</button>
 			</c:if>
 
-			<c:forEach begin="1" end="${totalPages}" var="i">
-				<button class="page-btn ${i == currentPage ? 'active' : ''}"
-					data-page="${i}">${i}</button>
+			<c:forEach begin="<%=startPage%>" end="<%=endPage%>" var="i">
+				<c:set var="iVal" value="${i}" />
+				<button class="page-btn ${iVal == currentPage ? 'active' : ''}"
+					data-page="${iVal}">${iVal}</button>
 			</c:forEach>
 
 			<c:if test="${currentPage < totalPages}">
@@ -79,6 +92,7 @@
 			</c:if>
 		</div>
 	</c:if>
+
 
 </div>
 
