@@ -39,16 +39,6 @@
 <c:set var="msg_no_user" value="회원이 없습니다."/>
 <c:set var="btn_ban_user" value="회원 정지"/>
 <c:set var="modal_confirm_ban" value="정말로 회원을 정지 시키겠습니까?"/>
-<!-- 
-  postId INT PRIMARY KEY AUTO_INCREMENT,
-  userId VARCHAR(50) NOT NULL,
-  postType INT DEFAULT 0,
-  postTitle VARCHAR(255) NOT NULL,
-  postContent LONGTEXT NOT NULL, -- HTML 포함 가능
-  postRegdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  postViewCount INT DEFAULT 0,
-  FOREIGN KEY (userId) REFERENCES user(userId)
- -->
  
 <!-- 게시물 관리 -->
 <c:set var="page_post" value="게시물 관리"/>
@@ -60,6 +50,29 @@
 <c:set var="msg_no_post" value="게시물이 없습니다."/>
 <c:set var="btn_delete_post" value="게시물 삭제"/>
 <c:set var="modal_confirm_delete_post" value="정말로 게시물을 삭제하시겠습니까?"/>
+
+<!-- 
+commentId INT PRIMARY KEY AUTO_INCREMENT,
+  userId VARCHAR(50) NOT NULL,
+	postId INT NOT NULL,
+  comContent TEXT NOT NULL,
+  comRegdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  com_ref INT,
+  com_re_step INT,
+  com_re_level INT,
+  comEditStatus BOOLEAN DEFAULT 0,
+  comDeleteStatus BOOLEAN DEFAULT 0
+ -->
+
+<!-- 댓글 관리 -->
+<c:set var="page_comment" value="댓글 관리"/>
+<c:set var="label_commentId" value="ID"/>
+<!--  userId -->
+<c:set var="label_comContent" value="댓글 내용"/>
+<!-- comRegdate -->
+<c:set var="msg_no_comment" value="댓글이 없습니다."/>
+<c:set var="btn_delete_comment" value="댓글 삭제"/>
+<c:set var="modal_confirm_delete_comment" value="정말로 댓글을 삭제하시겠습니까?"/>
 
 
 <!-- 문의 처리 -->
