@@ -90,7 +90,11 @@
 							<tr>
 								<td>${dto.commentId}</td>
 								<td>${dto.userId}</td>
-								<td>${dto.comContent}</td>
+								<td>
+									<a href="/board/content?num=${dto.postId}">
+										${dto.comContent}
+									</a>
+								</td>
 								<td>${dto.formattedDate}</td>
 								<td>
 									<form action="deleteComment" method="post">

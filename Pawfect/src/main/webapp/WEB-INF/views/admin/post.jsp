@@ -90,7 +90,11 @@
 							<tr>
 								<td>${dto.postId}</td>
 								<td>${dto.userId}</td>
-								<td>${dto.postTitle}</td>
+								<td>
+									<a href="/board/content?num=${dto.postId}">
+										${dto.postTitle}
+									</a>
+								</td>
 								<td>${dto.formattedDate}</td>
 								<td>
 									<form action="deletePost" method="post">
