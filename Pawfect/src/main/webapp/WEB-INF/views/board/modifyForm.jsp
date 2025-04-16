@@ -14,7 +14,15 @@
 	    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 	    <script src="/js/script_board.js" defer></script>
 	    <script src="/js/script_board_modify.js" defer></script>
+	    <script src="/js/script_admin.js" defer></script>
 	</head>
+	<div id="confirmModal" class="modal">
+	    <div class="modal-content">
+	        <p>${modal_confirm_write}</p>
+	        <button id="confirmSubmit">${modal_btn_confirm }</button>
+	        <button onclick="closeConfirmModal()">${modal_btn_cancel }</button>
+	    </div>
+	</div>
 	<body>
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="board-container">
@@ -55,7 +63,7 @@
 						</ul>
 					</div>
 			    	
-				    <input type="text" id="subject" name="postTitle" value="${postDto.postTitle}">
+				    <input type="text" id="subject" name="postTitle" value="${postDto.postTitle}" required>
 				    
 				    <textarea id="existingContent" style="display:none">${postDto.postContent}</textarea>
 				    <div id="editor-container"></div>
@@ -66,7 +74,7 @@
 				    
 				    <div class="button-container">
 				    	<div class="button-inner-container">
-				    		<button class="submit-btn" type="submit">${btn_modify}</button>
+				    		<button class="submit-btn" type="button" onclick="openConfirmModal(this)">${btn_modify}</button>
 				        	<button class="cancel-btn" type="button" onclick="window.location.href='/board/content?num=${postDto.postId}'">${btn_cancel}</button>
 				    	</div>
 				    </div>
