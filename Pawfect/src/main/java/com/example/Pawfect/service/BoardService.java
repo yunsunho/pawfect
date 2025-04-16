@@ -143,7 +143,8 @@ public class BoardService {
 			notif.setSenderId(comment.getUserId());
 			notif.setReceiverId(parent.getUserId());
 			notif.setNotiType("reply");
-			notif.setNotiContent(comment.getUserNickname() + "(" + maskId(comment.getUserId()) + ")님이 내 댓글에 답글을 달았습니다.");
+			notif.setNotiContent(
+					comment.getUserNickname() + "(" + maskId(comment.getUserId()) + ")님이 내 댓글에 답글을 달았습니다.");
 			notif.setNotiUrl("/board/content?num=" + comment.getPostId());
 
 			notificationService.sendNotification(notif);
