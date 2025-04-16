@@ -143,7 +143,8 @@ public class BoardService {
 			notif.setSenderId(comment.getUserId());
 			notif.setReceiverId(parent.getUserId());
 			notif.setNotiType("reply");
-			notif.setNotiContent(comment.getUserNickname() + "(" + maskId(comment.getUserId()) + ")님이 내 댓글에 답글을 달았습니다.");
+			notif.setNotiContent(
+					comment.getUserNickname() + "(" + maskId(comment.getUserId()) + ")님이 내 댓글에 답글을 달았습니다.");
 			notif.setNotiUrl("/board/content?num=" + comment.getPostId());
 
 			notificationService.sendNotification(notif);
@@ -218,5 +219,30 @@ public class BoardService {
 		} else {
 			return postDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		}
+	}
+
+	// 메인 인기글
+	public List<PostDto> getTopPostsByViews() {
+		List<PostDto> list = boardMapper.getTopPostsByViews(2);
+		for (PostDto post : list) {
+			post.generateDisplayName();
+		}
+		return list;
+	}
+
+	public List<PostDto> getTopPostsByLikes() {
+		List<PostDto> list = boardMapper.getTopPostsByLikes(2);
+	    for (PostDto post : list) {
+	        post.generateDisplayName();
+	    }
+	    return list;
+	}
+
+	public List<PostDto> getTopPostsByComments() {
+		List<PostDto> list = boardMapper.getTopPostsByComments(2);
+	    for (PostDto post : list) {
+	        post.generateDisplayName();
+	    }
+	    return list;
 	}
 }

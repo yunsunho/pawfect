@@ -46,5 +46,9 @@ public interface BoardMapper {
 	public int removeLike(Map<String, Object> map);
 	
 	public List<PostDto> getHotPosts();
-
+	
+	// 메인 인기글
+	public List<PostDto> getTopPostsByViews(int limit);
+	public List<PostDto> getTopPostsByLikes(int limit);
+	public List<PostDto> getTopPostsByComments(int limit);
 }

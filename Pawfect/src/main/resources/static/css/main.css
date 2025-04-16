@@ -1,15 +1,16 @@
 /* main.css */
 .main {
   text-align: center;
+  background-color: #fffef5; 
 }
 
 /* hero 배경 */
 .hero {
   background: url('/images/main_bg.jpg') no-repeat center center;
   background-size: cover;
-  height: 100vh;
+  height: 75vh;
   display: flex;
-  padding-top: 200px;
+  padding-top: 180px;
   flex-direction: column;
   align-items: center;
   justify-content: start;
@@ -75,3 +76,137 @@ h1 {
   background-color: #f4c542; 
   border-radius: 0 10px 10px 0;
 }
+
+.hot-posts-section {
+  margin: 80px auto;
+  padding: 0 40px;
+  max-width: 1200px;
+}
+
+.hot-posts-section h2 {
+  font-size: 28px;
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.hot-category {
+  margin-bottom: 30px;
+}
+
+.hot-category h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.hot-posts-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding-bottom: 10px;
+  scrollbar-width: thin;
+}
+
+.hot-posts-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+.hot-posts-scroll::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.hot-header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px; 
+  margin-bottom: 30px;
+}
+
+.hot-title {
+  font-size: 35px;
+  font-weight: bold;
+  position: relative;
+  margin: 0;
+}
+
+.hot-title::after {
+  content: '';
+  display: block;
+  width: 173px;
+  height: 4px;
+  background-color: #f4c542;
+  margin-top: 0px;
+  border-radius: 4px;
+}
+
+.hot-subtitle {
+  font-size: 16px;
+  color: #777;
+}
+
+.hot-post-card {
+  background: #dee7e9;
+  min-width: 240px;
+  max-width: 280px;
+  flex-shrink: 0;
+  padding: 16px 20px 14px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  text-align: left;
+  position: relative;
+  display: flex; /* 추가 */
+  flex-direction: column;
+  justify-content: space-between; 
+  height: 180px; 
+}
+
+.hot-post-card h4 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 4px; 
+  margin-top: 0;
+}
+
+.hot-post-card p {
+  font-size: 13px;
+  margin: 4px 0;
+  color: #555;
+}
+
+.hot-post-card .author {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.view-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #3d4fa1;
+  text-decoration: none;
+}
+
+.view-btn:hover {
+  text-decoration: underline;
+}
+
+.post-stats {
+  font-size: 13px;
+  color: #666;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.post-preview {
+  font-size: 14px;
+  color: #444;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
