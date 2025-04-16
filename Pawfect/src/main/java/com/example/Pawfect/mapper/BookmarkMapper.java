@@ -14,5 +14,6 @@ public interface BookmarkMapper {
 	int countBookmark(BookmarkDto dto); // 0이면 없음, 1 이상이면 있음
 	List<Integer> selectContentIdsByUserId(String userId);	
 	int getBookmarkCount(int contentId);
+	int countByContentId(int contentId);
 
 }

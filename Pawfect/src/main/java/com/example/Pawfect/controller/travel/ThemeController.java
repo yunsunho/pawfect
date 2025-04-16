@@ -3,6 +3,7 @@ package com.example.Pawfect.controller.travel;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.Pawfect.auth.CustomUserDetails;
 import com.example.Pawfect.service.BookmarkService;
+import com.example.Pawfect.service.ReviewService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,6 +32,7 @@ public class ThemeController {
     private String serviceKey;
 
     private final BookmarkService bookmarkService;
+    private final ReviewService reviewService;
 
     // 👉 테마 리스트 뷰 이동
     @GetMapping("/themeList")
@@ -56,7 +59,7 @@ public class ThemeController {
             @RequestParam(defaultValue = "1") int pageNo) throws Exception {
 
         String encoded = URLEncoder.encode(serviceKey, "UTF-8");
-        List<Map<String, String>> themeList = new ArrayList<>();
+        List<Map<String, Object>> themeList = new ArrayList<>();
 
         String url = "https://apis.data.go.kr/B551011/KorPetTourService/petTourSyncList?"
                 + "serviceKey=" + encoded
@@ -83,15 +86,21 @@ public class ThemeController {
         int totalCount = body.path("totalCount").asInt();
 
         for (JsonNode item : items) {
-            themeList.add(Map.of(
-                    "contentid", item.path("contentid").asText(),
-                    "contenttypeid", item.path("contenttypeid").asText(),
-                    "title", item.path("title").asText(),
-                    "addr1", item.path("addr1").asText(),
-                    "firstimage", item.path("firstimage").asText(),
-                    "mapx", item.path("mapx").asText(),
-                    "mapy", item.path("mapy").asText()
-            ));
+            int contentId = item.path("contentid").asInt();
+            double rating = reviewService.getAverageRating(contentId);
+            int bookmarkCount = bookmarkService.countByContentId(contentId);
+
+            Map<String, Object> place = new HashMap<>();
+            place.put("contentid", String.valueOf(contentId));
+            place.put("contenttypeid", item.path("contenttypeid").asText());
+            place.put("title", item.path("title").asText());
+            place.put("addr1", item.path("addr1").asText());
+            place.put("firstimage", item.path("firstimage").asText());
+            place.put("mapx", item.path("mapx").asText());
+            place.put("mapy", item.path("mapy").asText());
+            place.put("rating", String.format("%.1f", rating));
+            place.put("bookmarkCount", bookmarkCount);
+            themeList.add(place);
         }
 
         int totalPages = (int) Math.ceil((double) totalCount / 20);

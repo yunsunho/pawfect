@@ -96,8 +96,8 @@
 							<td style="text-align:left">
 								<a class="post-title" href="board/content?num=${dto.postId}">
 									<c:if test="${dto.containsImage}">
-										<i class="fa-solid fa-image"></i>
-									</c:if>&nbsp;
+										<i class="fa-solid fa-image"></i>&nbsp;
+									</c:if>
 									${dto.postTitle}&nbsp;
 									<b>(${dto.commentCount})</b>
 								</a>

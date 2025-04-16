@@ -78,7 +78,7 @@
 	<div id="withdrawPwdModal" class="modal" style="display: none;">
 		<div class="modal-content">
 			<h3>비밀번호 확인</h3>
-			<input type="password" id="withdrawPwdInput" placeholder="현재 비밀번호 입력" style="width: 300px;"/>
+			<input type="password" id="withdrawPwdInput" placeholder="현재 비밀번호 입력" style="width: 250px;"/>
 			<div style="margin-top: 10px;">
 				<button id="confirmPwdBtn" class="edit-btn">확인</button>
 				<button onclick="closeModalById('withdrawPwdModal')"

@@ -23,6 +23,12 @@
 	        <button onclick="closeConfirmModal()">${modal_btn_cancel }</button>
 	    </div>
 	</div>
+	<div id="commonModal" class="modal">
+	  <div class="modal-content">
+	    <p id="modalMessage">알림 메시지</p>
+	    <button onclick="closeModal()">확인</button>
+	  </div>
+	</div>
 	<body>
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="board-container">
