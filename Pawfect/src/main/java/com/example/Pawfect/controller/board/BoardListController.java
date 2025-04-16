@@ -128,6 +128,13 @@ public class BoardListController {
 	        for (PostDto dto : dtos) {
 	            dto.generateDisplayName();
 		        dto.setFormattedDate(boardService.formatPostDate(dto.getPostRegdate()));
+		        
+		        String content = dto.getPostContent();
+		        if (content != null && content.toLowerCase().matches(".*<img\\s[^>]*>.*")) {
+		            dto.setContainsImage(true);
+		        } else {
+		            dto.setContainsImage(false);
+		        }
 	        }
 	        model.addAttribute("dtos", dtos);
 	    }

@@ -14,17 +14,44 @@
 
 <body data-logged-in="${not empty user}" data-user-id="${user.userId}">
 <div class="detail-wrapper">
-  <!-- 🏷️ 제목 + 주소 -->
   <div class="place-header">
-    <h1><c:choose>
-	  <c:when test="${not empty common.title}">${common.title}</c:when>
-	  <c:otherwise>제목 없음</c:otherwise>
-	</c:choose></h1>
+    <h1>
+      <c:choose>
+        <c:when test="${not empty common.title}">${common.title}</c:when>
+        <c:otherwise>제목 없음</c:otherwise>
+      </c:choose>
+    </h1>
 
-	<p><c:choose>
-	  <c:when test="${not empty common.addr1}">${common.addr1}</c:when>
-	  <c:otherwise>주소 없음</c:otherwise>
-	</c:choose></p>
+    <div class="place-meta">
+      <div class="meta-left">
+        ⭐ ${averageRating} / 5
+        <span>(${reviewCount}명)</span>
+      </div>
+
+      <div class="meta-center">
+        <p>
+          <c:choose>
+            <c:when test="${not empty common.addr1}">${common.addr1}</c:when>
+            <c:otherwise>주소 없음</c:otherwise>
+          </c:choose>
+        </p>
+      </div>
+
+      <div class="meta-right">
+        <button id="bookmarkBtn"
+	        class="${isBookmarked ? 'bookmarked' : ''}"
+	        data-contentid="${contentId}"
+	        data-contenttypeid="${contentTypeId}"
+	        data-title="${common.title}"
+	        data-firstimage="${common.firstimage}"
+	        data-mapx="${common.mapx}"
+	        data-mapy="${common.mapy}"
+	        data-addr1="${common.addr1}">
+          ${isBookmarked ? '✅' : '🔖'}
+        </button>
+		<span id="bookmarkCount">${bookmarkCount}</span>
+      </div>
+    </div>
 
     <hr class="divider">
   </div>

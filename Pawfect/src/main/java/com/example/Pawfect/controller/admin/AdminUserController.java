@@ -128,7 +128,7 @@ public class AdminUserController {
 			@RequestParam int pageNum, Model model) {
 		userDto.setUserStatus("BANNED");
 		adminService.updateUserStats(userDto);
-		System.out.println("ban user");
+		
 		return "redirect:/admin/user?pageNum=" + pageNum;
 
 	}

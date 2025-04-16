@@ -170,6 +170,59 @@ document.addEventListener("DOMContentLoaded", function () {
 	        return;
 	    }
 	});
-	
+	const bookmarkBtn = document.getElementById("bookmarkBtn");
+	const bookmarkCountSpan = document.getElementById("bookmarkCount");
+
+	if (bookmarkBtn) {
+	    bookmarkBtn.addEventListener("click", function () {
+	        const isLoggedIn = document.body.dataset.loggedIn === "true";
+	        if (!isLoggedIn) {
+	            showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
+	                location.href = "/loginForm";
+	            });
+	            return;
+	        }
+
+	        const dto = {
+	            contentId: parseInt(this.dataset.contentid),
+	            contentTypeId: parseInt(this.dataset.contenttypeid),
+	            title: this.dataset.title,
+	            firstimage: this.dataset.firstimage,
+	            mapX: parseFloat(this.dataset.mapx),
+	            mapY: parseFloat(this.dataset.mapy),
+	            addr1: this.dataset.addr1
+	        };
+
+	        fetch("/travel/bookmark/toggle", {
+	            method: "POST",
+	            headers: { "Content-Type": "application/json" },
+	            body: JSON.stringify(dto)
+	        })
+	        .then(res => res.text())
+	        .then(result => {
+	            if (result === "saved") {
+					showModal("북마크 추가");
+				  	closeModal;
+	                this.classList.add("bookmarked");
+	                this.textContent = "✅";
+	                updateBookmarkCount(1);
+	            } else if (result === "deleted") {
+					showModal("북마크 삭제");
+				  	closeModal;
+	                this.classList.remove("bookmarked");
+	                this.textContent = "🔖";
+	                updateBookmarkCount(-1);
+	            }
+	        });
+	    });
+	}
+
+	// 북마크 수 실시간 증가/감소
+	function updateBookmarkCount(delta) {
+	    if (!bookmarkCountSpan) return;
+	    const current = parseInt(bookmarkCountSpan.textContent);
+	    bookmarkCountSpan.textContent = current + delta;
+	}
+
 });
 

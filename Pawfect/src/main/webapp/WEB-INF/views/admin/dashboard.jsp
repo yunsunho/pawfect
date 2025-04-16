@@ -39,11 +39,12 @@
             	<i class="fa-solid fa-list-check"></i>
             	&nbsp;${sidebar_manage_qna }
             </a></li>
-            <li id="adminLogoutBtn">
-	<i class="fa-solid fa-right-from-bracket"></i>
-	&nbsp;<span style="cursor: pointer;">로그아웃</span>
-</li>
         </ul>
+        <div id="adminLogoutBtn">
+	        <i id="logout-symbol" class="fa-solid fa-right-from-bracket"></i>
+			&nbsp;
+			<span id="logout-text">${sidebar_logout}</span>
+		</div>
     </div>
     
     <div class="main-content" id="main-content">
@@ -89,13 +90,13 @@
 		    </div>
 		</div>
     </div>
-<div id="confirmModal" class="modal">
-  <div class="modal-content">
-    <p id="confirmModalMessage">정말 로그아웃하시겠습니까?</p>
-    <div class="modal-buttons">
-      <button id="btnConfirmYes">확인</button>
-      <button id="btnConfirmNo">취소</button>
-    </div>
-  </div>
-</div>
+	<div id="confirmModal" class="modal">
+		<div class="modal-content">
+	    	<p id="confirmModalMessage">${modal_confirm_logout}</p>
+		    <div class="modal-buttons">
+		      <button id="btnConfirmYes">${str_confirm}</button>
+		      <button id="btnConfirmNo">${str_cancel}</button>
+		    </div>
+		</div>
+	</div>
 </body>
