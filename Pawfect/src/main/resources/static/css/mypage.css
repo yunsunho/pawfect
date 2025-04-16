@@ -70,9 +70,16 @@ body {
 	background-color: #f9f9f9;
 }
 
+/* 사이드바 전용 active */
 .mypage-sidebar li.active {
 	background-color: #f4c542;
 	color: #111;
+}
+
+/* 전역 .active 제거 또는 무력화 */
+.active {
+	background-color: unset;
+	color: unset;
 }
 
 .sidebar-menu {
@@ -343,10 +350,11 @@ body {
 	margin-bottom: 12px;
 	position: relative;
 }
+
 .inquiry-title::after {
 	content: '';
 	display: block;
-	width: 131px;
+	width: 132px;
 	height: 3px;
 	background-color: gray;
 	margin-top: 3px;
@@ -571,17 +579,17 @@ body {
   display: flex;
   background-color: #fffef5;
   border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
+  padding: 20px;
+  margin-bottom: 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   align-items: center;
 }
 
 .review-thumb {
   width: 120px;
-  height: 90px;
+  height: 120px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 4px;
   margin-right: 20px;
   border: 1px solid #ddd;
 }
@@ -596,8 +604,26 @@ body {
   margin-bottom: 6px;
 }
 
+.review-Btitle {
+	font-size: 24px;  
+	font-weight: bold;
+	text-align: left;
+	margin-bottom: 12px;
+	position: relative;
+}
+
+.review-Btitle::after {
+	content: '';
+	display: block;
+	width: 187px;
+	height: 3px;
+	background-color: gray;
+	margin-top: 3px;
+	border-radius: 3px;
+}
+
 .review-rating {
-  font-size: 16px;
+  font-size: 17px;
   color: #ddd;
   margin-bottom: 6px;
 }
@@ -607,7 +633,7 @@ body {
 }
 
 .review-content {
-  font-size: 14px;
+  font-size: 15px;
   color: #333;
   margin-bottom: 6px;
 }

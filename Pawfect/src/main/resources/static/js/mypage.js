@@ -22,17 +22,26 @@ function loadTab(tabName, page = 1) {
 		.catch((err) => console.error("탭 로딩 실패", err));
 }
 
-// 탭 클릭 및 디폴트 로딩
+function getUrlParam(name) {
+	const params = new URLSearchParams(window.location.search);
+	return params.get(name);
+}
+
 document.addEventListener("DOMContentLoaded", function() {
-	const defaultTab = document.querySelector('.mypage-sidebar li[data-tab="profile"]');
-	if (defaultTab) {
-		defaultTab.classList.add("active");
-		loadTab("profile");
+	const tabParam = getUrlParam("tab") || "profile";
+	const sidebarTabs = document.querySelectorAll(".mypage-sidebar li");
+	sidebarTabs.forEach((tab) => tab.classList.remove("active"));
+
+	const targetTabEl = document.querySelector(`.mypage-sidebar li[data-tab="${tabParam}"]`);
+	if (targetTabEl) {
+		targetTabEl.classList.add("active");
 	}
 
-	document.querySelectorAll(".mypage-sidebar li").forEach((tab) => {
+	loadTab(tabParam);
+
+	sidebarTabs.forEach((tab) => {
 		tab.addEventListener("click", function() {
-			document.querySelectorAll(".mypage-sidebar li").forEach((t) => t.classList.remove("active"));
+			sidebarTabs.forEach((t) => t.classList.remove("active"));
 			this.classList.add("active");
 			const tabName = this.dataset.tab;
 			if (tabName) {
@@ -40,6 +49,16 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 		});
 	});
+
+	// 로그아웃 버튼
+	const logoutBtn = document.getElementById("logoutBtn");
+	if (logoutBtn) {
+		logoutBtn.addEventListener("click", () => {
+			showConfirmModal("정말 로그아웃하시겠습니까?", () => {
+				location.href = "/logout";
+			});
+		});
+	}
 });
 
 let tempImageFormData = null; // 저장 버튼 클릭 시 서버에 전송할 이미지
@@ -779,7 +798,7 @@ function initInquiryTabEvents() {
 // 리뷰 탭 기능
 function initReviewTabEvents() {
 	document.querySelectorAll(".page-btn").forEach(btn => {
-		btn.addEventListener("click", function () {
+		btn.addEventListener("click", function() {
 			const page = this.dataset.page;
 			loadTab("review", page);
 		});
@@ -854,7 +873,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
-// 로그아웃
+/* 로그아웃
 document.addEventListener("DOMContentLoaded", function() {
 	const defaultTab = document.querySelector('.mypage-sidebar li[data-tab="profile"]');
 	if (defaultTab) {
@@ -880,7 +899,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			});
 		});
 	}
-});
+}); 
+*/
 
 // 모달
 function showModal(message) {

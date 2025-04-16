@@ -21,7 +21,7 @@
 				<!-- 좌측 메뉴 -->
 				<div class="mypage-sidebar">
 					<ul class="sidebar-menu">
-						<li class="active" data-tab="profile">내 프로필</li>
+						<li data-tab="profile">내 프로필</li>
 						<li data-tab="info">내 정보</li>
 						<li data-tab="password">비밀번호 변경</li>
 						<li data-tab="bookmark">북마크 리스트</li>

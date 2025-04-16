@@ -20,12 +20,16 @@ import java.util.List;
 @RequestMapping("/mypage")
 public class MyPageController {
 
-	private final MyPageService myPageService;
+	private final MyPageService myPageService;	
 
 	@GetMapping("")
 	public String showMyPage(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
 		if (userDetails == null) {
 			return "redirect:/loginForm";
+		}
+
+		if (userDetails.getUser().isAdmin()) {
+			return "redirect:/admin";
 		}
 
 		String userId = userDetails.getUser().getUserId();

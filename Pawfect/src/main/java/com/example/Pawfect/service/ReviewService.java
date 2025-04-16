@@ -34,7 +34,7 @@ public class ReviewService {
     }
 
     public List<ReviewDto> getReviewsByContentId(int contentId) {
-        return reviewMapper.selectReviewsByContentId(contentId);
+        return reviewMapper.selectReviewsWithUserByContentId(contentId);
     }
 
     // 리뷰와 이미지 저장
@@ -62,12 +62,35 @@ public class ReviewService {
     }
     
     public List<ReviewDto> getFullReviewsByContentId(int contentId) {
-        List<ReviewDto> reviews = reviewMapper.selectReviewsByContentId(contentId);
+        List<ReviewDto> reviews = reviewMapper.selectReviewsWithUserByContentId(contentId);
         for (ReviewDto review : reviews) {
             List<String> images = reviewMapper.selectReviewImagesByReviewId(review.getReviewId());
             review.setReviewImages(images);
         }
         return reviews;
+    }
+    
+ // 페이징된 리뷰 리스트 불러오기
+    public List<ReviewDto> getPagedReviewsWithUser(int contentId, int offset, int limit) {
+        List<ReviewDto> reviews = reviewMapper.selectPagedReviewsWithUser(contentId, offset, limit);
+        for (ReviewDto review : reviews) {
+            List<String> images = reviewMapper.selectReviewImagesByReviewId(review.getReviewId());
+            review.setReviewImages(images);
+        }
+        return reviews;
+    }
+
+    // 총 리뷰 수 가져오기
+    public int getTotalReviewCount(int contentId) {
+        return reviewMapper.countReviewsByContentId(contentId);
+    }
+    
+    public String getReviewOwner(int reviewId) {
+        return reviewMapper.findUserIdByReviewId(reviewId);
+    }
+
+    public void deleteReviewById(int reviewId) {
+        reviewMapper.deleteReview(reviewId);
     }
 
 

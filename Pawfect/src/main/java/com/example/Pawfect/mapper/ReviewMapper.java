@@ -10,7 +10,7 @@ import com.example.Pawfect.dto.ReviewDto;
 public interface ReviewMapper {
 
     // contentId에 해당하는 리뷰 목록을 가져오는 메서드
-    List<ReviewDto> selectReviewsByContentId(int contentId);
+	List<ReviewDto> selectReviewsWithUserByContentId(int contentId);
 
 	void insertReview(ReviewDto review);
 	
@@ -21,4 +21,18 @@ public interface ReviewMapper {
 	List<String> selectReviewImagesByOrder(int contentId);
 	
 	List<String> selectReviewImagesByReviewId(int reviewId);
+
+	int countReviewsByContentId(int contentId);
+
+	List<ReviewDto> selectPagedReviewsWithUser(
+		    @org.apache.ibatis.annotations.Param("contentId") int contentId,
+		    @org.apache.ibatis.annotations.Param("offset") int offset,
+		    @org.apache.ibatis.annotations.Param("limit") int limit
+		);
+
+	String findUserIdByReviewId(int reviewId);
+
+	void deleteReview(int reviewId);
+
+
 }
