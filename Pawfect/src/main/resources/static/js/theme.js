@@ -1,3 +1,4 @@
+/*
 function showModalWithCallback(message, callback) {
 	const modal = document.getElementById("commonModal");
 	const msgBox = document.getElementById("modalMessage");
@@ -17,7 +18,7 @@ function showModalWithCallback(message, callback) {
 		confirmBtn.addEventListener("click", handler);
 	}
 }
-
+*/
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.theme-container');
