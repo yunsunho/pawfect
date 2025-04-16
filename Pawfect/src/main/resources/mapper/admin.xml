@@ -48,28 +48,7 @@
 		SET userStatus=#{userStatus}
 		WHERE userId=#{userId}
 	</update>
-	<!-- post page -->
-	<select id="getPostCount" resultType="int" parameterType="map">
-		SELECT COUNT(*) FROM post
-		WHERE 1=1
-		<if test="keyword != null and keyword !=''">
-			AND postTitle LIKE CONCAT('%' #{keyword}, '%')
-		</if>
-		<if test="startDate != null and endDate != null">
-			AND postRegdate BETWEEN #{startDate} AND #{endDate}
-		</if>
-	</select>
-	<select id="getAllPosts" resultType="com.example.Pawfect.dto.PostDto" parameterType="map">
-		SELECT * FROM post
-		WHERE 1=1
-		<if test="keyword != null and keyword !=''">
-			AND postTitle LIKE CONCAT('%' #{keyword}, '%')
-		</if>
-		<if test="startDate != null and endDate != null">
-			AND postRegdate BETWEEN #{startDate} AND #{endDate}
-		</if>
-		LIMIT #{start}, #{pageSize}
-	</select>
+	
 	
 	<!-- comment page -->
 	<select id="getCommentCount" resultType="int" parameterType="map">
@@ -84,14 +63,20 @@
 	</select>
 	<select id="getAllComments" resultType="com.example.Pawfect.dto.CommentDto" parameterType="map">
 		SELECT * from comment
+		WHERE comDeleteStatus = 0
 		<if test="keyword != null and keyword !=''">
-			WHERE comContent LIKE CONCAT('%' #{keyword}, '%')
+			AND comContent LIKE CONCAT('%' #{keyword}, '%')
 		</if>
 		<if test="startDate != null and endDate != null">
 			AND comRegdate BETWEEN #{startDate} AND #{endDate}
 		</if>
 		LIMIT #{start}, #{pageSize}
 	</select>
+	<update id="deleteComment" parameterType="int">
+		UPDATE comment
+		SET comDeleteStatus = 0
+		WHERE commentId = #{commentId}
+	</update>
 	<!-- review page -->
 	<select id="getReviewCount" resultType="com.example.Pawfect.dto.ReviewDto" parameterType="map">
 		SELECT COUNT(*) from review
@@ -114,6 +99,10 @@
 		</if>
 		LIMIT #{start}, #{pageSize}
 	</select>
+	<delete id="deleteReview" parameterType="int">
+		DELETE from review
+		WHERE reviewId = #{reviewId}
+	</delete>
 	<!-- inquiry page -->
 	<select id="getInquiryCount" resultType="int" parameterType="map">
 		SELECT COUNT(*) from inquiry

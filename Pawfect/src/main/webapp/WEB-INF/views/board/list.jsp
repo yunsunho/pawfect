@@ -94,7 +94,7 @@
 							</td>
 							<td style="text-align:left">
 								<a class="post-title" href="board/content?num=${dto.postId}">
-									${dto.postTitle}
+									${dto.postTitle}&nbsp;<b>(${dto.commentCount})</b>
 								</a>
 							</td>
 							<td>${dto.displayName}</td>

@@ -52,11 +52,13 @@
 <c:set var="str_comment" value="댓글"/>
 <c:set var="placeholder_comment" value="댓글을 입력하세요"/>
 <c:set var="placeholder_reply" value="답글을 입력하세요"/>
+<c:set var="placeholder_login_to_comment" value="댓글을 작성하려면 로그인하세요."/>
 <c:set var="btn_submit" value="등록"/>
 <c:set var="btn_reply" value="답글"/>
 <c:set var="btn_delete_comment" value="삭제"/>
 <c:set var="btn_modify_comment" value="수정"/>
 <c:set var="str_deleted_comment" value="삭제된 댓글입니다."/>
+<c:set var="str_comment_editted" value="수정됨"/>
 <!-- like -->
 <c:set var="btn_like" value="추천"/>
 
@@ -95,3 +97,6 @@
 
 <!-- modal -->
 <c:set var="msg_loading" value="잠시 후 페이지가 이동합니다..."/>
+<c:set var="modal_confirm_write" value="정말로 게시물을 등록하시겠습니까?"/>
+<c:set var="modal_btn_confirm" value="확인"/>
+<c:set var="modal_btn_cancel" value="취소"/>

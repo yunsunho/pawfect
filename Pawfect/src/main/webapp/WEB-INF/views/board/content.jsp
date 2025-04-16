@@ -108,14 +108,20 @@
 				<h3>${str_comment}&nbsp;(${postDto.commentCount})</h3>
 				<form class="comment-form" action="comment" method="post">
 					<input type="hidden" name="postId" value="${postDto.postId}">
-					
-					<textarea name="comContent" id="comment-textarea" placeholder="${placeholder_comment}" required></textarea>
-					<div class="comment-form-buttons">
-						<div class="button-inner-container">
-							<button class="comment-submit-btn" type="submit">${btn_submit}</button>
-							<button class="comment-reset-btn" type="reset">${btn_cancel}</button>
-						</div>
-					</div>
+					<c:choose>
+						<c:when test="${isLoggedIn}">
+							<textarea name="comContent" id="comment-textarea" placeholder="${placeholder_comment}" required></textarea>
+							<div class="comment-form-buttons">
+								<div class="button-inner-container">
+									<button class="comment-submit-btn" type="submit">${btn_submit}</button>
+									<button class="comment-reset-btn" type="reset">${btn_cancel}</button>
+								</div>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<textarea placeholder="${placeholder_login_to_comment}" disabled></textarea>
+						</c:otherwise>
+					</c:choose>
 				</form>
 				
 				<!--  comment list -->
@@ -132,7 +138,12 @@
 							<div class="comment-body">
 								<div class="comment-header">
 									<span class="comment-writer">${commentDto.displayName}</span>
-									<span class="comment-time">${commentDto.formattedDate}</span>
+									<span class="comment-time">
+										<c:if test="${commentDto.comEditStatus}">
+											<i>${str_comment_editted}&nbsp;</i>
+										</c:if>
+										${commentDto.formattedDate}
+									</span>
 								</div>
 								<div class="comment-content">
 									<c:if test="${not commentDto.comDeleteStatus}">

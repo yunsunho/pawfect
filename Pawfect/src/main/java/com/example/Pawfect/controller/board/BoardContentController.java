@@ -63,6 +63,7 @@ public class BoardContentController {
 		model.addAttribute("userDto", userDto);
 		model.addAttribute("isUserPost", isUserPost);
 		model.addAttribute("userLiked", userLiked);
+		model.addAttribute("isLoggedIn", isLoggedIn);
 		
 		
 		// Comment section

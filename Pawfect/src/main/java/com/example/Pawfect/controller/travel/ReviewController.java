@@ -31,10 +31,10 @@ public class ReviewController {
     // 리뷰 작성
     @PostMapping("/reviewWrite")
     public String writeReview(@RequestParam int contentId,
+    						  @RequestParam int contentTypeId,
                               @RequestParam String reviewContent,
                               @RequestParam int reviewRating,
                               @RequestParam("reviewImages") List<MultipartFile> reviewImages,
-                              @RequestParam String contentTypeId,
                               @RequestParam String title,
                               @AuthenticationPrincipal CustomUserDetails userDetails) {
 
@@ -44,7 +44,7 @@ public class ReviewController {
         }
 
         // 리뷰 저장
-        int reviewId = reviewService.saveReview(contentId, userDetails.getUser().getUserId(), reviewContent, reviewRating, title);
+        int reviewId = reviewService.saveReview(contentId, userDetails.getUser().getUserId(), reviewContent, reviewRating, title, contentTypeId);
 
         // 이미지 저장
         int imageOrder = 1;
@@ -103,17 +103,11 @@ public class ReviewController {
         return null; // 확장자가 없는 경우 null 반환
     }
     
-    @GetMapping("/detail/{contentId}")
-    public String getDetailPage(@PathVariable int contentId, Model model) {
-        // 해당 contentId에 대한 리뷰와 이미지 경로 불러오기
-        List<String> reviewImages = reviewService.getReviewImagesByOrder(contentId);  // 이미지 순서대로 불러오기
-        model.addAttribute("reviewImages", reviewImages);  // 이미지 경로를 모델에 추가
-
-        // 리뷰 내용 불러오기
-        List<ReviewDto> reviews = reviewService.getReviewsByContentId(contentId);
+    @GetMapping("/reviews/{contentId}")
+    public String getReviewsFragment(@PathVariable int contentId, Model model) {
+        List<ReviewDto> reviews = reviewService.getFullReviewsByContentId(contentId); // 이름 바뀐 메서드
         model.addAttribute("reviews", reviews);
-
-        return "travel/detail";  // detail.jsp로 이동
+        return "travel/reviewList";
     }
 
 }

@@ -49,11 +49,9 @@ public class BoardWriteController {
 		postDto.generateDisplayName();
 		
 		int result = boardService.insertPost(postDto);
-		String msg;
+		String msg = null;
 		
-		if (result == 1) {
-			msg = "게시물이 성공적으로 등록되었습니다.";
-		} else {
+		if (result != 1) {
 			msg = "게시물 등록에 실패하였습니다. 다시 시도해주세요.";
 		}
 		

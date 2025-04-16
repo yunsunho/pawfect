@@ -25,7 +25,7 @@
 						<li data-tab="info">내 정보</li>
 						<li data-tab="password">비밀번호 변경</li>
 						<li data-tab="bookmark">북마크 리스트</li>
-						<li data-tab="activity">내 여행지 리뷰</li>
+						<li data-tab="review">내 여행지 리뷰</li>
 						<li data-tab="inquiry">1:1 문의</li>
 					</ul>
 					<div class="logout-area">
