@@ -52,6 +52,7 @@
 <c:set var="str_comment" value="댓글"/>
 <c:set var="placeholder_comment" value="댓글을 입력하세요"/>
 <c:set var="placeholder_reply" value="답글을 입력하세요"/>
+<c:set var="placeholder_login_to_comment" value="댓글을 작성하려면 로그인하세요."/>
 <c:set var="btn_submit" value="등록"/>
 <c:set var="btn_reply" value="답글"/>
 <c:set var="btn_delete_comment" value="삭제"/>
