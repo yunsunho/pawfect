@@ -107,7 +107,7 @@
 				<div class="pagination">
 					<c:if test="${count gt 0}">
 						<c:if test="${startPage gt pageBlock}">
-							<a href="/admin/post?pageNum=${startPage - pageBlock}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}&sortBy=${param.sortBy}">
+							<a href="/admin/post?pageNum=${startPage - pageBlock}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
 								&laquo;
 							</a>
 						</c:if>
@@ -116,13 +116,13 @@
 							  <a class="hover current-page" href="#">${i}</a>
 							</c:if>
 							<c:if test="${i ne currentPage}">
-							  <a class="hover" href="/admin/post?pageNum=${i}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}&sortBy=${param.sortBy}">
+							  <a class="hover" href="/admin/post?pageNum=${i}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
 							    ${i}
 							  </a>
 							</c:if>
 						</c:forEach>
 						<c:if test="${pageCount gt endPage}">
-							<a  href="/admin/post?pageNum=${startPage + pageBlock}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}&sortBy=${param.sortBy}">
+							<a  href="/admin/post?pageNum=${startPage + pageBlock}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
 								&raquo;
 							</a>
 						</c:if>
