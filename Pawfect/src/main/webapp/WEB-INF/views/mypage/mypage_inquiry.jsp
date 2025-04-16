@@ -6,6 +6,8 @@
 <div class="inquiry-tab">
 	<div class="inquiry-header">
 		<h2 class="inquiry-title">1:1 문의 내역</h2>
+		<p style="text-align: left; margin-bottom: 25px;">현재 비밀번호가 일치하는 경우
+		새 비밀번호로 변경할 수 있습니다.</p>
 		<button id="btnWriteInquiry" class="edit-btn write-btn" type="button">문의
 			작성</button>
 	</div>
@@ -68,7 +70,7 @@
 	int currentPageVal = (request.getAttribute("currentPage") != null) ? (Integer) request.getAttribute("currentPage") : 1;
 	int totalPagesVal = (request.getAttribute("totalPages") != null) ? (Integer) request.getAttribute("totalPages") : 1;
 
-	int pageBlockSize = 5;
+	int pageBlockSize = 3;
 	int startPage = ((currentPageVal - 1) / pageBlockSize) * pageBlockSize + 1;
 	int endPage = Math.min(startPage + pageBlockSize - 1, totalPagesVal);
 	%>

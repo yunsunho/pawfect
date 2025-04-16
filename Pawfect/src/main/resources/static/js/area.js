@@ -178,9 +178,18 @@ document.addEventListener('DOMContentLoaded', () => {
       startPage = Math.max(1, endPage - maxVisible + 1);
     }
 
+    // « 맨앞으로
     if (currentPage > 1) {
+      const first = document.createElement('button');
+      first.textContent = '«';
+      first.addEventListener('click', () => {
+        currentPage = 1;
+        fetchAndRender();
+      });
+      pagination.appendChild(first);
+
       const prev = document.createElement('button');
-      prev.textContent = '<';
+      prev.textContent = '‹';
       prev.addEventListener('click', () => {
         currentPage--;
         fetchAndRender();
@@ -199,16 +208,26 @@ document.addEventListener('DOMContentLoaded', () => {
       pagination.appendChild(btn);
     }
 
+    // › 다음으로, » 맨끝으로
     if (currentPage < totalPages) {
       const next = document.createElement('button');
-      next.textContent = '>';
+      next.textContent = '›';
       next.addEventListener('click', () => {
         currentPage++;
         fetchAndRender();
       });
       pagination.appendChild(next);
+
+      const last = document.createElement('button');
+      last.textContent = '»';
+      last.addEventListener('click', () => {
+        currentPage = totalPages;
+        fetchAndRender();
+      });
+      pagination.appendChild(last);
     }
   };
+
 
   fetch("/data/sigunguData.json")
     .then(res => res.json())

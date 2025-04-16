@@ -48,7 +48,7 @@
 					int currentPageVal = (request.getAttribute("currentPage") != null) ? (Integer) request.getAttribute("currentPage") : 1;
 					int totalPagesVal = (request.getAttribute("totalPages") != null) ? (Integer) request.getAttribute("totalPages") : 1;
 
-					int pageBlockSize = 5;
+					int pageBlockSize = 3;
 					int startPage = ((currentPageVal - 1) / pageBlockSize) * pageBlockSize + 1;
 					int endPage = Math.min(startPage + pageBlockSize - 1, totalPagesVal);
 					%>
