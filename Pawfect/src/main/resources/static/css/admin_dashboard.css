@@ -9,7 +9,7 @@ body {
 
 .sidebar {
     width: 220px;
-    height: 100vh;
+    height: 110vh;
     background-color: #1E1E2C;
     color: #1E1E2C;
     font-size: 15px;
@@ -183,7 +183,7 @@ a {
 .submit-btn {
 	background-color: #1E1E2C;
 	color: white;
-	margin: 5px;
+	margin: none;
 }
 .cancel-btn {
 	background-color: white;

@@ -41,12 +41,18 @@ public class AdminService {
 	public List<CommentDto> getAllComments(Map<String, Object> map) {
 		return adminMapper.getAllComments(map);
 	}
+	public int deleteComment(int commentId) {
+		return adminMapper.deleteComment(commentId);
+	}
 	
 	public int getReviewCount(Map<String, Object> map) {
 		return adminMapper.getReviewCount(map);
 	}
 	public List<ReviewDto> getallReviews(Map<String, Object> map) {
 		return adminMapper.getAllReviews(map);
+	}
+	public int deleteReview(int reviewId) {
+		return adminMapper.deleteReview(reviewId);
 	}
 	
 	public int getInquiryCount(Map<String, Object> map) {
