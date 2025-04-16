@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!-- menu -->
-<c:set var="sidebar_manage_site" value="사이트 관리"/>
+<c:set var="sidebar_manage_site" value="Pawfect Tour"/>
 <c:set var="sidebar_manage_users" value="회원 관리"/>
 <c:set var="sidebar_manage_posts" value="게시물 관리"/>
 <c:set var="sidebar_manage_comments" value="댓글 관리"/>
@@ -15,6 +15,9 @@
 <!-- DASHBOARD -->
 <c:set var="str_admin_page" value="관리자 페이지"/>
 <c:set var="str_welcome" value="환영합니다"/>
+<c:set var="str_admin" value="관리자"/>
+<c:set var="header_user_stats" value="회원 통계"/>
+<c:set var="header_content_stats" value="콘텐츠 통계"/>
 <!-- dashboard stats -->
 <c:set var="str_active_user" value="활동"/>
 <c:set var="str_withdrawn_user" value="탈퇴"/>
@@ -51,19 +54,6 @@
 <c:set var="btn_delete_post" value="게시물 삭제"/>
 <c:set var="modal_confirm_delete_post" value="정말로 게시물을 삭제하시겠습니까?"/>
 
-<!-- 
-commentId INT PRIMARY KEY AUTO_INCREMENT,
-  userId VARCHAR(50) NOT NULL,
-	postId INT NOT NULL,
-  comContent TEXT NOT NULL,
-  comRegdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  com_ref INT,
-  com_re_step INT,
-  com_re_level INT,
-  comEditStatus BOOLEAN DEFAULT 0,
-  comDeleteStatus BOOLEAN DEFAULT 0
- -->
-
 <!-- 댓글 관리 -->
 <c:set var="page_comment" value="댓글 관리"/>
 <c:set var="label_commentId" value="ID"/>
@@ -82,20 +72,6 @@ commentId INT PRIMARY KEY AUTO_INCREMENT,
 <c:set var="msg_no_review" value="리뷰가 없습니다."/>
 <c:set var="btn_delete_review" value="리뷰 삭제"/>
 <c:set var="modal_confirm_delete_review" value="정말로 리뷰를 삭제하시겠습니까?"/>
-<!-- 작성일 -->
-
-<!-- 
-
-reviewId INT PRIMARY KEY AUTO_INCREMENT,
-contentId INT,
-contentTypeId INT,
-title VARCHAR(255),
-imgpath VARCHAR(255),
-userId VARCHAR(50),
-reviewRating INT NOT NULL CHECK (reviewRating BETWEEN 1 AND 5),
-reviewContent TEXT NOT NULL,
-reviewRegdate 
- -->
 
 <!-- 문의 처리 -->
 <c:set var="page_inquiry" value="문의 내역"/>
@@ -108,7 +84,7 @@ reviewRegdate
 <c:set var="btn_search" value="검색"/>
 <c:set var="placeholder_searchbar" value="검색어를 입력하세요"/>
 <!-- inquiry table -->
-<c:set var="label_inquiryId" value="ID"/>
+<c:set var="label_inquiryId" value="문의 ID"/>
 <c:set var="label_inquiryTitle" value="제목"/>
 <c:set var="label_inquiryContent" value="내용"/>
 <c:set var="label_userId" value="사용자 ID"/>
@@ -129,13 +105,3 @@ reviewRegdate
 <c:set var="modal_confirm_reply" value="정말로 답변을 전송하시겠습니까?"/>
 <c:set var="str_confirm" value="확인"/>
 <c:set var="str_cancel" value="취소"/>
-<!--  
-inquiryId INT PRIMARY KEY AUTO_INCREMENT,
-  inquiryTitle VARCHAR(255) NOT NULL,
-  userId VARCHAR(50) NOT NULL,
-  inquiryContent TEXT NOT NULL,
-  inquiryReply TEXT,
-  inquiryStatus BOOLEAN DEFAULT 0,
-  adminId VARCHAR(50),
-  inquiryRegdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
- -->
