@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.Pawfect.auth.CustomUserDetails;
 import com.example.Pawfect.service.BookmarkService;
+import com.example.Pawfect.service.ReviewService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,7 +31,8 @@ public class AreaController {
     private String serviceKey;
 
     private final BookmarkService bookmarkService;
-
+    private final ReviewService reviewService;
+    
     @GetMapping("/areaList")
     public String areaListPage(Model model) {
         model.addAttribute("currentPage", "area");

@@ -3,6 +3,7 @@ package com.example.Pawfect.controller.travel;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.Pawfect.auth.CustomUserDetails;
 import com.example.Pawfect.service.BookmarkService;
+import com.example.Pawfect.service.ReviewService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,6 +32,7 @@ public class ThemeController {
     private String serviceKey;
 
     private final BookmarkService bookmarkService;
+    private final ReviewService reviewService;
 
     // 👉 테마 리스트 뷰 이동
     @GetMapping("/themeList")
@@ -83,14 +86,18 @@ public class ThemeController {
         int totalCount = body.path("totalCount").asInt();
 
         for (JsonNode item : items) {
+            int contentId = item.path("contentid").asInt();
+            double rating = reviewService.getAverageRating(contentId);
+
             themeList.add(Map.of(
-                    "contentid", item.path("contentid").asText(),
+                    "contentid", String.valueOf(contentId),
                     "contenttypeid", item.path("contenttypeid").asText(),
                     "title", item.path("title").asText(),
                     "addr1", item.path("addr1").asText(),
                     "firstimage", item.path("firstimage").asText(),
                     "mapx", item.path("mapx").asText(),
-                    "mapy", item.path("mapy").asText()
+                    "mapy", item.path("mapy").asText(),
+                    "rating", String.format("%.1f", rating)
             ));
         }
 

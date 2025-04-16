@@ -149,25 +149,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const card = document.createElement("div");
         card.className = "theme-card";
-        card.innerHTML = `
-          <a href="/detail/${item.contentid}/${item.contenttypeid}" class="theme-link">
-            <img src="${item.firstimage || '/images/no-image.png'}" alt="이미지 없음">
-            <div class="theme-info">
-              <h3>${item.title}</h3>
-              <p>${item.addr1}</p>
-            </div>
-          </a>
-          <div class="bookmark"
-               data-contentid="${item.contentid}"
-               data-contenttypeid="${item.contenttypeid}"
-               data-title="${item.title}"
-               data-firstimage="${item.firstimage}"
-               data-mapx="${item.mapx}"
-               data-mapy="${item.mapy}"
-               data-addr1="${item.addr1}">
-            ${isBookmarked ? "✅" : "🔖"}
-          </div>
-        `;
+		card.innerHTML = `
+		  <div class="card-top-bar">
+		    <div class="rating">⭐ ${item.rating ?? '-'}</div>
+		    <div class="bookmark"
+		         data-contentid="${item.contentid}"
+		         data-contenttypeid="${item.contenttypeid}"
+		         data-title="${item.title}"
+		         data-firstimage="${item.firstimage}"
+		         data-mapx="${item.mapx}"
+		         data-mapy="${item.mapy}"
+		         data-addr1="${item.addr1}">
+		      ${isBookmarked ? "✅" : "🔖"}
+		    </div>
+		  </div>
+
+		  <a href="/detail/${item.contentid}/${item.contenttypeid}" class="theme-link">
+		    <img src="${item.firstimage || '/images/no-image.png'}" alt="이미지 없음">
+		    <div class="theme-info">
+		      <h3>${item.title}</h3>
+		      <p>${item.addr1}</p>
+		    </div>
+		  </a>
+		`;
         container.appendChild(card);
       });
 
