@@ -40,4 +40,21 @@
     
   </div>
 </c:forEach>
+<!-- ✅ 페이지네이션은 반복문 밖에서 한 번만! -->
+<div class="pagination-container">
+  <c:if test="${currentPage > 1}">
+    <button class="page-btn" onclick="goToPage(${currentPage - 1})">&lt;</button>
+  </c:if>
 
+  <c:forEach begin="1" end="${totalPages}" var="i">
+    <button class="page-btn ${i == currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>
+  </c:forEach>
+
+  <c:if test="${currentPage < totalPages}">
+    <button class="page-btn" onclick="goToPage(${currentPage + 1})">&gt;</button>
+  </c:if>
+</div>
+
+<script>
+  const contentId = ${contentId};
+</script>

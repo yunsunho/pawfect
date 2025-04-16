@@ -81,3 +81,27 @@
   flex-wrap: wrap;
   margin-top: 10px;
 }
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 30px;
+}
+
+.page-btn {
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.page-btn:hover {
+  background-color: #eee;
+}
+
+.page-btn.active {
+  border: 2px solid #007bff;
+  color: #007bff;
+  font-weight: bold;
+}
