@@ -12,7 +12,9 @@ public class ReviewDto {
 	
 	private int reviewId;
     private int contentId;
+    private String title;
     private String userId;
+    private String imgpath;
     private String reviewContent;
     private int reviewRating;
     private Timestamp reviewRegdate;
