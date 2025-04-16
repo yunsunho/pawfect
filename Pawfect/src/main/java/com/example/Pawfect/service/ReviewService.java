@@ -69,6 +69,22 @@ public class ReviewService {
         }
         return reviews;
     }
+    
+ // 페이징된 리뷰 리스트 불러오기
+    public List<ReviewDto> getPagedReviewsWithUser(int contentId, int offset, int limit) {
+        List<ReviewDto> reviews = reviewMapper.selectPagedReviewsWithUser(contentId, offset, limit);
+        for (ReviewDto review : reviews) {
+            List<String> images = reviewMapper.selectReviewImagesByReviewId(review.getReviewId());
+            review.setReviewImages(images);
+        }
+        return reviews;
+    }
+
+    // 총 리뷰 수 가져오기
+    public int getTotalReviewCount(int contentId) {
+        return reviewMapper.countReviewsByContentId(contentId);
+    }
+
 }
 
 

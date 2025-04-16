@@ -42,7 +42,7 @@ public class ReviewController {
         if (userDetails == null) {
             return "redirect:/loginForm";
         }
-
+        
         // 리뷰 저장
         int reviewId = reviewService.saveReview(contentId, userDetails.getUser().getUserId(), reviewContent, reviewRating, title, contentTypeId);
 
@@ -104,11 +104,24 @@ public class ReviewController {
     }
     
     @GetMapping("/reviews/{contentId}")
-    public String getReviewsFragment(@PathVariable int contentId, Model model) {
-        List<ReviewDto> reviews = reviewService.getFullReviewsByContentId(contentId);
+    public String getReviewsFragment(@PathVariable int contentId,
+                                     @RequestParam(defaultValue = "1") int page,
+                                     @RequestParam(defaultValue = "5") int pageSize,
+                                     Model model) {
+
+        int offset = (page - 1) * pageSize;
+
+        List<ReviewDto> reviews = reviewService.getPagedReviewsWithUser(contentId, offset, pageSize);
+        int totalCount = reviewService.getTotalReviewCount(contentId);
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
         model.addAttribute("reviews", reviews);
-        return "travel/reviewList";
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+
+        return "travel/reviewList"; // 이 JSP에서 페이지네이션을 표현해야 함
     }
+
 
 }
 

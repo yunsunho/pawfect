@@ -523,6 +523,12 @@
     <button onclick="closeModal()">확인</button>
   </div>
 </div>
+
+<div id="review-list-container">
+  <jsp:include page="reviewList.jsp" />
+</div>
+
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     fetch("/travel/reviews/${contentId}")

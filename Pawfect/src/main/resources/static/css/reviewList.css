@@ -27,9 +27,14 @@
   font-weight: bold;
 }
 
-.review-user-info .stars {
-  color: #FFD700;
+.star {
+  color: #ccc;
   font-size: 14px;
+}
+
+/* 노란색 채워진 별 */
+.star.filled {
+  color: #FFD700;
 }
 
 .review-user-info .review-date {

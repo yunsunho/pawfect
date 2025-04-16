@@ -57,7 +57,11 @@
 	  WHERE reviewId = #{reviewId}
 	  ORDER BY reviewImageOrder
 	</select>
-
+	
+	<select id="countReviewsByContentId" resultType="int">
+	    SELECT COUNT(*) FROM review WHERE contentId = #{contentId}
+	</select>
+	
 </mapper>
 
 

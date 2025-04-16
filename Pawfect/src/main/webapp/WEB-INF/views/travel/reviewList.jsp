@@ -14,10 +14,10 @@
           ${review.userNickname} (${fn:substring(review.userId, 0, 3)}***)
         </div>
         <div class="stars">
-          <c:forEach begin="1" end="5" var="i">
-            <span class="${i <= review.reviewRating ? 'star filled' : 'star'}">★</span>
-          </c:forEach>
-        </div>
+		  <c:forEach begin="1" end="5" var="i">
+		    <span class="${i le review.reviewRating ? 'star filled' : 'star'}">★</span>
+		  </c:forEach>
+		</div>
         <div class="review-date">
           <fmt:formatDate value="${review.reviewRegdate}" pattern="yyyy.MM.dd" />
         </div>
@@ -57,4 +57,17 @@
 
 <script>
   const contentId = ${contentId};
+
+  function goToPage(page) {
+    fetch(`/travel/reviews/${contentId}?page=${page}`)
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById("review-list-container").innerHTML = html;
+      })
+      .catch(error => {
+        console.error("리뷰 페이지 로딩 실패:", error);
+      });
+  }
 </script>
+
+
