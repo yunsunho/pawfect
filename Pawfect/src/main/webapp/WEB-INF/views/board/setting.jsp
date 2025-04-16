@@ -63,7 +63,7 @@
 
 <!-- writeForm.jsp -->
 <c:set var="page_write" value="게시물 작성"/>
-<c:set var="label_tag" value="말머리:"/>
+<c:set var="label_tag" value="말머리"/>
 <c:set var="placeholder_title" value="제목을 입력하세요"/>
 
 <c:set var="btn_write" value="작성"/>

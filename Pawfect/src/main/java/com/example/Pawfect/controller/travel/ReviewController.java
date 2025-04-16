@@ -30,34 +30,35 @@ public class ReviewController {
 
     // 리뷰 작성
     @PostMapping("/reviewWrite")
-    public String writeReview(@RequestParam int contentId, @RequestParam String reviewContent,
-                              @RequestParam int reviewRating, @RequestParam("reviewImages") List<MultipartFile> reviewImages,
-                              @RequestParam String contentTypeId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public String writeReview(@RequestParam int contentId,
+                              @RequestParam String reviewContent,
+                              @RequestParam int reviewRating,
+                              @RequestParam("reviewImages") List<MultipartFile> reviewImages,
+                              @RequestParam String contentTypeId,
+                              @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         // 로그인된 사용자 확인
         if (userDetails == null) {
-            return "redirect:/loginForm";  // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+            return "redirect:/loginForm";
         }
 
-        // 리뷰 저장 (먼저 review 테이블에 저장)
+        // 리뷰 저장
         int reviewId = reviewService.saveReview(contentId, userDetails.getUser().getUserId(), reviewContent, reviewRating);
 
-        // 이미지 저장 (reviewId와 함께 review_images 테이블에 저장)
-        List<String> imagePaths = new ArrayList<>();
-        int imageOrder = 1;  // 이미지 순서 초기화
-
+        // 이미지 저장
+        int imageOrder = 1;
         for (MultipartFile image : reviewImages) {
-            String imagePath = saveImage(image);  // 이미지 저장
-            imagePaths.add(imagePath);
-
-            // 이미지 순서 설정
-            reviewService.saveReviewImageWithOrder(reviewId, imagePath, imageOrder);  // 순서와 함께 이미지 저장
-            imageOrder++;  // 순서 증가
+            if (!image.isEmpty()) {
+                String imagePath = saveImage(image);
+                if (imagePath != null && !imagePath.isBlank()) {
+                    reviewService.saveReviewImageWithOrder(reviewId, imagePath, imageOrder++);
+                }
+            }
         }
 
-        // 리뷰 작성 후 해당 콘텐츠의 상세 페이지로 리다이렉트 (contentId와 contentTypeId 포함)
-        return "redirect:/detail/" + contentId + "/" + contentTypeId;  // /travel을 제거하고 /detail로 리다이렉트
+        return "redirect:/detail/" + contentId + "/" + contentTypeId;
     }
+
 
 
     private String saveImage(MultipartFile image) {

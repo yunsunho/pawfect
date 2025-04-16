@@ -10,10 +10,9 @@
   <link rel="stylesheet" href="/css/detail.css">
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=53058506472e68663c191f4ba75fc7b0"></script>
 </head>
-<body>
 
+<body data-logged-in="${not empty user}">
 <div class="detail-wrapper">
-
   <!-- 🏷️ 제목 + 주소 -->
   <div class="place-header">
     <h1><c:choose>
@@ -28,6 +27,7 @@
 
     <hr class="divider">
   </div>
+</div>
 
   <!-- 📸 이미지 슬라이드 -->
 <div class="main-slider-wrapper">
@@ -415,7 +415,6 @@
 	  <c:if test="${not empty Intro.treatmenu and Intro.treatmenu ne '0' and Intro.treatmenu ne '없음'}">
 	    <li><strong> 취급 메뉴 : </strong> ${Intro.treatmenu }</li>
 	  </c:if>
-	<%-- 그 외 contentTypeId인 경우 (infoname + infotext 출력) --%>
 	<c:forEach var="info" items="${introList}">
 	  <li><strong>${info.name}:</strong> ${info.text}</li>
 	</c:forEach>
@@ -474,35 +473,51 @@
       </c:if>
 	    <label for="reviewRating">평점:</label>
 	    <select name="reviewRating" required>
-	      <option value="1">★</option>
-	      <option value="2">★★</option>
-	      <option value="3">★★★</option>
-	      <option value="4">★★★★</option>
-	      <option value="5">★★★★★</option>
+	    	<option value="5">★★★★★</option>
+	    	<option value="4">★★★★</option>
+	    	<option value="3">★★★</option>
+			<option value="2">★★</option>
+			<option value="1">★</option>
 	    </select>
 	
 	    <div class="file-input-container">
-		  <input type="file" name="reviewImages" id="reviewImages" multiple accept="image/*" style="display:none;">
-		  <button type="button" id="fileButton">사진 첨부</button>
-		  <span id="fileName">선택된 파일 없음</span> <!-- 선택된 파일 이름을 보여주는 영역 -->
+		  <input type="file" name="reviewImages" id="reviewImages" accept="image/*" multiple hidden>
+		  <div class="upload-info">
+			  <c:if test="${not empty user}">
+			    <button type="button" id="fileButton">사진 첨부</button>
+			  </c:if>
+			  <c:if test="${empty user}">
+			    <button type="button" id="fileButton" disabled>사진 첨부</button>
+			  </c:if>
+			  <div class="file-limit-msg">최대 5개까지 첨부 가능합니다</div>
+		  </div>
 		  <div id="preview-container" class="preview-container"></div>
 		</div>
 
-	
 	    <input type="hidden" name="contentId" value="${contentId}">
 	    <input type="hidden" name="contentTypeId" value="${contentTypeId}">
 		
-		<c:if test="${not empty user}">
-	    	<button type="submit">등록</button>
-	  	</c:if>
-	  	<c:if test="${empty user}">
-      		<button disabled>등록</button>
-      	</c:if>
+		<button type="submit" id="submitReviewBtn">등록</button>
 	  </div>
 	</form>
+</div>
 
+<div id="confirmModal" class="modal">
+  <div class="modal-content">
+    <p id="confirmModalMessage"></p>
+    <button id="btnConfirmYes">예</button>
+    <button id="btnConfirmNo">아니요</button>
+  </div>
+</div>
 
-<script src="/js/detail.js"></script>
+<div id="commonModal" class="modal">
+  <div class="modal-content">
+    <p id="modalMessage"></p>
+    <button>확인</button>
+  </div>
+</div>
+<script src='/js/detail.js'/></script>
+<script src='/js/modal.js'/></script>
 </body>
 </html>
 

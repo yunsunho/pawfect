@@ -23,9 +23,43 @@
 <c:set var="str_post_count" value="게시물"/>
 <c:set var="str_comment_count" value="댓글"/>
 
+<!-- 회원 관리 -->
+<c:set var="page_user" value="회원 관리"/>
+<c:set var="placeholder_searchbar_id" value="회원 아이디를 입력하세요"/>
+<!-- user table -->
+<c:set var="label_userId" value="ID"/>
+<c:set var="label_userName" value="이름"/>
+<c:set var="label_userTel" value="전화번호"/>
+<c:set var="label_userNickname" value="사용자명"/>
+<c:set var="label_userRegdate" value="가입일"/>
+<c:set var="label_email" value="이메일"/>
+<c:set var="label_userStatus" value="상태"/>
+<c:set var="label_action" value="처리"/>
+
+<c:set var="msg_no_user" value="회원이 없습니다."/>
+<c:set var="btn_ban_user" value="회원 정지"/>
+<c:set var="modal_confirm_ban" value="정말로 회원을 정지 시키겠습니까?"/>
+<!-- 'ACTIVE', 'BANNED', 'WITHDRAWN' -->
+<!-- 
+userId VARCHAR(50) PRIMARY KEY,
+  userName VARCHAR(50) NOT NULL, 
+  userTel VARCHAR(20),
+  userNickname VARCHAR(50) NOT NULL,
+  nickResetAt TIMESTAMP NULL DEFAULT NULL,
+  userImage VARCHAR(255),
+  userImageOrigin VARCHAR(255),
+  userRegdate TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
+  petName VARCHAR(20),
+  petType INT,
+  pwd VARCHAR(255) NOT NULL,  -- 해시된 비밀번호는 길이가 길어짐 (bcrypt 등)
+  pwdResetAt TIMESTAMP NULL DEFAULT NULL,
+  email VARCHAR(100) NOT NULL,  
+  admin BOOLEAN DEFAULT FALSE, -- 'USER', 'ADMIN' 등
+  userStatus ENUM
+ -->
 
 <!-- 문의 처리 -->
-<c:set var="page_inquiry" value="문의 페이지"/>
+<c:set var="page_inquiry" value="문의 내역"/>
 <!-- filter -->
 <c:set var="label_start_date" value="시작일"/>
 <c:set var="label_end_date" value="종료일"/>
@@ -34,7 +68,7 @@
 <c:set var="label_handled" value="처리"/>
 <c:set var="btn_search" value="검색"/>
 <c:set var="placeholder_searchbar" value="검색어를 입력하세요"/>
-<!-- table -->
+<!-- inquiry table -->
 <c:set var="label_inquiryId" value="ID"/>
 <c:set var="label_inquiryTitle" value="제목"/>
 <c:set var="label_inquiryContent" value="내용"/>
@@ -52,6 +86,10 @@
 <c:set var="placeholder_inquiry_response" value="답변을 입력하세요"/>
 <c:set var="btn_respond" value="보내기"/>
 <c:set var="btn_cancel" value="취소"/>
+<!-- modal -->
+<c:set var="modal_confirm_reply" value="정말로 답변을 전송하시겠습니까?"/>
+<c:set var="str_confirm" value="확인"/>
+<c:set var="str_cancel" value="취소"/>
 <!--  
 inquiryId INT PRIMARY KEY AUTO_INCREMENT,
   inquiryTitle VARCHAR(255) NOT NULL,

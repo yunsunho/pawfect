@@ -39,12 +39,16 @@ public class ReviewService {
 
     // 리뷰와 이미지 저장
     public int saveReview(int contentId, String userId, String reviewContent, int reviewRating) {
-        // 리뷰 저장
-        reviewMapper.insertReview(contentId, userId, reviewContent, reviewRating);
-        
-        // 마지막으로 저장된 reviewId 반환
-        return reviewMapper.getLastInsertedReviewId();  // reviewId 반환 (가장 최근에 삽입된 reviewId)
+        ReviewDto review = new ReviewDto();
+        review.setContentId(contentId);
+        review.setUserId(userId);
+        review.setReviewContent(reviewContent);
+        review.setReviewRating(reviewRating);
+
+        reviewMapper.insertReview(review); // INSERT + reviewId 세팅됨
+        return review.getReviewId();       // 여기서 제대로 된 값 나옴
     }
+
     
     // 리뷰 이미지 저장
     public void saveReviewImageWithOrder(int reviewId, String imagePath, int imageOrder) {

@@ -12,9 +12,7 @@ public interface ReviewMapper {
     // contentId에 해당하는 리뷰 목록을 가져오는 메서드
     List<ReviewDto> selectReviewsByContentId(int contentId);
 
-	void insertReview(int contentId, String userId, String reviewContent, int reviewRating);
-
-	void insertReviewImage(int reviewId, String imagePath);
+	void insertReview(ReviewDto review);
 	
 	int getLastInsertedReviewId();
 

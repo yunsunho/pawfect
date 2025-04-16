@@ -24,6 +24,9 @@ public class AdminService {
 	public List<UserDto> getAllUsers(Map<String, Object> map) {
 		return adminMapper.getAllUsers(map);
 	}
+	public int updateUserStats(UserDto dto) {
+		return adminMapper.updateUserStatus(dto);
+	}
 	
 	public int getPostCount(Map<String, Object> map) {
 		return adminMapper.getPostCount(map);
@@ -68,13 +71,13 @@ public class AdminService {
 	public int getTotalReviewCount() {
 		return adminMapper.getTotalReviewCount();
 	}
-	public int getActiveUserCount() {
-		return adminMapper.getActiveUserCount();
+	public int getTotalActiveUserCount() {
+		return adminMapper.getTotalActiveUserCount();
 	}
-	public int getBannedUserCount() {
-		return adminMapper.getBannedUserCount();
+	public int getTotalBannedUserCount() {
+		return adminMapper.getTotalBannedUserCount();
 	}
-	public int getWithdrawnUserCount() {
-		return adminMapper.getWithdrawnUserCount();
+	public int getTotalWithdrawnUserCount() {
+		return adminMapper.getTotalWithdrawnUserCount();
 	}
 }

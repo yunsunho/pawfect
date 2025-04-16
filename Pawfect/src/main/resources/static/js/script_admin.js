@@ -1,4 +1,8 @@
-function openConfirmModal() {
+let targetForm = null;
+
+function openConfirmModal(buttonElement) {
+    // Save the form reference globally
+    targetForm = buttonElement.closest("form");
     document.getElementById("confirmModal").style.display = "block";
 }
 
@@ -9,7 +13,8 @@ function closeConfirmModal() {
 document.addEventListener("DOMContentLoaded", function () {
     const confirmButton = document.getElementById("confirmSubmit");
     confirmButton.addEventListener("click", function () {
-        // Submit the form when "확인" is clicked
-        document.querySelector("form").submit();
+        if (targetForm) {
+            targetForm.submit();
+        }
     });
 });

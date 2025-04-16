@@ -12,10 +12,13 @@
     </select>
 
     <!-- 리뷰 저장 -->
-    <insert id="insertReview">
-        INSERT INTO review(contentId, userId, reviewContent, reviewRating)
-        VALUES(#{contentId}, #{userId}, #{reviewContent}, #{reviewRating})
-    </insert>
+    <insert id="insertReview" parameterType="map">
+	    <selectKey keyProperty="reviewId" resultType="int" order="AFTER">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	    INSERT INTO review(contentId, userId, reviewContent, reviewRating)
+	    VALUES(#{contentId}, #{userId}, #{reviewContent}, #{reviewRating})
+	</insert>
 
     <!-- 마지막 삽입된 reviewId 가져오기 -->
     <select id="getLastInsertedReviewId" resultType="int">

@@ -15,6 +15,7 @@ import com.example.Pawfect.dto.UserDto;
 public interface AdminMapper {
 	public int getUserCount(Map<String, Object> map);
 	public List<UserDto> getAllUsers(Map<String, Object> map);
+	public int updateUserStatus(UserDto dto);
 	
 	public int getPostCount(Map<String, Object> map);
 	public List<PostDto> getAllPosts(Map<String, Object> map);
@@ -34,7 +35,7 @@ public interface AdminMapper {
 	public int replyToInquiry(InquiryDto dto);
 	
 	public int getTotalReviewCount();
-	public int getActiveUserCount();
-	public int getBannedUserCount();
-	public int getWithdrawnUserCount();
+	public int getTotalActiveUserCount();
+	public int getTotalBannedUserCount();
+	public int getTotalWithdrawnUserCount();
 }
