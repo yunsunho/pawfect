@@ -34,5 +34,5 @@ public interface ReviewMapper {
 
 	void deleteReview(int reviewId);
 
-
+	double getAverageRating(int contentId);
 }

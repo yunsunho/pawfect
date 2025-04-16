@@ -323,3 +323,38 @@ select {
   font-size: 14px;
   color: #666;
 }
+
+.place-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.meta-left,
+.meta-right {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.meta-center {
+  flex: 2;
+  text-align: center;
+  font-size: 15px;
+}
+
+#bookmarkBtn {
+  padding: 4px 10px;
+  font-size: 13px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+#bookmarkBtn.bookmarked {
+  color: #e74c3c;
+}

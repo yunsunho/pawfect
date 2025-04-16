@@ -93,6 +93,9 @@ public class ReviewService {
         reviewMapper.deleteReview(reviewId);
     }
 
+    public double getAverageRating(int contentId) {
+        return reviewMapper.getAverageRating(contentId);
+    }
 
 }
 
