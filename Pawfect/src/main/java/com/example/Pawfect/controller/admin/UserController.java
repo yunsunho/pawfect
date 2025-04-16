@@ -21,9 +21,9 @@ public class UserController {
 
 
     @GetMapping
-    public List<UserDto> getAllUsers() {
-        return adminMapper.getAllUsers();
-    }
+//    public List<UserDto> getAllUsers() {
+//        return adminMapper.getAllUsers();
+//    }
     
     @DeleteMapping
     public void deleteUser(@PathVariable String userId) {
