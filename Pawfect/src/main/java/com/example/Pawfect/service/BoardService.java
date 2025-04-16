@@ -136,7 +136,7 @@ public class BoardService {
 		comment.setCom_re_step(com_re_step + 1);
 		comment.setCom_re_level(com_re_level + 1);
 
-		if (!parent.getUserId().equals(comment.getUserId())) {
+		if (!parent.getUserId().equals(comment.getUserId()) && !parent.isComDeleteStatus()) {
 			PostDto post = boardMapper.getPost(comment.getPostId());
 
 			NotificationDto notif = new NotificationDto();

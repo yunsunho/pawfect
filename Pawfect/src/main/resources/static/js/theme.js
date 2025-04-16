@@ -174,49 +174,68 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const renderPagination = (totalPages) => {
-    const pagination = document.getElementById('pagination');
-    pagination.innerHTML = '';
+  const pagination = document.getElementById('pagination');
+  pagination.innerHTML = '';
 
-    const maxVisible = 5;
-    let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-    let endPage = startPage + maxVisible - 1;
+  const maxVisible = 5;
+  let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+  let endPage = startPage + maxVisible - 1;
 
-    if (endPage > totalPages) {
-      endPage = totalPages;
-      startPage = Math.max(1, endPage - maxVisible + 1);
-    }
+  if (endPage > totalPages) {
+    endPage = totalPages;
+    startPage = Math.max(1, endPage - maxVisible + 1);
+  }
 
-    if (currentPage > 1) {
-      const prev = document.createElement('button');
-      prev.textContent = '<';
-      prev.addEventListener('click', () => {
-        currentPage--;
-        fetchAndRender();
-      });
-      pagination.appendChild(prev);
-    }
+  // « 맨앞으로
+  if (currentPage > 1) {
+    const first = document.createElement('button');
+    first.textContent = '«';
+    first.addEventListener('click', () => {
+      currentPage = 1;
+      fetchAndRender();
+    });
+    pagination.appendChild(first);
 
-    for (let i = startPage; i <= endPage; i++) {
-      const btn = document.createElement('button');
-      btn.textContent = i;
-      if (i === currentPage) btn.classList.add('active');
-      btn.addEventListener('click', () => {
-        currentPage = i;
-        fetchAndRender();
-      });
-      pagination.appendChild(btn);
-    }
+    const prev = document.createElement('button');
+    prev.textContent = '‹';
+    prev.addEventListener('click', () => {
+      currentPage--;
+      fetchAndRender();
+    });
+    pagination.appendChild(prev);
+  }
 
-    if (currentPage < totalPages) {
-      const next = document.createElement('button');
-      next.textContent = '>';
-      next.addEventListener('click', () => {
-        currentPage++;
-        fetchAndRender();
-      });
-      pagination.appendChild(next);
-    }
-  };
+  for (let i = startPage; i <= endPage; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i;
+    if (i === currentPage) btn.classList.add('active');
+    btn.addEventListener('click', () => {
+      currentPage = i;
+      fetchAndRender();
+    });
+    pagination.appendChild(btn);
+  }
+
+  // › 다음, » 맨끝
+  if (currentPage < totalPages) {
+    const next = document.createElement('button');
+    next.textContent = '›';
+    next.addEventListener('click', () => {
+      currentPage++;
+      fetchAndRender();
+    });
+    pagination.appendChild(next);
+
+    const last = document.createElement('button');
+    last.textContent = '»';
+    last.addEventListener('click', () => {
+      currentPage = totalPages;
+      fetchAndRender();
+    });
+    pagination.appendChild(last);
+  }
+};
+
 
   fetchAndRender();
 
