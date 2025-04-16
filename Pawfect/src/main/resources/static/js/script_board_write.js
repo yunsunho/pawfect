@@ -8,6 +8,9 @@ window.addEventListener(
 	() => {
 		const form = document.forms["writeForm"];
 		const subjectInput = document.getElementById("subject");
+		const modal = document.getElementById("confirmModal");
+	    const confirmBtn = document.getElementById("confirmSubmit");
+	    const cancelBtn = modal?.querySelector("button[onclick]");
 		let quill = null;
 		
 	    
@@ -23,27 +26,54 @@ window.addEventListener(
 			} catch(e) {
 				console.warn("Quill initialization failed:", e);
 			}
-			
-			form.addEventListener("submit", (e) => {
-				const quillContent = quill.root.innerHTML;
-				const selectedTag = document.querySelector("input[name='tag-select']:checked");
-				
-				form.querySelector("input[name='postContent']").value = quillContent;
-				form.querySelector("input[name='postType']").value = selectedTag ? selectedTag.value : "";
-				
-				// Validation
-				if (!subjectInput.value.trim()) {
-					alert(msg_subject);
-					subjectInput.focus();
-					e.preventDefault();
-					return;
-				}
-				if (!quillContent || quillContent === "<p><br></p>") {
-					alert(msg_content);
-					e.preventDefault();
-				}
-			});
-		}
+			// Replace direct submit with modal logic
+	        const submitBtn = document.querySelector(".submit-btn");
+	        if (submitBtn) {
+	            submitBtn.addEventListener("click", () => {
+	                const quillContent = quill.root.innerHTML;
+	                const selectedTag = document.querySelector("input[name='tag-select']:checked");
+
+	                if (!subjectInput.value.trim()) {
+	                    alert(msg_subject);
+	                    subjectInput.focus();
+	                    return;
+	                }
+	                if (!quillContent || quillContent === "<p><br></p>") {
+	                    alert(msg_content);
+	                    return;
+	                }
+
+	                // Store data in hidden fields for modal confirm
+	                form.querySelector("input[name='postContent']").value = quillContent;
+	                form.querySelector("input[name='postType']").value = selectedTag ? selectedTag.value : "";
+
+	                openConfirmModal();
+	            });
+	        }
+
+	        if (confirmBtn) {
+	            confirmBtn.addEventListener("click", () => {
+	                closeConfirmModal();
+	                form.submit(); // Only submit when confirmed
+	            });
+	        }
+
+	        if (cancelBtn) {
+	            cancelBtn.addEventListener("click", closeConfirmModal);
+	        }
+	    }
+
+	    function openConfirmModal() {
+	        if (modal) {
+	            modal.style.display = "block";
+	        }
+	    }
+
+	    function closeConfirmModal() {
+	        if (modal) {
+	            modal.style.display = "none";
+	        }
+	    }
 		
 	}
 );

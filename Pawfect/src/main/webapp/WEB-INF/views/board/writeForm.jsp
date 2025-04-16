@@ -17,6 +17,13 @@
     <script src="/js/script_board.js" defer></script>
     <script src="/js/script_board_write.js" defer></script>
 </head>
+<div id="confirmModal" class="modal">
+    <div class="modal-content">
+        <p>${modal_confirm_write}</p>
+        <button id="confirmSubmit">${modal_btn_confirm }</button>
+        <button onclick="closeConfirmModal()">${modal_btn_cancel }</button>
+    </div>
+</div>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="board-container">
@@ -67,7 +74,7 @@
 			    
 			    <div class="button-container">
 			    	<div class="button-inner-container">
-			    		<button class="submit-btn" type="submit">${btn_write}</button>
+			    		<button class="submit-btn" type="button">${btn_write}</button>
 			        	<button class="cancel-btn" type="button" onclick="window.location.href='/board'">${btn_cancel}</button>
 			    	</div>
 			    </div>

@@ -22,9 +22,11 @@ public interface AdminMapper {
 	
 	public int getCommentCount(Map<String, Object> map);
 	public List<CommentDto> getAllComments(Map<String, Object> map);
+	public int deleteComment(int commentId);
 	
 	public int getReviewCount(Map<String, Object> map);
 	public List<ReviewDto> getAllReviews(Map<String, Object> map);
+	public int deleteReview(int reviewId);
 	
 	public int getInquiryCount(Map<String, Object> map);
 	public List<InquiryDto> getAllInquiries(Map<String, Object> map);
