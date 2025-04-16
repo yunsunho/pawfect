@@ -496,6 +496,7 @@
 
 	    <input type="hidden" name="contentId" value="${contentId}">
 	    <input type="hidden" name="contentTypeId" value="${contentTypeId}">
+	    <input type="hidden" name="title" value="${common.title}">
 		
 		<button type="submit" id="submitReviewBtn">등록</button>
 	  </div>
