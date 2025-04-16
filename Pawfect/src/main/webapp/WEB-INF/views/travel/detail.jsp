@@ -12,7 +12,7 @@
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=53058506472e68663c191f4ba75fc7b0"></script>
 </head>
 
-<body data-logged-in="${not empty user}">
+<body data-logged-in="${not empty user}" data-user-id="${user.userId}">
 <div class="detail-wrapper">
   <!-- 🏷️ 제목 + 주소 -->
   <div class="place-header">
@@ -523,6 +523,12 @@
     <button onclick="closeModal()">확인</button>
   </div>
 </div>
+
+<div id="review-list-container">
+  <jsp:include page="reviewList.jsp" />
+</div>
+
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     fetch("/travel/reviews/${contentId}")

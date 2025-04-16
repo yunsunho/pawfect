@@ -53,15 +53,28 @@ a {
 
 .sidebar li a {
 	color: white;
+	display: inline-block;
+	width: 130px;
 }
 
 .sidebar li:hover i, .sidebar li:hover a {
 	color: #1E1E2C;
 }
-
 .sidebar li i {
 	color: white;
 }
+
+.sidebar li.active {
+    background-color: #FED766;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.sidebar li.active i,
+.sidebar li.active a {
+    color: #1E1E2C;
+}
+
 
 /* Dashboard header */
 .welcome-text {
@@ -71,6 +84,9 @@ a {
 
 .admin-name {
     color: #1E1E2C;
+    display: inline-block;
+    border-bottom: 4px solid #f4c542;
+    padding-bottom: 4px; 
 }
 
 /* STATS */
@@ -81,6 +97,7 @@ a {
     margin: 20px;
     width: 50%;
 }
+
 
 .stat-card {
     background-color: white;

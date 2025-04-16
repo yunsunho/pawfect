@@ -41,6 +41,7 @@
 		<if test="withdrawn != null and withdrawn != '' and withdrawn !=0">
 			AND userStatus = 'WITHDRAWN'
 		</if>
+		ORDER BY userRegdate DESC
 		LIMIT #{start}, #{pageSize}
 	</select>
 	<update id="updateUserStatus" parameterType="com.example.Pawfect.dto.UserDto">
@@ -70,6 +71,7 @@
 		<if test="startDate != null and endDate != null">
 			AND comRegdate BETWEEN #{startDate} AND #{endDate}
 		</if>
+		ORDER BY comRegdate DESC
 		LIMIT #{start}, #{pageSize}
 	</select>
 	<update id="deleteComment" parameterType="int">
@@ -97,6 +99,7 @@
 		<if test="startDate != null and endDate != null">
 			AND reviewRegdate BETWEEN #{startDate} AND #{endDate}
 		</if>
+		ORDER BY reviewRegdate DESC
 		LIMIT #{start}, #{pageSize}
 	</select>
 	<delete id="deleteReview" parameterType="int">
@@ -129,6 +132,7 @@
 		<if test="unhandled != null and unhandled != '' and unhandled !=0">
 			AND inquiryStatus = 0
 		</if>
+		ORDER BY inquiryRegdate DESC
 		LIMIT #{start}, #{pageSize}
 	</select>
 	<select id="getHandledInquiryCount" resultType="int" parameterType="map">
