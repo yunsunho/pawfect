@@ -38,14 +38,14 @@ public class ReviewService {
     }
 
     // 리뷰와 이미지 저장
-    public int saveReview(int contentId, String userId, String reviewContent, int reviewRating, String title) {
+    public int saveReview(int contentId, String userId, String reviewContent, int reviewRating, String title, int contentTypeId) {
         ReviewDto review = new ReviewDto();
         review.setContentId(contentId);
         review.setUserId(userId);
         review.setTitle(title);
         review.setReviewContent(reviewContent);
         review.setReviewRating(reviewRating);
-
+        review.setContentTypeId(contentTypeId);
         reviewMapper.insertReview(review); // INSERT + reviewId 세팅됨
         return review.getReviewId();       // 여기서 제대로 된 값 나옴
     }
@@ -60,6 +60,17 @@ public class ReviewService {
     public List<String> getReviewImagesByOrder(int contentId) {
         return reviewMapper.selectReviewImagesByOrder(contentId);  // 순서대로 이미지를 불러오는 쿼리 호출
     }
+    
+    public List<ReviewDto> getFullReviewsByContentId(int contentId) {
+        List<ReviewDto> reviews = reviewMapper.selectReviewsByContentId(contentId);
+        for (ReviewDto review : reviews) {
+            List<String> images = reviewMapper.selectReviewImagesByReviewId(review.getReviewId());
+            review.setReviewImages(images);
+        }
+        return reviews;
+    }
+
+
 }
 
 

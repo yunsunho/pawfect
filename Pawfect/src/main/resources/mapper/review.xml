@@ -26,8 +26,8 @@
     <!-- 리뷰 저장 -->
     <insert id="insertReview" parameterType="com.example.Pawfect.dto.ReviewDto"
 	        useGeneratedKeys="true" keyProperty="reviewId">
-	    INSERT INTO review(contentId, userId, title, reviewContent, reviewRating)
-	    VALUES(#{contentId}, #{userId}, #{title}, #{reviewContent}, #{reviewRating})
+	    INSERT INTO review(contentId, userId, title, reviewContent, reviewRating, contentTypeId)
+	    VALUES(#{contentId}, #{userId}, #{title}, #{reviewContent}, #{reviewRating}, #{contentTypeId})
 	</insert>
 
     <!-- 마지막 삽입된 reviewId 가져오기 -->
@@ -47,6 +47,13 @@
         WHERE reviewId = #{contentId}
         ORDER BY reviewImageOrder
     </select>
+    
+    <select id="selectReviewImagesByReviewId" resultType="string">
+	  SELECT reviewImage
+	  FROM review_images
+	  WHERE reviewId = #{reviewId}
+	  ORDER BY reviewImageOrder
+	</select>
 
 </mapper>
 
