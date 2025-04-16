@@ -9,12 +9,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.Pawfect.dto.PostDto;
+import com.example.Pawfect.dto.ReviewDto;
 import com.example.Pawfect.service.AdminService;
 import com.example.Pawfect.service.BoardService;
 
@@ -22,13 +21,13 @@ import jakarta.annotation.Resource;
 
 @Controller
 @RequestMapping("admin")
-public class AdminPostController {
+public class AdminReviewController {
 	@Resource
 	private AdminService adminService;
 	@Resource
 	private BoardService boardService;
 	
-	@GetMapping("post")
+	@GetMapping("review")
 	public String inquiry(
 			@RequestParam(required = false) String pageNum,
 			@RequestParam (required=false) String keyword,
@@ -54,7 +53,7 @@ public class AdminPostController {
 		map.put("endDate", endDate);
 		map.put("keyword", keyword);
 		
-		count = boardService.getPostCount(map);
+		count = adminService.getReviewCount(map);
 		
 		if (pageNum == null || pageNum.equals("")) {
 	    	pageNum = "1";
@@ -87,12 +86,12 @@ public class AdminPostController {
 	    map.put("pageSize", pageSize);
 	    
 	    if (count > 0) {
-	    	List<PostDto> postDtos = boardService.getPosts(map);
-	    	for (PostDto dto: postDtos) {
-	    		dto.setFormattedDate(boardService.formatPostDate(dto.getPostRegdate()));
+	    	List<ReviewDto> dtos = adminService.getAllReviews(map);
+	    	for (ReviewDto dto: dtos) {
+	    		dto.setFormattedDate(boardService.formatPostDate(dto.getReviewRegdate()));
 	    	}
 	    	
-	    	model.addAttribute("dtos", postDtos);
+	    	model.addAttribute("dtos", dtos);
 	    }
 	    
 	    
@@ -111,15 +110,14 @@ public class AdminPostController {
 	    model.addAttribute("endDate", endDate);
 	    model.addAttribute("keyword", keyword);
 	    
-		return "admin/post";
+		return "admin/review";
 	}
 	
-	@PostMapping("deletePost")
-	public String deletePost(@RequestParam int postId,
+	@PostMapping("deleteReview")
+	public String deleteReview(@RequestParam int reviewId,
 			@RequestParam int pageNum, Model model) {
-		boardService.deletePost(postId);
-		return "redirect:/admin/post?pageNum=" + pageNum;
-
+		int result = adminService.deleteReview(reviewId);
+		return "redirect:/admin/review?pageNum=" + pageNum;
 	}
 }
 

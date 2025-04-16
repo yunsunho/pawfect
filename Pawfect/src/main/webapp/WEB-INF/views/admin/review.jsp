@@ -13,7 +13,7 @@
 </head>
 <div id="confirmModal" class="modal">
     <div class="modal-content">
-        <p>${modal_confirm_delete_post}</p>
+        <p>${modal_confirm_delete_review}</p>
         <button id="confirmSubmit">${str_confirm }</button>
         <button onclick="closeConfirmModal()">${str_cancel }</button>
     </div>
@@ -53,9 +53,9 @@
     
     <div class="main-content" id="main-content">
     	<div class="board-container">
-    		<h1><span class="admin-name">${page_post}</span></h1>
+    		<h1><span class="admin-name">${page_review}</span></h1>
 			<main class="board-main">
-				<form action="post" method="get" class="board-filter-form">
+				<form action="review" method="get" class="board-filter-form">
 					<label for="startDate">${label_start_date}</label>
 					<input type="date" name="startDate" value="${param.startDate}"/>
 					
@@ -68,9 +68,10 @@
 				
 				<table class="board-table">
 					<tr>
-						<th class="label" style="width:7%">${label_postId}</th>
+						<th class="label" style="width:7%">${label_reviewId}</th>
 						<th class="label" style="width:15%">${label_post_userId}</th>
-						<th class="label">${label_postTitle}</th>
+						<th class="label" style="width:15%">${label_reviewRating}</th>
+						<th class="label">${reviewContent}</th>
 						<th class="label" style="width:16%">${label_postRegdate}</th>
 						<th class="label" style="width:15%">${label_action}</th>
 					</tr>
@@ -79,8 +80,8 @@
 					<!-- 게시판에 글이 없는 경우 -->
 					<c:if test="${count==0}">
 						<tr>
-							<td colspan="5" style="text-align: center;">
-								${msg_no_post}
+							<td colspan="6" style="text-align: center;">
+								${msg_no_review}
 							</td>
 						</tr>
 					</c:if>
@@ -88,19 +89,20 @@
 					<c:if test="${count!=0}">
 						<c:forEach var="dto" items="${dtos}">
 							<tr>
-								<td>${dto.postId}</td>
+								<td>${dto.reviewId}</td>
 								<td>${dto.userId}</td>
+								<td>${dto.reviewRating}</td>
 								<td>
-									<a href="/board/content?num=${dto.postId}">
-										${dto.postTitle}
+									<a href="/detail/${dto.contentId}/${dto.contentTypeId}">
+										${dto.reviewContent}
 									</a>
 								</td>
 								<td>${dto.formattedDate}</td>
 								<td>
-									<form action="deletePost" method="post">
-							        	<input type="hidden" name="postId" value="${dto.postId}">
+									<form action="deleteReview" method="post">
+							        	<input type="hidden" name="reviewId" value="${dto.reviewId}">
 							        	<input type="hidden" name="pageNum" value="${pageNum}">
-							        	<button type="button" class="submit-btn" onclick="openConfirmModal(this)">${btn_delete_post}</button>
+							        	<button type="button" class="submit-btn" onclick="openConfirmModal(this)">${btn_delete_review}</button>
 							        </form>
 								</td>
 							</tr>
@@ -111,7 +113,7 @@
 				<div class="pagination">
 					<c:if test="${count gt 0}">
 						<c:if test="${startPage gt pageBlock}">
-							<a href="/admin/post?pageNum=${startPage - pageBlock}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
+							<a href="/admin/review?pageNum=${startPage - pageBlock}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
 								&laquo;
 							</a>
 						</c:if>
@@ -120,13 +122,13 @@
 							  <a class="hover current-page" href="#">${i}</a>
 							</c:if>
 							<c:if test="${i ne currentPage}">
-							  <a class="hover" href="/admin/post?pageNum=${i}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
+							  <a class="hover" href="/admin/review?pageNum=${i}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
 							    ${i}
 							  </a>
 							</c:if>
 						</c:forEach>
 						<c:if test="${pageCount gt endPage}">
-							<a  href="/admin/post?pageNum=${startPage + pageBlock}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
+							<a  href="/admin/review?pageNum=${startPage + pageBlock}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
 								&raquo;
 							</a>
 						</c:if>

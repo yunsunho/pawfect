@@ -53,9 +53,9 @@
     
     <div class="main-content" id="main-content">
     	<div class="board-container">
-    		<h1><span class="admin-name">${page_post}</span></h1>
+    		<h1><span class="admin-name">${page_comment}</span></h1>
 			<main class="board-main">
-				<form action="post" method="get" class="board-filter-form">
+				<form action="comment" method="get" class="board-filter-form">
 					<label for="startDate">${label_start_date}</label>
 					<input type="date" name="startDate" value="${param.startDate}"/>
 					
@@ -68,9 +68,9 @@
 				
 				<table class="board-table">
 					<tr>
-						<th class="label" style="width:7%">${label_postId}</th>
+						<th class="label" style="width:7%">${label_commentId}</th>
 						<th class="label" style="width:15%">${label_post_userId}</th>
-						<th class="label">${label_postTitle}</th>
+						<th class="label">${label_comContent}</th>
 						<th class="label" style="width:16%">${label_postRegdate}</th>
 						<th class="label" style="width:15%">${label_action}</th>
 					</tr>
@@ -80,7 +80,7 @@
 					<c:if test="${count==0}">
 						<tr>
 							<td colspan="5" style="text-align: center;">
-								${msg_no_post}
+								${msg_no_comment}
 							</td>
 						</tr>
 					</c:if>
@@ -88,19 +88,19 @@
 					<c:if test="${count!=0}">
 						<c:forEach var="dto" items="${dtos}">
 							<tr>
-								<td>${dto.postId}</td>
+								<td>${dto.commentId}</td>
 								<td>${dto.userId}</td>
 								<td>
 									<a href="/board/content?num=${dto.postId}">
-										${dto.postTitle}
+										${dto.comContent}
 									</a>
 								</td>
 								<td>${dto.formattedDate}</td>
 								<td>
-									<form action="deletePost" method="post">
-							        	<input type="hidden" name="postId" value="${dto.postId}">
+									<form action="deleteComment" method="post">
+							        	<input type="hidden" name="commentId" value="${dto.commentId}">
 							        	<input type="hidden" name="pageNum" value="${pageNum}">
-							        	<button type="button" class="submit-btn" onclick="openConfirmModal(this)">${btn_delete_post}</button>
+							        	<button type="button" class="submit-btn" onclick="openConfirmModal(this)">${btn_delete_comment}</button>
 							        </form>
 								</td>
 							</tr>
@@ -111,7 +111,7 @@
 				<div class="pagination">
 					<c:if test="${count gt 0}">
 						<c:if test="${startPage gt pageBlock}">
-							<a href="/admin/post?pageNum=${startPage - pageBlock}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
+							<a href="/admin/comment?pageNum=${startPage - pageBlock}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
 								&laquo;
 							</a>
 						</c:if>
@@ -120,13 +120,13 @@
 							  <a class="hover current-page" href="#">${i}</a>
 							</c:if>
 							<c:if test="${i ne currentPage}">
-							  <a class="hover" href="/admin/post?pageNum=${i}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
+							  <a class="hover" href="/admin/comment?pageNum=${i}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
 							    ${i}
 							  </a>
 							</c:if>
 						</c:forEach>
 						<c:if test="${pageCount gt endPage}">
-							<a  href="/admin/post?pageNum=${startPage + pageBlock}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
+							<a  href="/admin/comment?pageNum=${startPage + pageBlock}&keyword=${param.keyword}&startDate=${param.startDate}&endDate=${param.endDate}">
 								&raquo;
 							</a>
 						</c:if>
