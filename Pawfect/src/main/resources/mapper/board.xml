@@ -295,46 +295,4 @@
 		ORDER BY
 		postViewCount DESC
 	</select>
-
-	<!-- 조회수 높은 게시글 상위 2개 -->
-	<select id="getTopPostsByViews" parameterType="int"
-		resultType="com.example.Pawfect.dto.PostDto">
-		SELECT
-		p.*, u.userNickname,
-		(SELECT COUNT(*) FROM post_likes pl WHERE pl.postId = p.postId) AS likeCount,
-		(SELECT COUNT(*) FROM comment c WHERE c.postId = p.postId) AS
-		commentCount
-		FROM post p
-		JOIN user u ON p.userId = u.userId
-		ORDER BY p.postViewCount DESC
-		LIMIT #{limit}
-	</select>
-
-	<!-- 좋아요 많은 게시글 상위 2개 -->
-	<select id="getTopPostsByLikes" parameterType="int"
-		resultType="com.example.Pawfect.dto.PostDto">
-		SELECT
-		p.*, u.userNickname,
-		(SELECT COUNT(*) FROM post_likes pl WHERE pl.postId = p.postId) AS likeCount,
-		(SELECT COUNT(*) FROM comment c WHERE c.postId = p.postId) AS
-		commentCount
-		FROM post p
-		JOIN user u ON p.userId = u.userId
-		ORDER BY likeCount DESC
-		LIMIT #{limit}
-	</select>
-
-	<!-- 댓글 많은 게시글 상위 2개 -->
-	<select id="getTopPostsByComments" parameterType="int"
-		resultType="com.example.Pawfect.dto.PostDto">
-		SELECT
-		p.*, u.userNickname,
-		(SELECT COUNT(*) FROM post_likes pl WHERE pl.postId = p.postId) AS likeCount,
-		(SELECT COUNT(*) FROM comment c WHERE c.postId = p.postId) AS
-		commentCount
-		FROM post p
-		JOIN user u ON p.userId = u.userId
-		ORDER BY commentCount DESC
-		LIMIT #{limit}
-	</select>
 </mapper>

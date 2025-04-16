@@ -220,29 +220,4 @@ public class BoardService {
 			return postDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		}
 	}
-
-	// 메인 인기글
-	public List<PostDto> getTopPostsByViews() {
-		List<PostDto> list = boardMapper.getTopPostsByViews(2);
-		for (PostDto post : list) {
-			post.generateDisplayName();
-		}
-		return list;
-	}
-
-	public List<PostDto> getTopPostsByLikes() {
-		List<PostDto> list = boardMapper.getTopPostsByLikes(2);
-	    for (PostDto post : list) {
-	        post.generateDisplayName();
-	    }
-	    return list;
-	}
-
-	public List<PostDto> getTopPostsByComments() {
-		List<PostDto> list = boardMapper.getTopPostsByComments(2);
-	    for (PostDto post : list) {
-	        post.generateDisplayName();
-	    }
-	    return list;
-	}
 }

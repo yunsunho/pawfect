@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="currentPage" value="main" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <html lang="ko">
@@ -31,98 +31,6 @@
 						<circle cx="11" cy="11" r="8" />
 						<path d="m21 21-4.3-4.3" /></svg>
 				</button>
-			</div>
-		</section>
-
-		<!-- HOT 게시글 영역 -->
-		<section class="hot-posts-section">
-			<div class="hot-header-row">
-				<h2 class="hot-title">COMMUNITY</h2>
-				<span class="hot-subtitle">실시간 인기글</span>
-			</div>
-
-			<!-- 조회수 상위 -->
-			<div class="hot-category">
-				<h3>조회수 TOP  <i class="fa-solid fa-fire"></i></h3>
-				<div class="hot-posts-scroll">
-					<c:forEach var="post" items="${topViewedPosts}">
-						<div class="hot-post-card">
-							<p>${post.displayName}</p>
-							<h4>${post.postTitle}</h4>
-							<p class="post-preview">
-							  <c:choose>
-							    <c:when test="${fn:length(post.postContent) > 30}">
-							      ${fn:substring(post.postContent, 0, 30)}...
-							    </c:when>
-							    <c:otherwise>
-							      ${post.postContent}
-							    </c:otherwise>
-							  </c:choose>
-							</p>
-							<div class="post-stats">
-  								<i class="fas fa-eye"></i> <span>${post.postViewCount}</span>
- 							    <i class="fas fa-heart"></i> <span>${post.likeCount}</span>
-  								<i class="far fa-comment"></i> <span>${post.commentCount}</span>
-							</div><a href="/board/content?num=${post.postId}" class="view-btn">→</a>
-						</div>
-					</c:forEach>
-				</div>
-			</div>
-
-			<!-- 좋아요 상위 -->
-			<div class="hot-category">
-				<h3>좋아요 TOP  <i class="fa-solid fa-star"></i></h3>
-				<div class="hot-posts-scroll">
-					<c:forEach var="post" items="${topLikedPosts}">
-						<div class="hot-post-card">
-							<p>${post.displayName}</p>
-							<h4>${post.postTitle}</h4>
-							<p class="post-preview">
-							  <c:choose>
-							    <c:when test="${fn:length(post.postContent) > 30}">
-							      ${fn:substring(post.postContent, 0, 30)}...
-							    </c:when>
-							    <c:otherwise>
-							      ${post.postContent}
-							    </c:otherwise>
-							  </c:choose>
-							</p>
-							<div class="post-stats">
-  								<i class="fas fa-eye"></i> <span>${post.postViewCount}</span>
-  								<i class="fas fa-heart"></i> <span>${post.likeCount}</span>
-  								<i class="far fa-comment"></i> <span>${post.commentCount}</span>
-							</div><a href="/board/content?num=${post.postId}" class="view-btn">→</a>
-						</div>
-					</c:forEach>
-				</div>
-			</div>
-
-			<!-- 댓글 수 상위 -->
-			<div class="hot-category">
-				<h3>댓글 수 TOP  <i class="fa-solid fa-comments"></i></h3>
-				<div class="hot-posts-scroll">
-					<c:forEach var="post" items="${topCommentedPosts}">
-						<div class="hot-post-card">
-							<p>${post.displayName}</p>
-							<h4>${post.postTitle}</h4>
-							<p class="post-preview">
-							  <c:choose>
-							    <c:when test="${fn:length(post.postContent) > 30}">
-							      ${fn:substring(post.postContent, 0, 30)}...
-							    </c:when>
-							    <c:otherwise>
-							      ${post.postContent}
-							    </c:otherwise>
-							  </c:choose>
-							</p>
-							<div class="post-stats">
-  								<i class="fas fa-eye"></i> <span>${post.postViewCount}</span>
-  								<i class="fas fa-heart"></i> <span>${post.likeCount}</span>
-  								<i class="far fa-comment"></i> <span>${post.commentCount}</span>
-							</div><a href="/board/content?num=${post.postId}" class="view-btn">→</a>
-						</div>
-					</c:forEach>
-				</div>
 			</div>
 		</section>
 </body>
