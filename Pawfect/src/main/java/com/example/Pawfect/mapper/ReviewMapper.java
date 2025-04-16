@@ -21,4 +21,18 @@ public interface ReviewMapper {
 	List<String> selectReviewImagesByOrder(int contentId);
 	
 	List<String> selectReviewImagesByReviewId(int reviewId);
+
+	int countReviewsByContentId(int contentId);
+
+	List<ReviewDto> selectPagedReviewsWithUser(
+		    @org.apache.ibatis.annotations.Param("contentId") int contentId,
+		    @org.apache.ibatis.annotations.Param("offset") int offset,
+		    @org.apache.ibatis.annotations.Param("limit") int limit
+		);
+
+	String findUserIdByReviewId(int reviewId);
+
+	void deleteReview(int reviewId);
+
+
 }
