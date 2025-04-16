@@ -38,10 +38,11 @@ public class ReviewService {
     }
 
     // 리뷰와 이미지 저장
-    public int saveReview(int contentId, String userId, String reviewContent, int reviewRating) {
+    public int saveReview(int contentId, String userId, String reviewContent, int reviewRating, String title) {
         ReviewDto review = new ReviewDto();
         review.setContentId(contentId);
         review.setUserId(userId);
+        review.setTitle(title);
         review.setReviewContent(reviewContent);
         review.setReviewRating(reviewRating);
 

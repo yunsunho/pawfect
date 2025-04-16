@@ -5,19 +5,29 @@
 <mapper namespace="com.example.Pawfect.mapper.ReviewMapper">
 
     <select id="selectReviewsByContentId" resultType="com.example.Pawfect.dto.ReviewDto">
-        SELECT reviewId, contentId, userId, reviewRating, reviewContent, reviewRegdate
-        FROM review
-        WHERE contentId = #{contentId}
-        ORDER BY reviewRegdate DESC
-    </select>
+	    SELECT reviewId, contentId, userId, title, reviewRating, reviewContent, reviewRegdate
+	    FROM review
+	    WHERE contentId = #{contentId}
+	    ORDER BY reviewRegdate DESC
+	</select>
+	
+	<select id="selectPagedReviewsWithUser" resultType="com.example.Pawfect.dto.ReviewDto">
+	    SELECT r.reviewId, r.contentId, r.userId, r.title, r.reviewContent, r.reviewRating, r.reviewRegdate,
+	           u.userNickname, u.userImage
+	    FROM review r
+	    JOIN user u ON r.userId = u.userId
+	    WHERE r.contentId = #{contentId}
+	    ORDER BY r.reviewRegdate DESC
+	    LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+
 
     <!-- 리뷰 저장 -->
-    <insert id="insertReview" parameterType="map">
-	    <selectKey keyProperty="reviewId" resultType="int" order="AFTER">
-	        SELECT LAST_INSERT_ID()
-	    </selectKey>
-	    INSERT INTO review(contentId, userId, reviewContent, reviewRating)
-	    VALUES(#{contentId}, #{userId}, #{reviewContent}, #{reviewRating})
+    <insert id="insertReview" parameterType="com.example.Pawfect.dto.ReviewDto"
+	        useGeneratedKeys="true" keyProperty="reviewId">
+	    INSERT INTO review(contentId, userId, title, reviewContent, reviewRating)
+	    VALUES(#{contentId}, #{userId}, #{title}, #{reviewContent}, #{reviewRating})
 	</insert>
 
     <!-- 마지막 삽입된 reviewId 가져오기 -->

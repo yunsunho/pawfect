@@ -35,6 +35,7 @@ public class ReviewController {
                               @RequestParam int reviewRating,
                               @RequestParam("reviewImages") List<MultipartFile> reviewImages,
                               @RequestParam String contentTypeId,
+                              @RequestParam String title,
                               @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         // 로그인된 사용자 확인
@@ -43,7 +44,7 @@ public class ReviewController {
         }
 
         // 리뷰 저장
-        int reviewId = reviewService.saveReview(contentId, userDetails.getUser().getUserId(), reviewContent, reviewRating);
+        int reviewId = reviewService.saveReview(contentId, userDetails.getUser().getUserId(), reviewContent, reviewRating, title);
 
         // 이미지 저장
         int imageOrder = 1;
