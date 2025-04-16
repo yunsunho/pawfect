@@ -38,10 +38,18 @@
       </div>
 
       <div class="meta-right">
-        📌 ${bookmarkCount}
-        <button id="bookmarkBtn" class="${isBookmarked ? 'bookmarked' : ''}">
+        <button id="bookmarkBtn"
+	        class="${isBookmarked ? 'bookmarked' : ''}"
+	        data-contentid="${contentId}"
+	        data-contenttypeid="${contentTypeId}"
+	        data-title="${common.title}"
+	        data-firstimage="${common.firstimage}"
+	        data-mapx="${common.mapx}"
+	        data-mapy="${common.mapy}"
+	        data-addr1="${common.addr1}">
           ${isBookmarked ? '✅' : '🔖'}
         </button>
+		<span id="bookmarkCount">${bookmarkCount}</span>
       </div>
     </div>
 
