@@ -68,6 +68,21 @@
   </c:if>
 </div>
 
+<div id="confirmModal" class="modal">
+  <div class="modal-content">
+    <p id="confirmModalMessage"></p>
+    <button id="btnConfirmYes">예</button>
+    <button id="btnConfirmNo">아니요</button>
+  </div>
+</div>
+
+<div id="commonModal" class="modal">
+  <div class="modal-content">
+    <p id="modalMessage"></p>
+    <button onclick="closeModal()">확인</button>
+  </div>
+</div>
+
 <script>
   const contentId = ${contentId};
 
@@ -82,5 +97,5 @@
       });
   }
 </script>
-
+<script src='/js/modal.js'/></script>
 

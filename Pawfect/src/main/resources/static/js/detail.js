@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	    const currentCount = allFiles.length;
 
 	    if (currentCount + newFiles.length > MAX_IMAGES) {
-	        alert(`이미지는 최대 ${MAX_IMAGES}장까지 첨부할 수 있습니다.`);
+	        showModal(`이미지는 최대 ${MAX_IMAGES}장까지 첨부할 수 있습니다.`);
 	        return;
 	    }
 
