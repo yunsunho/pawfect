@@ -8,6 +8,7 @@
   <title>${common.title} - 상세정보</title>
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/detail.css">
+  <link rel="stylesheet" href="/css/reviewList.css">
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=53058506472e68663c191f4ba75fc7b0"></script>
 </head>
 
@@ -503,6 +504,8 @@
 	</form>
 </div>
 
+<div id="review-box"></div>
+
 <div id="confirmModal" class="modal">
   <div class="modal-content">
     <p id="confirmModalMessage"></p>
@@ -514,9 +517,19 @@
 <div id="commonModal" class="modal">
   <div class="modal-content">
     <p id="modalMessage"></p>
-    <button>확인</button>
+    <button onclick="closeModal()">확인</button>
   </div>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("/travel/reviews/${contentId}")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("review-box").innerHTML = html;
+        });
+});
+</script>
+<script src='/js/reviewList.js'/></script>
 <script src='/js/detail.js'/></script>
 <script src='/js/modal.js'/></script>
 </body>

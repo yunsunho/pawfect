@@ -19,4 +19,6 @@ public interface ReviewMapper {
 	void insertReviewImageWithOrder(int reviewId, String imagePath, int imageOrder);
 
 	List<String> selectReviewImagesByOrder(int contentId);
+	
+	List<String> selectReviewImagesByReviewId(int reviewId);
 }
