@@ -26,6 +26,7 @@ public class ReviewDto {
     private Timestamp reviewRegdate;
     
     private List<String> reviewImages;
+    private String formattedDate;
     
     // (int, String, String, int) 매개변수를 받는 생성자 추가
     public ReviewDto(int contentId, String userId, String reviewContent, int reviewRating) {

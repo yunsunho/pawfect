@@ -67,13 +67,35 @@ commentId INT PRIMARY KEY AUTO_INCREMENT,
 <!-- 댓글 관리 -->
 <c:set var="page_comment" value="댓글 관리"/>
 <c:set var="label_commentId" value="ID"/>
-<!--  userId -->
 <c:set var="label_comContent" value="댓글 내용"/>
-<!-- comRegdate -->
 <c:set var="msg_no_comment" value="댓글이 없습니다."/>
 <c:set var="btn_delete_comment" value="댓글 삭제"/>
 <c:set var="modal_confirm_delete_comment" value="정말로 댓글을 삭제하시겠습니까?"/>
 
+<!-- 리뷰 관리 -->
+<c:set var="page_review" value="리뷰 관리"/>
+<c:set var="label_reviewId" value="ID"/>
+<!-- userId -->
+<c:set var="label_reviewRating" value="별점"/>
+<c:set var="reviewContent" value="내용"/>
+
+<c:set var="msg_no_review" value="리뷰가 없습니다."/>
+<c:set var="btn_delete_review" value="리뷰 삭제"/>
+<c:set var="modal_confirm_delete_review" value="정말로 리뷰를 삭제하시겠습니까?"/>
+<!-- 작성일 -->
+
+<!-- 
+
+reviewId INT PRIMARY KEY AUTO_INCREMENT,
+contentId INT,
+contentTypeId INT,
+title VARCHAR(255),
+imgpath VARCHAR(255),
+userId VARCHAR(50),
+reviewRating INT NOT NULL CHECK (reviewRating BETWEEN 1 AND 5),
+reviewContent TEXT NOT NULL,
+reviewRegdate 
+ -->
 
 <!-- 문의 처리 -->
 <c:set var="page_inquiry" value="문의 내역"/>

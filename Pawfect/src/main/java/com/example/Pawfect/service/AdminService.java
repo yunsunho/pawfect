@@ -48,7 +48,7 @@ public class AdminService {
 	public int getReviewCount(Map<String, Object> map) {
 		return adminMapper.getReviewCount(map);
 	}
-	public List<ReviewDto> getallReviews(Map<String, Object> map) {
+	public List<ReviewDto> getAllReviews(Map<String, Object> map) {
 		return adminMapper.getAllReviews(map);
 	}
 	public int deleteReview(int reviewId) {
