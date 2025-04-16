@@ -68,17 +68,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // 파일 선택 후 미리보기
-	const MAX_IMAGES = 5;
 	fileInput.addEventListener("change", function (event) {
 	    const newFiles = Array.from(event.target.files);
 	    const previewContainer = document.getElementById("preview-container");
 
 	    const currentCount = allFiles.length;
+		const MAX_IMAGES = 5;
 
 	    if (currentCount + newFiles.length > MAX_IMAGES) {
 	        showModal(`이미지는 최대 ${MAX_IMAGES}장까지 첨부할 수 있습니다.`);
 	        return;
 	    }
+		
+		const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+		    const invalidFile = newFiles.find(file => !allowedTypes.includes(file.type));
+		    if (invalidFile) {
+		        showModal(`이미지 파일만 첨부 가능합니다. (${invalidFile.name})`);
+		        return;
+		    }
 
 	    newFiles.forEach((file, index) => {
 	        allFiles.push(file); // ✅ allFiles에 추가
