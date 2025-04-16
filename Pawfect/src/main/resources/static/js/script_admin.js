@@ -19,6 +19,27 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
+function showConfirmModal(message, onConfirm) {
+	const modal = document.getElementById("confirmModal");
+	const msgBox = document.getElementById("confirmModalMessage");
+	const confirmBtn = document.getElementById("btnConfirmYes");
+	const cancelBtn = document.getElementById("btnConfirmNo");
+
+	if (modal && msgBox) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+		// 확인
+		confirmBtn.onclick = () => {
+			modal.style.display = "none";
+			onConfirm();
+		};
+		// 취소
+		cancelBtn.onclick = () => {
+			modal.style.display = "none";
+		};
+	}
+}
 window.addEventListener(
 	"DOMContentLoaded", 
 	() => {
@@ -30,5 +51,14 @@ window.addEventListener(
 				link.parentElement.classList.add('active');
 			}
 		});
+		
+		const logoutBtn = document.getElementById("adminLogoutBtn");
+		if (logoutBtn) {
+			logoutBtn.addEventListener("click", () => {
+				showConfirmModal("정말 로그아웃하시겠습니까?", () => {
+					location.href = "/logout";
+				});
+			});
+		}
 });
 
