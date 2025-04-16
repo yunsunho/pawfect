@@ -1,7 +1,7 @@
 .detail-wrapper {
-  max-width: 1000px;
-  margin: 50px auto;
-  padding: 20px;
+  max-width: 1200px;      /* 최대 너비 제한 */
+  margin: 0 auto;         /* 가운데 정렬 */
+  padding: 20px;          /* 안쪽 여백 */
 }
 
 /* 제목 */
@@ -31,11 +31,15 @@
   padding: 30px;
 }
 .overview {
-  flex: 1 1 400px;
+  max-width: 800px;      
+  margin: 0 auto;        
+  padding: 20px;         
   line-height: 1.6;
 }
 .map-container {
-  flex: 1 1 400px;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-bottom: 40px;
 }
 
 /* 이미지 슬라이드 (상단 공통 이미지용) */
@@ -55,7 +59,8 @@
 /* 이용 안내 박스 */
 .extra-info,
 .info-box {
-  margin: 40px;
+  max-width: 800px;        
+  margin: 40px auto;        
   background: #f9f9f9;
   padding: 20px 30px;
   border-radius: 10px;
@@ -183,11 +188,14 @@
 
 /* 리뷰 영역 */
 .review-section {
-  margin: 40px;
-  padding: 20px 30px;
-  background: #f4f4f4;
-  border-radius: 10px;
+  max-width: 800px;          
+  margin: 50px auto;
+  padding: 30px;
+  background: #f9f9f9;        
+  border-radius: 10px;       
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);  
 }
+
 .review-section h3 {
   margin-bottom: 10px;
 }

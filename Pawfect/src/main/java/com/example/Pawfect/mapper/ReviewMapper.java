@@ -10,7 +10,7 @@ import com.example.Pawfect.dto.ReviewDto;
 public interface ReviewMapper {
 
     // contentId에 해당하는 리뷰 목록을 가져오는 메서드
-    List<ReviewDto> selectReviewsByContentId(int contentId);
+	List<ReviewDto> selectReviewsWithUserByContentId(int contentId);
 
 	void insertReview(ReviewDto review);
 	
