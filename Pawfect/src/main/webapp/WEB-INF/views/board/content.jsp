@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="setting.jsp" %>
-<c:set var=currentPage" value="content" />
+<c:set var="currentPage" value="content" />
 
 <head>
 	<meta charset="UTF-8">

@@ -22,6 +22,7 @@ import com.example.Pawfect.dto.UserDto;
 import com.example.Pawfect.service.BoardService;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("board")
@@ -38,7 +39,8 @@ public class BoardListController {
 	    @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
 	    @RequestParam(required = false) Integer postType,
 	    @RequestParam(required = false) String myPost,
-	    Model model) {
+	    Model model,
+	    HttpServletRequest request) {
 		
 		int count = 0;			// 전체 글 개수 
 		int currentPage = 0;	// 계산용 페이지 번호
@@ -149,6 +151,9 @@ public class BoardListController {
 	    model.addAttribute("startDate", startDate);
 	    model.addAttribute("endDate", endDate);
 	    model.addAttribute("postType", postType);
+
+	    // 메뉴 하이라이트용
+	    request.setAttribute("menuPage", "community");
 
 	    return "board/list";
 	}
