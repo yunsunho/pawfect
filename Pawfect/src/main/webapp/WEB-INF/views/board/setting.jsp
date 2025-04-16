@@ -90,13 +90,12 @@
 <c:set var="msg_write_success" value="게시물이 등록되었습니다."/>
 <c:set var="msg_write_fail" value="글 수정에 실패했습니다.\n잠시 후 다시 시도하세요."/>
 
-
 <!-- modifyForm.jsp -->
 <c:set var="page_modify" value="게시물 수정"/>
 <c:set var="btn_modify" value="저장"/>
 
 <!-- modal -->
 <c:set var="msg_loading" value="잠시 후 페이지가 이동합니다..."/>
-<c:set var="modal_confirm_write" value="정말로 게시물을 등록하시겠습니까?"/>
+<c:set var="modal_confirm_write" value="정말 게시물을 등록하시겠습니까?"/>
 <c:set var="modal_btn_confirm" value="확인"/>
 <c:set var="modal_btn_cancel" value="취소"/>

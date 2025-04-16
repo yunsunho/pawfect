@@ -51,11 +51,9 @@ public class BoardModifyController {
 	@PostMapping("modify")
 	public String modifyPro(@ModelAttribute PostDto postDto, Model model) {
 		int result = boardService.modifyPost(postDto);
-		String msg;
+		String msg=null;
 		
-		if (result == 1) {
-			msg = "게시물이 성공적으로 수정되었습니다.";
-		} else {
+		if (result == 0) {
 			msg = "게시물 수정에 실패하였습니다. 다시 시도해주세요.";
 		}
 		

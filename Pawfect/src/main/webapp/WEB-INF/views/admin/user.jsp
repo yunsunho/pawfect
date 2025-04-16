@@ -48,6 +48,11 @@
             	&nbsp;${sidebar_manage_qna }
             </a></li>
         </ul>
+        <div id="adminLogoutBtn">
+	        <i id="logout-symbol" class="fa-solid fa-right-from-bracket"></i>
+			&nbsp;
+			<span id="logout-text">${sidebar_logout}</span>
+		</div>
     </div>
     
     
@@ -163,4 +168,13 @@
 			</main>
 		</div>
     </div>
+    <div id="confirmModal" class="modal">
+		<div class="modal-content">
+	    	<p id="confirmModalMessage">${modal_confirm_logout}</p>
+		    <div class="modal-buttons">
+		      <button id="btnConfirmYes">${str_confirm}</button>
+		      <button id="btnConfirmNo">${str_cancel}</button>
+		    </div>
+		</div>
+	</div>
 </body>

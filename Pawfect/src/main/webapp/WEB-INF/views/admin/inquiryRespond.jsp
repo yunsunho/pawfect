@@ -47,6 +47,11 @@
             	&nbsp;${sidebar_manage_qna }
             </a></li>
         </ul>
+        <div id="adminLogoutBtn">
+	        <i id="logout-symbol" class="fa-solid fa-right-from-bracket"></i>
+			&nbsp;
+			<span id="logout-text">${sidebar_logout}</span>
+		</div>
     </div>
     
     
@@ -56,7 +61,8 @@
         	<span class="welcome-text">${page_handle_inquiry}</span>&nbsp;
         	<span class="admin-name">#${dto.inquiryId}</span>
         </h1>
-        <table class="board-table" style="width:80%">
+        &nbsp;&nbsp;
+        <table class="board-table" style="margin: auto; width:80%;">
         	<tr>
         		<th class="label" style="width:15%">${label_inquiryId}</th>
         		<td>${dto.inquiryId}</td>
@@ -94,19 +100,28 @@
         
         <c:if test="${not dto.inquiryStatus}">
         	<br><br>
+        	<div style="margin: auto; width:80%;">
         	<h3>${str_admin_response}</h3>
 	        <form action="inquiryRespond" method="post">
 	        	<input type="hidden" name="inquiryId" value="${dto.inquiryId}">
-	        	<textarea name="inquiryReply" id="editor-container" rows="5" required>
-	        	</textarea>
+	        	<textarea name="inquiryReply" id="editor-container" rows="5" required></textarea>
 	        	<div class="button-container">
-	        		<div class="button-inner-container">
+	        		<div class="inner-container">
 			        	<button type="button" class="submit-btn" onclick="openConfirmModal(this)">${btn_respond}</button>
 			        	<button type="reset" class="cancel-btn">${btn_cancel}</button>
 		        	</div>
 	        	</div>
 	        </form>
+	        </div>
         </c:if>
     </div>
-
+	<div id="confirmModal" class="modal">
+		<div class="modal-content">
+	    	<p id="confirmModalMessage">${modal_confirm_logout}</p>
+		    <div class="modal-buttons">
+		      <button id="btnConfirmYes">${str_confirm}</button>
+		      <button id="btnConfirmNo">${str_cancel}</button>
+		    </div>
+		</div>
+	</div>
 </body>
