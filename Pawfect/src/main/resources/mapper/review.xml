@@ -4,12 +4,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.Pawfect.mapper.ReviewMapper">
 
-    <select id="selectReviewsByContentId" resultType="com.example.Pawfect.dto.ReviewDto">
-	    SELECT reviewId, contentId, userId, title, reviewRating, reviewContent, reviewRegdate
-	    FROM review
-	    WHERE contentId = #{contentId}
-	    ORDER BY reviewRegdate DESC
+    <select id="selectReviewsWithUserByContentId" resultType="com.example.Pawfect.dto.ReviewDto">
+	    SELECT r.reviewId, r.contentId, r.userId, r.title, r.reviewRating, r.reviewContent, r.reviewRegdate,
+	           u.userNickname, u.userImage
+	    FROM review r
+	    JOIN user u ON r.userId = u.userId
+	    WHERE r.contentId = #{contentId}
+	    ORDER BY r.reviewRegdate DESC
 	</select>
+
 	
 	<select id="selectPagedReviewsWithUser" resultType="com.example.Pawfect.dto.ReviewDto">
 	    SELECT r.reviewId, r.contentId, r.userId, r.title, r.reviewContent, r.reviewRating, r.reviewRegdate,

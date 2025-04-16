@@ -34,7 +34,7 @@ public class ReviewService {
     }
 
     public List<ReviewDto> getReviewsByContentId(int contentId) {
-        return reviewMapper.selectReviewsByContentId(contentId);
+        return reviewMapper.selectReviewsWithUserByContentId(contentId);
     }
 
     // 리뷰와 이미지 저장
@@ -62,15 +62,13 @@ public class ReviewService {
     }
     
     public List<ReviewDto> getFullReviewsByContentId(int contentId) {
-        List<ReviewDto> reviews = reviewMapper.selectReviewsByContentId(contentId);
+        List<ReviewDto> reviews = reviewMapper.selectReviewsWithUserByContentId(contentId);
         for (ReviewDto review : reviews) {
             List<String> images = reviewMapper.selectReviewImagesByReviewId(review.getReviewId());
             review.setReviewImages(images);
         }
         return reviews;
     }
-
-
 }
 
 

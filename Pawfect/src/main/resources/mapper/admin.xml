@@ -53,7 +53,7 @@
 	<!-- comment page -->
 	<select id="getCommentCount" resultType="int" parameterType="map">
 		SELECT COUNT(*) from comment
-		WHERE 1=1
+		WHERE comDeleteStatus = 0
 		<if test="keyword != null and keyword !=''">
 			AND comContent LIKE CONCAT('%' #{keyword}, '%')
 		</if>
@@ -74,11 +74,11 @@
 	</select>
 	<update id="deleteComment" parameterType="int">
 		UPDATE comment
-		SET comDeleteStatus = 0
+		SET comDeleteStatus = 1
 		WHERE commentId = #{commentId}
 	</update>
 	<!-- review page -->
-	<select id="getReviewCount" resultType="com.example.Pawfect.dto.ReviewDto" parameterType="map">
+	<select id="getReviewCount" resultType="int" parameterType="map">
 		SELECT COUNT(*) from review
 		WHERE 1=1
 		<if test="keyword != null and keyword !=''">
