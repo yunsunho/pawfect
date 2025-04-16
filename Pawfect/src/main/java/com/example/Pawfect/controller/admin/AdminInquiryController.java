@@ -140,6 +140,10 @@ public class AdminInquiryController {
 		
 		inquiryDto.setAdminId(adminId);
 		inquiryDto.setInquiryStatus(true);
+		
+		InquiryDto original = adminService.getInquiryById(inquiryDto.getInquiryId());
+		inquiryDto.setUserId(original.getUserId());
+		
 		int result = adminService.replyToInquiry(inquiryDto);
 		
 		model.addAttribute("result", result);
