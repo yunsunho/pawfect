@@ -16,27 +16,27 @@
         <h2></h2>
         <ul>
         	<li>
-        		<i class="fa-solid fa-chart-simple" style="color: #1E1E2C;"></i>
-        		&nbsp;${sidebar_manage_site}
+        		<i class="fa-solid fa-chart-simple"></i>
+        		&nbsp;<a href="/admin">${sidebar_manage_site}</a>
         	</li>
         	<li>
-        		<i class="fa-solid fa-user" style="color: #1E1E2C;"></i>
-        		&nbsp;<a href="#">${sidebar_manage_users }</a>
+        		<i class="fa-solid fa-user"></i>
+        		&nbsp;<a href="/admin/user">${sidebar_manage_users }</a>
         	</li>
             <li>
-            	<i class="fa-solid fa-list" style="color: #1E1E2C;"></i>
-            	&nbsp;<a href="#">${sidebar_manage_posts }</a>
+            	<i class="fa-solid fa-list"></i>
+            	&nbsp;<a href="/admin/post">${sidebar_manage_posts }</a>
             </li>
             <li>
-            	<i class="fa-solid fa-comments" style="color: #1E1E2C;"></i>
-            	&nbsp;<a href="#">${sidebar_manage_comments }</a>
+            	<i class="fa-solid fa-comments"></i>
+            	&nbsp;<a href="/admin/comment">${sidebar_manage_comments }</a>
             </li>
             <li>
-            	<i class="fa-solid fa-database" style="color: #1E1E2C;"></i>
-            	&nbsp;<a href="#">${sidebar_manage_reviews }</a>
+            	<i class="fa-solid fa-database"></i>
+            	&nbsp;<a href="/admin/review">${sidebar_manage_reviews }</a>
             </li>
             <li>
-            	<i class="fa-solid fa-list-check" style="color: #1E1E2C;"></i>
+            	<i class="fa-solid fa-list-check"></i>
             	&nbsp;<a href="/admin/inquiry">${sidebar_manage_qna }</a>
             </li>
         </ul>

@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.Pawfect.mapper.AdminMapper">
+	<!-- user manage -->
 	<select id="getUserCount" resultType="int" parameterType="map">
 		SELECT COUNT(*) FROM user
 		WHERE 1=1
@@ -11,6 +12,15 @@
 		</if>
 		<if test="startDate != null and endDate != null">
 			AND userRegdate BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="active != null and active != '' and active !=0">
+			AND userStatus = 'ACTIVE'
+		</if>
+		<if test="banned != null and banned != '' and banned !=0">
+			AND userStatus = 'BANNED'
+		</if>
+		<if test="withdrawn != null and withdrawn != '' and withdrawn !=0">
+			AND userStatus = 'WITHDRAWN'
 		</if>
 	</select>
 	<select id="getAllUsers" resultType="com.example.Pawfect.dto.UserDto" parameterType="map">
@@ -22,9 +32,23 @@
 		<if test="startDate != null and endDate != null">
 			AND userRegdate BETWEEN #{startDate} AND #{endDate}
 		</if>
+		<if test="active != null and active != '' and active !=0">
+			AND userStatus = 'ACTIVE'
+		</if>
+		<if test="banned != null and banned != '' and banned !=0">
+			AND userStatus = 'BANNED'
+		</if>
+		<if test="withdrawn != null and withdrawn != '' and withdrawn !=0">
+			AND userStatus = 'WITHDRAWN'
+		</if>
 		LIMIT #{start}, #{pageSize}
 	</select>
-	
+	<update id="updateUserStatus" parameterType="com.example.Pawfect.dto.UserDto">
+		UPDATE user
+		SET userStatus=#{userStatus}
+		WHERE userId=#{userId}
+	</update>
+	<!-- post page -->
 	<select id="getPostCount" resultType="int" parameterType="map">
 		SELECT COUNT(*) FROM post
 		WHERE 1=1
@@ -47,7 +71,7 @@
 		LIMIT #{start}, #{pageSize}
 	</select>
 	
-	
+	<!-- comment page -->
 	<select id="getCommentCount" resultType="int" parameterType="map">
 		SELECT COUNT(*) from comment
 		WHERE 1=1
@@ -68,7 +92,7 @@
 		</if>
 		LIMIT #{start}, #{pageSize}
 	</select>
-	
+	<!-- review page -->
 	<select id="getReviewCount" resultType="com.example.Pawfect.dto.ReviewDto" parameterType="map">
 		SELECT COUNT(*) from review
 		WHERE 1=1
@@ -90,7 +114,7 @@
 		</if>
 		LIMIT #{start}, #{pageSize}
 	</select>
-	
+	<!-- inquiry page -->
 	<select id="getInquiryCount" resultType="int" parameterType="map">
 		SELECT COUNT(*) from inquiry
 		WHERE 1=1
@@ -156,15 +180,15 @@
 	<select id="getTotalReviewCount" resultType="int">
 		SELECT COUNT(*) FROM review
 	</select>
-	<select id="getActiveUserCount" resultType="int">
+	<select id="getTotalActiveUserCount" resultType="int">
 		SELECT COUNT(*) FROM user
 		WHERE userStatus = 'ACTIVE'
 	</select>
-	<select id="getBannedUserCount" resultType="int">
+	<select id="getTotalBannedUserCount" resultType="int">
 		SELECT COUNT(*) FROM user
 		WHERE userStatus = 'BANNED'
 	</select>
-	<select id="getWithdrawnUserCount" resultType="int">
+	<select id="getTotalWithdrawnUserCount" resultType="int">
 		SELECT COUNT(*) FROM user
 		WHERE userStatus = 'WITHDRAWN'
 	</select>

@@ -123,7 +123,7 @@
 					<c:forEach var="commentDto" items="${commentDtos}">
 						<div class="comment" style="margin-left: ${commentDto.com_re_level * 20}px;">
 							<c:if test="${empty commentDto.userImage}">
-								<img src="/images/upload/profile/8221a67b-287b-4a08-bb38-5c3d5d214cfd_cat.jpeg" class="comment-avatar"/>
+								<img src="/images/default_profile.jpg" class="comment-avatar"/>
 							</c:if>
 							<c:if test="${not empty commentDto.userImage}">
 								<img src="${commentDto.userImage}" class="comment-avatar">

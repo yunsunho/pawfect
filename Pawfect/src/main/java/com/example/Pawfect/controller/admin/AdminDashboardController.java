@@ -32,9 +32,9 @@ public class AdminDashboardController {
 		String adminName = boardService.getLoggedInUser().getUserName();
 		
 		// STATS
-		int activeUserCount = adminService.getActiveUserCount(); // 활동
-		int bannedUserCount = adminService.getBannedUserCount(); // 정지
-		int withdrawnUserCount = adminService.getWithdrawnUserCount(); // 탈퇴 
+		int activeUserCount = adminService.getTotalActiveUserCount(); // 활동
+		int bannedUserCount = adminService.getTotalBannedUserCount(); // 정지
+		int withdrawnUserCount = adminService.getTotalWithdrawnUserCount(); // 탈퇴 
 		int totalReviewCount = adminService.getTotalReviewCount();
 		int totalPostCount = boardService.getTotalPostCount();
 		int totalCommentCount = boardService.getTotalCommentCount();
