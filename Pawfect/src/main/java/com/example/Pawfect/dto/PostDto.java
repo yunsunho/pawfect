@@ -22,6 +22,7 @@ public class PostDto {
     
     private int likeCount;
     private int commentCount;
+    private boolean containsImage;
     
     public void generateDisplayName() {
         String maskedId = (userId != null && userId.length() >= 3)

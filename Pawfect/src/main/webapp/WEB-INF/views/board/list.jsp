@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/style_board.css">
 	<link rel="stylesheet" type="text/css" href="/css/style_board_sidebar.css">
 	<link rel="stylesheet" type="text/css" href="/css/style_board_list.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
 	<c:set var="currentPage">${currentPage}</c:set>
@@ -94,7 +95,11 @@
 							</td>
 							<td style="text-align:left">
 								<a class="post-title" href="board/content?num=${dto.postId}">
-									${dto.postTitle}&nbsp;<b>(${dto.commentCount})</b>
+									<c:if test="${dto.containsImage}">
+										<i class="fa-solid fa-image"></i>
+									</c:if>&nbsp;
+									${dto.postTitle}&nbsp;
+									<b>(${dto.commentCount})</b>
 								</a>
 							</td>
 							<td>${dto.displayName}</td>
