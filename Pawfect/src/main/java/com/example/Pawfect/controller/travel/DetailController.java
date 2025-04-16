@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.util.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,12 +14,21 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.Pawfect.auth.CustomUserDetails;
+import com.example.Pawfect.dto.BookmarkDto;
+import com.example.Pawfect.service.BookmarkService;
+import com.example.Pawfect.service.ReviewService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class DetailController {
+	
+	@Autowired
+	private ReviewService reviewService;
 
+	@Autowired
+	private BookmarkService bookmarkService;
+	
     @Value("${api.service-key}")
     private String serviceKey;
 
@@ -27,7 +37,8 @@ public class DetailController {
             @PathVariable String contentId,
             @PathVariable String contentTypeId,
             Model model,
-            @AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
+            @AuthenticationPrincipal CustomUserDetails userDetails) 
+            		throws Exception {
 
         // 로그인된 사용자 확인
         if (userDetails != null) {
@@ -356,8 +367,27 @@ public class DetailController {
             model.addAttribute("introList", introList);
         }
 
-
+        
         model.addAttribute("Intro", detailIntro);
+        
+        int contentIdInt = Integer.parseInt(contentId);
+
+        double averageRating = reviewService.getAverageRating(contentIdInt);
+        int reviewCount = reviewService.getTotalReviewCount(contentIdInt);
+        int bookmarkCount = bookmarkService.getBookmarkCount(contentIdInt);
+
+        boolean isBookmarked = false;
+        if (userDetails != null) {
+            BookmarkDto dto = new BookmarkDto();
+            dto.setUserId(userDetails.getUser().getUserId());
+            dto.setContentId(contentIdInt);
+            isBookmarked = bookmarkService.isBookmarked(dto);
+        }
+
+        model.addAttribute("averageRating", averageRating);
+        model.addAttribute("reviewCount", reviewCount);
+        model.addAttribute("bookmarkCount", bookmarkCount);
+        model.addAttribute("isBookmarked", isBookmarked);
 
         
         // 페이지 렌더링

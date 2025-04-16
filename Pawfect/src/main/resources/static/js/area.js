@@ -59,12 +59,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	  .then(result => {
 	      const contentId = Number(dto.contentId);
 	      const index = bookmarkArray.indexOf(contentId);
-
+		  
 	      if (result === "saved") {
-	        alert("북마크 추가됨 (자동 실행)");
+				showModal("북마크 추가 (자동 실행)");
+			  	closeModal;
 	        if (index === -1) bookmarkArray.push(contentId);
 	      } else if (result === "deleted") {
-	        alert("북마크 삭제됨 (자동 실행)");
+				showModal("북마크 삭제 (자동 실행)");
+			  	closeModal;
 	        if (index > -1) bookmarkArray.splice(index, 1);
 	      }
 	      sessionStorage.removeItem("pendingBookmark");
@@ -112,11 +114,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		  const index = bookmarkArray.indexOf(contentId);
 
 		  if (result === "saved") {
-		    alert("북마크 추가됨");
+				showModal("북마크 추가");
+			  	closeModal;
 		    if (index === -1) bookmarkArray.push(contentId); // 직접 배열 수정
 		    btn.textContent = "✅";
 		  } else if (result === "deleted") {
-		    alert("북마크 삭제됨");
+				showModal("북마크 삭제");
+			  	closeModal;
 		    if (index > -1) bookmarkArray.splice(index, 1); // 배열에서 제거
 		    btn.textContent = "🔖";
 		  }
