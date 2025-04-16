@@ -132,7 +132,12 @@
 							<div class="comment-body">
 								<div class="comment-header">
 									<span class="comment-writer">${commentDto.displayName}</span>
-									<span class="comment-time">${commentDto.formattedDate}</span>
+									<span class="comment-time">
+										<c:if test="${commentDto.comEditStatus}">
+											<i>${str_comment_editted}&nbsp;</i>
+										</c:if>
+										${commentDto.formattedDate}
+									</span>
 								</div>
 								<div class="comment-content">
 									<c:if test="${not commentDto.comDeleteStatus}">

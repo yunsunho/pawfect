@@ -57,6 +57,7 @@
 <c:set var="btn_delete_comment" value="삭제"/>
 <c:set var="btn_modify_comment" value="수정"/>
 <c:set var="str_deleted_comment" value="삭제된 댓글입니다."/>
+<c:set var="str_comment_editted" value="수정됨"/>
 <!-- like -->
 <c:set var="btn_like" value="추천"/>
 
