@@ -62,6 +62,15 @@
 	    SELECT COUNT(*) FROM review WHERE contentId = #{contentId}
 	</select>
 	
+	<select id="findUserIdByReviewId" resultType="String">
+	  SELECT userId FROM review WHERE reviewId = #{reviewId}
+	</select>
+	
+	<delete id="deleteReview">
+	  DELETE FROM review WHERE reviewId = #{reviewId}
+	</delete>
+	
+	
 </mapper>
 
 

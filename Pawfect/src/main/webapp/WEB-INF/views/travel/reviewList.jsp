@@ -5,10 +5,21 @@
 
 <c:forEach var="review" items="${reviews}">
   <div class="review-card">
+  
+   <!-- 우측 상단 삭제 버튼 -->
+  <button class="delete-btn" onclick="confirmDelete(${review.reviewId}, '${review.userId}')">삭제</button>
+  
     
     <!-- 상단: 프로필 + 닉네임 + 별점 + 날짜 -->
     <div class="review-header">
-      <img class="profile-img" src="${review.userImage}" alt="프로필" />
+      	<c:choose>
+		  <c:when test="${empty review.userImage or review.userImage == '없음'}">
+		    <img class="profile-img" src="/images/default_profile.jpg" alt="기본 이미지" />
+		  </c:when>
+		  <c:otherwise>
+		    <img class="profile-img" src="${review.userImage}" alt="프로필" />
+		  </c:otherwise>
+		</c:choose>
       <div class="review-user-info">
         <div class="nickname">
           ${review.userNickname} (${fn:substring(review.userId, 0, 3)}***)
@@ -37,10 +48,12 @@
     <div class="review-content">
       ${review.reviewContent}
     </div>
-    
   </div>
 </c:forEach>
-<!-- ✅ 페이지네이션은 반복문 밖에서 한 번만! -->
+
+
+
+
 <div class="pagination-container">
   <c:if test="${currentPage > 1}">
     <button class="page-btn" onclick="goToPage(${currentPage - 1})">&lt;</button>

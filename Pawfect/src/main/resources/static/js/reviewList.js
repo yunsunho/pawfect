@@ -6,3 +6,38 @@ function goToPage(page) {
       window.scrollTo({ top: document.getElementById("review-box").offsetTop, behavior: 'smooth' });
     });
 }
+
+function confirmDelete(reviewId, reviewOwnerId) {
+  const isLoggedIn = document.body.dataset.loggedIn === "true";
+  const loginUserId = document.body.dataset.userId;
+
+  if (!isLoggedIn) {
+    showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
+      location.href = "/loginForm";
+    });
+    return;
+  }
+
+  if (loginUserId !== reviewOwnerId) {
+    alert("작성자만 삭제할 수 있습니다.");
+    return;
+  }
+
+  if (!confirm("정말 삭제하시겠습니까?")) return;
+
+  fetch(`/travel/review/delete/${reviewId}`, {
+    method: 'DELETE'
+  })
+    .then(res => {
+      if (res.ok) {
+        alert("삭제되었습니다.");
+        location.reload(); // 또는 goToPage(currentPage);
+      } else {
+        alert("삭제 실패");
+      }
+    })
+    .catch(error => {
+      console.error("삭제 중 오류:", error);
+    });
+}
+

@@ -84,6 +84,15 @@ public class ReviewService {
     public int getTotalReviewCount(int contentId) {
         return reviewMapper.countReviewsByContentId(contentId);
     }
+    
+    public String getReviewOwner(int reviewId) {
+        return reviewMapper.findUserIdByReviewId(reviewId);
+    }
+
+    public void deleteReviewById(int reviewId) {
+        reviewMapper.deleteReview(reviewId);
+    }
+
 
 }
 

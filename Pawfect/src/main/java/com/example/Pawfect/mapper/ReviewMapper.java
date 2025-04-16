@@ -30,4 +30,9 @@ public interface ReviewMapper {
 		    @org.apache.ibatis.annotations.Param("limit") int limit
 		);
 
+	String findUserIdByReviewId(int reviewId);
+
+	void deleteReview(int reviewId);
+
+
 }
