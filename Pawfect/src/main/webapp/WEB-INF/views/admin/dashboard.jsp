@@ -47,6 +47,7 @@
         	<span class="welcome-text">${str_welcome},&nbsp;${str_admin}&nbsp;</span>
         	<span class="admin-name">${adminName}님</span>
         </h1>
+        <h2>${header_user_stats}</h2>
         <div class="dashboard-stats">
 		    <div class="stat-card active">
 		        <h3>${str_active_user}</h3>
@@ -67,6 +68,8 @@
 		        <p id="bannedCount">${bannedUserCount}</p>
 		    </div>
 		</div>
+		<br>
+		<h2>${header_content_stats}</h2>
 		<div class="dashboard-stats">
 			<div class="stat-card">
 		        <h3>${str_review_count}</h3>
