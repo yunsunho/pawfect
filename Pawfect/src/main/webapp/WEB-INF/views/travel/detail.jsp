@@ -55,7 +55,7 @@
      <p>${common.overview}</p>
    </div>
    <div class="map-container">
-     <div id="map" data-mapx="${common.mapx}" data-mapy="${common.mapy}" style="width:100%; height:300px;"></div>
+     <div id="map" data-mapx="${common.mapx}" data-mapy="${common.mapy}" style="height:300px;"></div>
    </div>
 
   <!-- 📋 이용 정보 -->
@@ -457,6 +457,9 @@
     <p class="notice">※ 위 정보는 공공데이터 포털에 등록된 기준이며, 변동될 수 있습니다.</p>
   </div>
 </c:if>
+
+<!-- 구분선 -->
+	<hr class="section-divider" />
 
 <!-- 💬 리뷰 영역 -->
 <div class="review-section">

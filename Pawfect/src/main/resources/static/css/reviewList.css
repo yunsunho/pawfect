@@ -1,0 +1,107 @@
+.review-card {
+  max-width: 800px;           
+  margin: 20px auto;           
+  padding: 20px 30px;          
+  background-color: #fdfdfd;   
+  border: 1px solid #e0e0e0;   
+  border-radius: 10px;         
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.review-user-info .nickname {
+  font-weight: bold;
+}
+
+.review-user-info .stars {
+  color: #FFD700;
+  font-size: 14px;
+}
+
+.review-user-info .review-date {
+  color: #888;
+  font-size: 12px;
+}
+
+.review-images {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.review-content {
+  margin-top: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* 프로필 이미지 */
+.profile-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* 리뷰 이미지 썸네일 */
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 5px;
+}
+
+/* 이미지들 감싸는 박스 */
+.review-images {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 30px;
+}
+
+.page-btn {
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.page-btn:hover {
+  background-color: #eee;
+}
+
+.page-btn.active {
+  border: 2px solid #007bff;
+  color: #007bff;
+  font-weight: bold;
+}

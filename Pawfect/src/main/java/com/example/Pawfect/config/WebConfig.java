@@ -16,5 +16,8 @@ public class WebConfig implements WebMvcConfigurer {
 		// 리뷰 이미지 경로
 		String reviewPath = System.getProperty("user.dir") + "/upload/review/";
 		registry.addResourceHandler("/upload/review/**").addResourceLocations("file:///" + reviewPath);
+		
+		registry.addResourceHandler("/css/**")
+        .addResourceLocations("classpath:/static/css/");
 	}
 }

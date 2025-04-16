@@ -105,7 +105,7 @@ public class ReviewController {
     
     @GetMapping("/reviews/{contentId}")
     public String getReviewsFragment(@PathVariable int contentId, Model model) {
-        List<ReviewDto> reviews = reviewService.getFullReviewsByContentId(contentId); // 이름 바뀐 메서드
+        List<ReviewDto> reviews = reviewService.getFullReviewsByContentId(contentId);
         model.addAttribute("reviews", reviews);
         return "travel/reviewList";
     }
