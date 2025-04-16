@@ -59,7 +59,7 @@ public class ThemeController {
             @RequestParam(defaultValue = "1") int pageNo) throws Exception {
 
         String encoded = URLEncoder.encode(serviceKey, "UTF-8");
-        List<Map<String, String>> themeList = new ArrayList<>();
+        List<Map<String, Object>> themeList = new ArrayList<>();
 
         String url = "https://apis.data.go.kr/B551011/KorPetTourService/petTourSyncList?"
                 + "serviceKey=" + encoded
@@ -88,17 +88,19 @@ public class ThemeController {
         for (JsonNode item : items) {
             int contentId = item.path("contentid").asInt();
             double rating = reviewService.getAverageRating(contentId);
+            int bookmarkCount = bookmarkService.countByContentId(contentId);
 
-            themeList.add(Map.of(
-                    "contentid", String.valueOf(contentId),
-                    "contenttypeid", item.path("contenttypeid").asText(),
-                    "title", item.path("title").asText(),
-                    "addr1", item.path("addr1").asText(),
-                    "firstimage", item.path("firstimage").asText(),
-                    "mapx", item.path("mapx").asText(),
-                    "mapy", item.path("mapy").asText(),
-                    "rating", String.format("%.1f", rating)
-            ));
+            Map<String, Object> place = new HashMap<>();
+            place.put("contentid", String.valueOf(contentId));
+            place.put("contenttypeid", item.path("contenttypeid").asText());
+            place.put("title", item.path("title").asText());
+            place.put("addr1", item.path("addr1").asText());
+            place.put("firstimage", item.path("firstimage").asText());
+            place.put("mapx", item.path("mapx").asText());
+            place.put("mapy", item.path("mapy").asText());
+            place.put("rating", String.format("%.1f", rating));
+            place.put("bookmarkCount", bookmarkCount);
+            themeList.add(place);
         }
 
         int totalPages = (int) Math.ceil((double) totalCount / 20);

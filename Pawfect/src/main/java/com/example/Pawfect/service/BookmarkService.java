@@ -33,5 +33,9 @@ public class BookmarkService {
 	    return bookmarkMapper.getBookmarkCount(contentId);
 	}
 
+	public int countByContentId(int contentId) {
+	    return bookmarkMapper.countByContentId(contentId);
+	}
+
 
 }

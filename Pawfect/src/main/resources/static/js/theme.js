@@ -118,17 +118,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	    if (!result) return;
 	    const contentId = Number(dto.contentId);
 	    const index = bookmarkArray.indexOf(contentId);
+	    const textOnly = btn.textContent.replace(/[^\d]/g, '');
+	    let count = parseInt(textOnly) || 0;
 
-	    if (result === "saved") {		
-			showModal("북마크 추가");
-		  	closeModal;
-	      if (index === -1) bookmarkArray.push(contentId); // 직접 배열 수정
-	      btn.textContent = "✅";
+	    if (result === "saved") {
+	      showModal("북마크 추가");
+	      closeModal;
+	      if (index === -1) bookmarkArray.push(contentId);
+	      btn.innerHTML = `✅ ${count + 1}`;
 	    } else if (result === "deleted") {
-			showModal("북마크 삭제");
-		  	closeModal;
-	      if (index > -1) bookmarkArray.splice(index, 1); // 배열에서 제거
-	      btn.textContent = "🔖";
+	      showModal("북마크 삭제");
+	      closeModal;
+	      if (index > -1) bookmarkArray.splice(index, 1);
+	      btn.innerHTML = `🔖 ${Math.max(0, count - 1)}`;
 	    }
 	  });
 
@@ -152,16 +154,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		card.innerHTML = `
 		  <div class="card-top-bar">
 		    <div class="rating">⭐ ${item.rating ?? '-'}</div>
-		    <div class="bookmark"
-		         data-contentid="${item.contentid}"
-		         data-contenttypeid="${item.contenttypeid}"
-		         data-title="${item.title}"
-		         data-firstimage="${item.firstimage}"
-		         data-mapx="${item.mapx}"
-		         data-mapy="${item.mapy}"
-		         data-addr1="${item.addr1}">
-		      ${isBookmarked ? "✅" : "🔖"}
-		    </div>
+			<div class="bookmark"
+			     data-contentid="${item.contentid}"
+			     data-contenttypeid="${item.contenttypeid}"
+			     data-title="${item.title}"
+			     data-firstimage="${item.firstimage}"
+			     data-mapx="${item.mapx}"
+			     data-mapy="${item.mapy}"
+			     data-addr1="${item.addr1}">
+			  ${isBookmarked ? "✅" : "🔖"} ${item.bookmarkCount ?? 0}
+			</div>
 		  </div>
 
 		  <a href="/detail/${item.contentid}/${item.contenttypeid}" class="theme-link">
