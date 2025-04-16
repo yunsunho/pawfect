@@ -52,7 +52,6 @@
         	<span class="welcome-text">${str_welcome},&nbsp;${str_admin}&nbsp;</span>
         	<span class="admin-name">${adminName}님</span>
         </h1>
-        <h2>${header_user_stats}</h2>
         <div class="dashboard-stats">
 		    <div class="stat-card active">
 		        <h3>${str_active_user}</h3>
@@ -72,10 +71,6 @@
 		        <h3>${str_banned_user}</h3>
 		        <p id="bannedCount">${bannedUserCount}</p>
 		    </div>
-		</div>
-		<br>
-		<h2>${header_content_stats}</h2>
-		<div class="dashboard-stats">
 			<div class="stat-card">
 		        <h3>${str_review_count}</h3>
 		        <p id="reviewCount">${totalReviewCount}</p>
@@ -88,8 +83,14 @@
 		        <h3>${str_comment_count}</h3>
 		        <p id="commentCount">${totalCommentCount}</p>
 		    </div>
+			<div class="stat-card" style="width: 400px; height: 250px;">
+				<h3 class="chart-title">신규 가입자 수</h3>
+				<canvas id="userChart" width="600" height="300"></canvas>
+			</div>
 		</div>
-    </div>
+	</div>
+    
+    
 	<div id="confirmModal" class="modal">
 		<div class="modal-content">
 	    	<p id="confirmModalMessage">${modal_confirm_logout}</p>
@@ -100,3 +101,47 @@
 		</div>
 	</div>
 </body>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = [
+        <c:forEach var="entry" items="${userRegistrationData}" varStatus="status">
+            "${entry.key}"<c:if test="${!status.last}">,</c:if>
+        </c:forEach>
+    ];
+
+    const data = [
+        <c:forEach var="entry" items="${userRegistrationData}" varStatus="status">
+            ${entry.value}<c:if test="${!status.last}">,</c:if>
+        </c:forEach>
+    ];
+
+    const ctx = document.getElementById('userChart').getContext('2d');
+    const userChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+            	label: '신규 가입자 수',
+                data: data,
+                borderColor: 'rgba(59, 143, 243, 1)',
+                backgroundColor: 'rgba(59, 143, 243, 0.1)',
+                tension: 0.3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: { title: { display: true, text: '날짜' }},
+                y: { title: { display: true, text: '가입자 수' }, beginAtZero: true }
+            },
+            plugins: {
+            	legend: {
+                    display: false // ← still keep this if you also don’t want the legend
+                }
+            }
+        }
+    });
+</script>

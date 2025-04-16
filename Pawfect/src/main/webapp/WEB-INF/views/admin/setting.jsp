@@ -27,6 +27,7 @@
 <c:set var="str_review_count" value="리뷰"/>
 <c:set var="str_post_count" value="게시물"/>
 <c:set var="str_comment_count" value="댓글"/>
+<c:set var="header_user_growth" value="신규 가입자 수"/>
 
 <!-- 회원 관리 -->
 <c:set var="page_user" value="회원 관리"/>

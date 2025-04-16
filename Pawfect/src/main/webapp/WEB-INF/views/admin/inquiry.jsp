@@ -77,7 +77,7 @@
 						<th class="label">${label_inquiryTitle}</th>
 						<th class="label" style="width:15%">${label_userId}</th>
 						<th class="label" style="width:15%">${label_inquiryRegdate}</th>
-						<th class="label" style="width:7%">${label_inquiryStatus}</th>
+						<th class="label" style="width:10%">${label_inquiryStatus}</th>
 						<th class="label" style="width:15%">${label_adminId}</th>
 					</tr>
 					

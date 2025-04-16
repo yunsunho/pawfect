@@ -2,6 +2,7 @@ package com.example.Pawfect.controller.admin;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +47,17 @@ public class AdminDashboardController {
 		model.addAttribute("totalReviewCount", totalReviewCount);
 		model.addAttribute("totalPostCount", totalPostCount);
 		model.addAttribute("totalCommentCount", totalCommentCount);
+		
+		// chart.js
+		List<Map<String, Object>> userData = adminService.getUserRegistrationCountPerDay();
+		Map<String, Integer> userRegistrationData = new LinkedHashMap<>();
+		for (Map<String, Object> row : userData) {
+		    String date = row.get("regDate").toString();
+		    Integer count = ((Number) row.get("userCount")).intValue();
+		    userRegistrationData.put(date, count);
+		}
+		model.addAttribute("userRegistrationData", userRegistrationData);
+		
 		return "admin/dashboard";
 	}
 }
