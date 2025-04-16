@@ -55,6 +55,16 @@ public interface MyPageMapper {
 	// 비밀번호 업데이트
 	int updatePwd(@Param("userId") String userId, @Param("encodedPwd") String encodedPwd);
 
+	// 내 리뷰
+	List<ReviewDto> getMyReviews(String userId);
+
+	// 전체 리뷰 개수
+	int getMyReviewCount(@Param("userId") String userId);
+
+	// 페이징된 리뷰 리스트 조회
+	List<ReviewDto> getMyReviewsPaged(@Param("userId") String userId, @Param("limit") int limit,
+			@Param("offset") int offset);
+
 	// 1:1 문의글 작성
 	int insertInquiry(InquiryDto inquiryDto);
 

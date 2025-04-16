@@ -3,6 +3,8 @@ package com.example.Pawfect.controller.mypage;
 import com.example.Pawfect.auth.CustomUserDetails;
 import com.example.Pawfect.dto.*;
 import com.example.Pawfect.service.MyPageService;
+
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -87,4 +89,28 @@ public class MyPageController {
 		model.addAttribute("totalCount", totalCount);
 		return "mypage/mypage_bookmark";
 	}
+
+	@GetMapping("/tab/review")
+	public String reviewTab(@AuthenticationPrincipal CustomUserDetails userDetails,
+			@RequestParam(defaultValue = "1") int page, Model model) {
+		if (userDetails == null) {
+			return "redirect:/loginForm";
+		}
+
+		String userId = userDetails.getUser().getUserId();
+		int pageSize = 5;
+		int offset = (page - 1) * pageSize;
+
+		int totalCount = myPageService.getMyReviewCount(userId);
+		int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+		List<ReviewDto> myReviews = myPageService.getMyReviewsPaged(userId, pageSize, offset);
+
+		model.addAttribute("myReviews", myReviews);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+
+		return "mypage/mypage_review";
+	}
+
 }

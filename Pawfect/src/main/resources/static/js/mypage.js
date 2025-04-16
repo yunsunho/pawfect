@@ -15,6 +15,8 @@ function loadTab(tabName, page = 1) {
 				initInquiryTabEvents();
 			} else if (tabName === "bookmark") {
 				initBookmarkTabEvents();
+			} else if (tabName === "review") {
+				initReviewTabEvents();
 			}
 		})
 		.catch((err) => console.error("탭 로딩 실패", err));
@@ -770,6 +772,16 @@ function initInquiryTabEvents() {
 		btn.addEventListener("click", function() {
 			const page = this.dataset.page;
 			loadInquiryPage(page);
+		});
+	});
+}
+
+// 리뷰 탭 기능
+function initReviewTabEvents() {
+	document.querySelectorAll(".page-btn").forEach(btn => {
+		btn.addEventListener("click", function () {
+			const page = this.dataset.page;
+			loadTab("review", page);
 		});
 	});
 }
