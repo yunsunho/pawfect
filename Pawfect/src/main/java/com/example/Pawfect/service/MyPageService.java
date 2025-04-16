@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -80,7 +82,7 @@ public class MyPageService {
 	public boolean updateUserInfo(InfoUpdateDto dto) {
 		return myPageMapper.updateUserInfo(dto) > 0;
 	}
-	
+
 	// 회원 탈퇴 (userStatus = 'WITHDRAWN')
 	public boolean withdrawUser(String userId) {
 		return myPageMapper.withdrawUser(userId) > 0;
@@ -92,12 +94,27 @@ public class MyPageService {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder.matches(inputPwd, encryptedPwd);
 	}
-	
+
 	// 비밀번호 업데이트
 	public boolean updatePwd(String userId, String newPwd) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encodedPwd = encoder.encode(newPwd);
 		return myPageMapper.updatePwd(userId, encodedPwd) > 0;
+	}
+
+	// 내 리뷰
+	public List<ReviewDto> getMyReviews(String userId) {
+		return myPageMapper.getMyReviews(userId);
+	}
+
+	// 전체 리뷰 개수 조회
+	public int getMyReviewCount(String userId) {
+		return myPageMapper.getMyReviewCount(userId);
+	}
+
+	// 페이징된 리뷰 리스트 조회
+	public List<ReviewDto> getMyReviewsPaged(String userId, int limit, int offset) {
+		return myPageMapper.getMyReviewsPaged(userId, limit, offset);
 	}
 
 	// 1:1 문의글 작성

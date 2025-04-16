@@ -542,3 +542,90 @@ body {
 	font-size: 14px;
 	color: #777;
 }
+
+/* 내가 쓴 리뷰 탭 */
+.review-tab {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.review-tab h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.review-tab h3::after {
+  content: '';
+  display: block;
+  width: 160px;
+  height: 3px;
+  background-color: gray;
+  margin-top: 6px;
+  border-radius: 3px;
+}
+
+/* 리뷰 카드 */
+.review-card {
+  display: flex;
+  background-color: #fffef5;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  align-items: center;
+}
+
+.review-thumb {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 20px;
+  border: 1px solid #ddd;
+}
+
+.review-info {
+  flex: 1;
+}
+
+.review-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.review-rating {
+  font-size: 16px;
+  color: #ddd;
+  margin-bottom: 6px;
+}
+
+.review-rating .star.filled {
+  color: #f4c542;
+}
+
+.review-content {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.review-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.review-link {
+  font-size: 18px;
+  text-decoration: none;
+  color: #3d4fa1;
+  font-weight: bold;
+  float: right;
+  margin-top: -22px;
+}
+
+.review-link:hover {
+  text-decoration: underline;
+}
