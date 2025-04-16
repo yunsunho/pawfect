@@ -21,32 +21,32 @@
 <body>
 	<c:set var="currentPage">${currentPage}</c:set>
 	<div class="sidebar">
-        <h2></h2>
+        <h2>
+        	<a href="/admin" style="color: white;">
+        		&nbsp;${sidebar_manage_site}
+        	</a>
+        </h2>
         <ul>
-        	<li>
-        		<i class="fa-solid fa-chart-simple"></i>
-        		&nbsp;<a href="/admin">${sidebar_manage_site}</a>
-        	</li>
-        	<li>
+        	<li><a href="/admin/user">
         		<i class="fa-solid fa-user"></i>
-        		&nbsp;<a href="/admin/user">${sidebar_manage_users }</a>
-        	</li>
-            <li>
+        		&nbsp;${sidebar_manage_users }
+        	</a></li>
+            <li><a href="/admin/post">
             	<i class="fa-solid fa-list"></i>
-            	&nbsp;<a href="/admin/post">${sidebar_manage_posts }</a>
-            </li>
-            <li>
+            	&nbsp;${sidebar_manage_posts }
+            </a></li>
+            <li><a href="/admin/comment">
             	<i class="fa-solid fa-comments"></i>
-            	&nbsp;<a href="/admin/comment">${sidebar_manage_comments }</a>
-            </li>
-            <li>
+            	&nbsp;${sidebar_manage_comments }
+            </a></li>
+            <li><a href="/admin/review">
             	<i class="fa-solid fa-database"></i>
-            	&nbsp;<a href="/admin/review">${sidebar_manage_reviews }</a>
-            </li>
-            <li>
+            	&nbsp;${sidebar_manage_reviews }
+            </a></li>
+            <li><a href="/admin/inquiry">
             	<i class="fa-solid fa-list-check"></i>
-            	&nbsp;<a href="/admin/inquiry">${sidebar_manage_qna }</a>
-            </li>
+            	&nbsp;${sidebar_manage_qna }
+            </a></li>
         </ul>
     </div>
     

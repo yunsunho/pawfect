@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!-- menu -->
-<c:set var="sidebar_manage_site" value="사이트 관리"/>
+<c:set var="sidebar_manage_site" value="Pawfect Tour"/>
 <c:set var="sidebar_manage_users" value="회원 관리"/>
 <c:set var="sidebar_manage_posts" value="게시물 관리"/>
 <c:set var="sidebar_manage_comments" value="댓글 관리"/>
@@ -51,19 +51,6 @@
 <c:set var="msg_no_post" value="게시물이 없습니다."/>
 <c:set var="btn_delete_post" value="게시물 삭제"/>
 <c:set var="modal_confirm_delete_post" value="정말로 게시물을 삭제하시겠습니까?"/>
-
-<!-- 
-commentId INT PRIMARY KEY AUTO_INCREMENT,
-  userId VARCHAR(50) NOT NULL,
-	postId INT NOT NULL,
-  comContent TEXT NOT NULL,
-  comRegdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  com_ref INT,
-  com_re_step INT,
-  com_re_level INT,
-  comEditStatus BOOLEAN DEFAULT 0,
-  comDeleteStatus BOOLEAN DEFAULT 0
- -->
 
 <!-- 댓글 관리 -->
 <c:set var="page_comment" value="댓글 관리"/>

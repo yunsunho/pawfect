@@ -18,3 +18,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+window.addEventListener(
+	"DOMContentLoaded", 
+	() => {
+		const sidebarLinks = document.querySelectorAll('.sidebar li a');
+		
+		sidebarLinks.forEach(link => {
+			const currentPath = window.location.pathname;
+			if (currentPath.startsWith(link.getAttribute('href'))) {
+				link.parentElement.classList.add('active');
+			}
+		});
+});
+
