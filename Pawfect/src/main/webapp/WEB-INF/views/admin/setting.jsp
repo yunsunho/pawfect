@@ -15,6 +15,7 @@
 <!-- DASHBOARD -->
 <c:set var="str_admin_page" value="관리자 페이지"/>
 <c:set var="str_welcome" value="환영합니다"/>
+<c:set var="str_admin" value="관리자"/>
 <!-- dashboard stats -->
 <c:set var="str_active_user" value="활동"/>
 <c:set var="str_withdrawn_user" value="탈퇴"/>

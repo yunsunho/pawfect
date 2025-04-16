@@ -46,7 +46,7 @@
 
     <div class="main-content" id="main-content">
         <h1>
-        	<span class="welcome-text">${str_welcome},</span>&nbsp;
+        	<span class="welcome-text">${str_welcome},&nbsp;${str_admin}&nbsp;</span>
         	<span class="admin-name">${adminName}님</span>
         </h1>
         <div class="dashboard-stats">
