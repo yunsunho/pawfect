@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -25,18 +24,19 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@RequestMapping("main")
 @Controller
 public class MainController {
     
     @Value("${api.service-key}")
     private String serviceKey;
 
-    @GetMapping("/main")
+    @GetMapping
     public String search(
             @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "1") int pageNo,
             Model model) throws UnsupportedEncodingException, URISyntaxException {
-
+    	
         List<Map<String, String>> areaList = new ArrayList<>();
 
         if (keyword == null || keyword.isBlank()) {
@@ -94,12 +94,12 @@ public class MainController {
 
         } catch (RestClientException | URISyntaxException | UnsupportedEncodingException e) {
             model.addAttribute("error", "API 호출 중 오류가 발생했습니다: " + e.getMessage());
-            e.printStackTrace(); // Debugging
+            e.printStackTrace();
         } catch (Exception e) {
             model.addAttribute("error", "알 수 없는 오류가 발생했습니다: " + e.getMessage());
-            e.printStackTrace(); // Debugging
+            e.printStackTrace(); 
         }
 
-        return "travel/main";
+        return "travel/search";
     }
 }
