@@ -70,13 +70,23 @@ function checkId() {
 		});
 }
 
-// 비밀번호 조건 표시
-pwdInput.addEventListener("focus", () => pwdCheckList.style.display = "block");
-pwdInput.addEventListener("blur", () => setTimeout(() => pwdCheckList.style.display = "none", 200));
+// 비밀번호 또는 확인 입력란에 focus 시 조건 보이기
+[pwdInput, pwdCheckInput].forEach(input => {
+	input.addEventListener("focus", () => {
+		pwdCheckList.style.display = "block";
+	});
+});
 
-// 비밀번호 확인 칸 focus 시에도 조건 리스트 표시
-pwdCheckInput.addEventListener("focus", () => pwdCheckList.style.display = "block");
-pwdCheckInput.addEventListener("blur", () => setTimeout(() => pwdCheckList.style.display = "none", 200));
+// focus 빠졌을 때 둘 다 포커스가 아니면 조건 숨기기
+[pwdInput, pwdCheckInput].forEach(input => {
+	input.addEventListener("blur", () => {
+		setTimeout(() => {
+			if (!pwdInput.matches(":focus") && !pwdCheckInput.matches(":focus")) {
+				pwdCheckList.style.display = "none";
+			}
+		}, 200);
+	});
+});
 
 // 비밀번호 입력 조건 (길이, 조합만 처리)
 pwdInput.addEventListener("input", () => {
