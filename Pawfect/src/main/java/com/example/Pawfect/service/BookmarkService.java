@@ -46,5 +46,9 @@ public class BookmarkService {
 	    return bookmarkMapper.selectContentIdsSortedByBookmarkCountAndArea(areaCode, sigunguCode);
 	}
 
+	public List<BookmarkDto> getBookmarksByUserId(String userId) {
+        return bookmarkMapper.selectBookmarksByUserId(userId);
+    }
+
 
 }
