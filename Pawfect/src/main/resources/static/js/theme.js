@@ -65,11 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	     const index = bookmarkArray.indexOf(contentId);
 
 	     if (result === "saved") {
-				showModal("북마크 추가 (자동 실행)");
+				showModal("북마크가 추가되었습니다.");
 			  	closeModal;
 	       if (index === -1) bookmarkArray.push(contentId);
 	     } else if (result === "deleted") {
-				showModal("북마크 삭제 (자동 실행)");
+				showModal("북마크가 삭제되었습니다.");
 			  	closeModal;
 	       if (index > -1) bookmarkArray.splice(index, 1);
 	     }
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	      sessionStorage.setItem("afterLoginRedirect", currentUrl);
 	      sessionStorage.setItem("pendingBookmark", JSON.stringify(dto));
 
-	      // ✅ 모달 띄우기
+	      // 모달 띄우기
 	      showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
 	        location.href = res.url;
 	      });
@@ -123,15 +123,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	    let count = parseInt(textOnly) || 0;
 
 	    if (result === "saved") {
-	      showModal("북마크 추가");
+	      showModal("북마크가 추가되었습니다.");
 	      closeModal;
 	      if (index === -1) bookmarkArray.push(contentId);
-	      btn.innerHTML = `✅ ${count + 1}`;
+	      btn.innerHTML = `<i class="fa-solid fa-bookmark"></i> ${count + 1}`;
 	    } else if (result === "deleted") {
-	      showModal("북마크 삭제");
+	      showModal("북마크가 삭제되었습니다.");
 	      closeModal;
 	      if (index > -1) bookmarkArray.splice(index, 1);
-	      btn.innerHTML = `🔖 ${Math.max(0, count - 1)}`;
+	      btn.innerHTML = `<i class="fa-regular fa-bookmark"></i> ${Math.max(0, count - 1)}`;
 	    }
 	  });
 
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		card.innerHTML = `
 		  <div class="card-top-bar">
 		    <div class="rating">
-			⭐ ${item.rating ?? '-'} (${item.reviewCount ?? 0})
+			<i class="fa-solid fa-star"></i> ${item.rating ?? '-'} (${item.reviewCount ?? 0})
 			</div>
 			<div class="bookmark"
 			     data-contentid="${item.contentid}"
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			     data-mapx="${item.mapx}"
 			     data-mapy="${item.mapy}"
 			     data-addr1="${item.addr1}">
-			  ${isBookmarked ? "✅" : "🔖"} ${item.bookmarkCount ?? 0}
+			  ${isBookmarked ? `<i class="fa-solid fa-bookmark"></i>` : `<i class="fa-regular fa-bookmark"></i>`} ${item.bookmarkCount ?? 0}
 			</div>
 		  </div>
 

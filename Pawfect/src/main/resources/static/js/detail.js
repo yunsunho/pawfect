@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		    }
 
 	    newFiles.forEach((file, index) => {
-	        allFiles.push(file); // ✅ allFiles에 추가
+	        allFiles.push(file); // allFiles에 추가
 
 	        const reader = new FileReader();
 	        reader.onload = function (e) {
@@ -201,16 +201,16 @@ document.addEventListener("DOMContentLoaded", function () {
 	        .then(res => res.text())
 	        .then(result => {
 	            if (result === "saved") {
-					showModal("북마크 추가");
+					showModal("북마크가 추가되었습니다.");
 				  	closeModal;
 	                this.classList.add("bookmarked");
-	                this.textContent = "✅";
+	                this.innerHTML = `<i class="fa-solid fa-bookmark"></i>`;
 	                updateBookmarkCount(1);
 	            } else if (result === "deleted") {
-					showModal("북마크 삭제");
+					showModal("북마크가 삭제되었습니다.");
 				  	closeModal;
 	                this.classList.remove("bookmarked");
-	                this.textContent = "🔖";
+	                this.innerHTML = `<i class="fa-regular fa-bookmark"></i>`;
 	                updateBookmarkCount(-1);
 	            }
 	        });
