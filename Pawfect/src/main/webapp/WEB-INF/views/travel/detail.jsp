@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <!DOCTYPE html>
@@ -32,7 +33,8 @@
     <!-- 별점 + 북마크 -->
     <div class="place-stats">
       <div class="rating-info">
-        ⭐ ${averageRating} / 5 <span>(${reviewCount}명)</span>
+        ⭐ <fmt:formatNumber value="${averageRating}" type="number" maxFractionDigits="2" /> / 5
+<span>(${reviewCount}명)</span>
       </div>
       <div class="bookmark-info">
         <button id="bookmarkBtn"
