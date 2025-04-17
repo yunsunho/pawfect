@@ -206,19 +206,29 @@ document.addEventListener("DOMContentLoaded", function () {
       method: "GET",
       credentials: "include"
     })
-      .then(res => {
-        if (res.status === 401) {
-          showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
-            location.href = "/loginForm";
-          });
-          // 👇 이후 then으로 넘어가지 않게 처리
-          throw new Error("UNAUTHORIZED");
-        }
+	.then(res => {
+	      if (res.status === 401) {
+	        const currentUrl = location.href;
 
-        if (!res.ok) throw new Error("FAILED");
+	        showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
+	          fetch("/setRedirectUrl", {
+	            method: "POST",
+	            headers: {
+	              "Content-Type": "application/json"
+	            },
+	            body: JSON.stringify({ url: currentUrl })
+	          }).then(() => {
+	            location.href = "/loginForm";
+	          });
+	        });
 
-        return res.json();
-      })
+	        throw new Error("UNAUTHORIZED");
+	      }
+
+	      if (!res.ok) throw new Error("FAILED");
+
+	      return res.json();
+	    })
       .then(data => {
         if (Array.isArray(data)) {
           renderUserBookmarks(data);
