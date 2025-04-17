@@ -119,4 +119,14 @@ public class AdminService {
 	public int getTotalWithdrawnUserCount() {
 		return adminMapper.getTotalWithdrawnUserCount();
 	}
+	
+	public List<Map<String, Object>> getUserRegistrationCountPerDay() {
+		return adminMapper.getUserRegistrationCountPerDay();
+	}
+	public List<Map<String, Object>> getPostCountByDate() {
+		return adminMapper.getPostCountByDate();
+	}
+	public List<Map<String, Object>> getReviewCountByDate() {
+		return adminMapper.getReviewCountByDate();
+	}
 }

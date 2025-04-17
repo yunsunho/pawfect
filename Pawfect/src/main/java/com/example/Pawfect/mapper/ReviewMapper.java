@@ -1,8 +1,10 @@
 package com.example.Pawfect.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
 
 import com.example.Pawfect.dto.ReviewDto;
 
@@ -35,4 +37,12 @@ public interface ReviewMapper {
 	void deleteReview(int reviewId);
 
 	double getAverageRating(int contentId);
+
+	List<Map<String, Object>> selectContentIdsSortedByReviewCountAndType(int contentTypeId);
+
+	List<Map<String, Object>> selectContentIdsSortedByAvgRatingAndType(int contentTypeId);
+	
+	List<Map<String, Object>> selectContentIdsSortedByReviewCountAndArea(String areaCode, String sigunguCode);
+
+	List<Map<String, Object>> selectContentIdsSortedByAvgRatingAndArea(String areaCode, String sigunguCode);
 }

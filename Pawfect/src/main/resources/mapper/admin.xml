@@ -185,4 +185,26 @@
 		SELECT COUNT(*) FROM user
 		WHERE userStatus = 'WITHDRAWN'
 	</select>
+	<select id="getUserRegistrationCountPerDay" resultType="map">
+	  SELECT 
+	    DATE(userRegdate) AS regDate,
+	    COUNT(*) AS userCount
+	  FROM user
+	  GROUP BY DATE(userRegdate)
+	  ORDER BY regDate ASC
+	</select>
+	<select id="getPostCountByDate" resultType="map">
+	  SELECT DATE(postRegdate) AS date, COUNT(*) AS count
+	  FROM post
+	  GROUP BY DATE(postRegdate)
+	  ORDER BY DATE(postRegdate)
+	</select>
+	<select id="getReviewCountByDate" resultType="map">
+	  SELECT DATE(reviewRegdate) AS date, COUNT(*) AS count
+	  FROM review
+	  GROUP BY DATE(reviewRegdate)
+	  ORDER BY DATE(reviewRegdate)
+	</select>
+
+
 </mapper>

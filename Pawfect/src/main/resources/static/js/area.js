@@ -27,9 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const arrangeMap = {
     '제목순': 'O',
-    '리뷰순': '',
-    '별점순': '',
-    '북마크순': ''
+    '리뷰순': 'review',
+    '별점순': 'rating',
+    '북마크순': 'bookmark'
   };
 
   let selectedAreaCode = parseInt(new URLSearchParams(location.search).get("areaCode")) || "";
@@ -246,17 +246,19 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.json())
     .then(data => {
       sigunguData = data;
-      areaTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          areaTabs.forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          selectedAreaCode = tab.dataset.area;
-          selectedSigunguCode = "";
-          currentPage = 1;
-          renderSigunguSubmenu(selectedAreaCode);
-          fetchAndRender();
-        });
-      });
+	  areaTabs.forEach(tab => {
+	    tab.addEventListener('click', () => {
+	      areaTabs.forEach(t => t.classList.remove('active'));
+	      tab.classList.add('active');
+	      selectedAreaCode = tab.dataset.area;
+	      selectedSigunguCode = "";
+	      selectedArrange = 'O'; 
+	      sortSelect.value = 'O'; 
+	      currentPage = 1;
+	      renderSigunguSubmenu(selectedAreaCode);
+	      fetchAndRender();
+	    });
+	  });
     })
     .catch(err => console.error("시군구 데이터 로딩 실패:", err));
 
@@ -276,13 +278,16 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.textContent = item.name;
       btn.dataset.sigungu = item.code;
 
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".sigungu-tab").forEach(t => t.classList.remove("active"));
-        btn.classList.add("active");
-        selectedSigunguCode = btn.dataset.sigungu;
-        currentPage = 1;
-        fetchAndRender();
-      });
+	  btn.addEventListener("click", () => {
+	    document.querySelectorAll(".sigungu-tab").forEach(t => t.classList.remove("active"));
+	    btn.classList.add("active");
+	    selectedSigunguCode = btn.dataset.sigungu;
+	    selectedArrange = 'O'; 
+	    sortSelect.value = 'O'; 
+	    currentPage = 1;
+	    fetchAndRender();
+	  });
+
 
       sigunguMenu.appendChild(btn);
     });

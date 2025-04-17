@@ -27,6 +27,10 @@
         	</a>
         </h2>
         <ul>
+        	<li><a href="/main">
+        		<i id="home-symbol" class="fa-solid fa-house"></i>
+				&nbsp;${sidebar_home}
+        	</a></li>
         	<li><a href="/admin/user">
         		<i class="fa-solid fa-user"></i>
         		&nbsp;${sidebar_manage_users }
@@ -168,12 +172,12 @@
 			</main>
 		</div>
     </div>
-    <div id="confirmModal" class="modal">
+    <div id="confirmLogoutModal" class="modal">
 		<div class="modal-content">
-	    	<p id="confirmModalMessage">${modal_confirm_logout}</p>
+	    	<p id="confirmLogoutModalMessage">${modal_confirm_logout}</p>
 		    <div class="modal-buttons">
-		      <button id="btnConfirmYes">${str_confirm}</button>
-		      <button id="btnConfirmNo">${str_cancel}</button>
+		      <button id="btnLogoutConfirmYes">${str_confirm}</button>
+		      <button id="btnLogoutConfirmNo">${str_cancel}</button>
 		    </div>
 		</div>
 	</div>

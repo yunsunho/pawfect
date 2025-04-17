@@ -291,7 +291,7 @@
 	<select id="getHotPosts"
 		resultType="com.example.Pawfect.dto.PostDto">
 		SELECT * FROM post
-		WHERE DATE(postRegdate)=CURDATE()
+		WHERE DATE(postRegdate) BETWEEN DATE_SUB(CURDATE(), INTERVAL 2 DAY) AND NOW()
 		ORDER BY
 		postViewCount DESC
 	</select>

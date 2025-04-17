@@ -39,7 +39,13 @@ public class ReviewController {
                               @RequestParam String reviewContent,
                               @RequestParam int reviewRating,
                               @RequestParam("reviewImages") List<MultipartFile> reviewImages,
+                              @RequestParam String firstimage,
+                              @RequestParam String addr1,
+                              @RequestParam float mapX,
+                              @RequestParam float mapY,
                               @RequestParam String title,
+                              @RequestParam String areaCode,
+                              @RequestParam String sigunguCode,
                               @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         // 로그인된 사용자 확인
@@ -48,7 +54,7 @@ public class ReviewController {
         }
         
         // 리뷰 저장
-        int reviewId = reviewService.saveReview(contentId, userDetails.getUser().getUserId(), reviewContent, reviewRating, title, contentTypeId);
+        int reviewId = reviewService.saveReview(contentId, userDetails.getUser().getUserId(), reviewContent, reviewRating, title, contentTypeId, firstimage, addr1, mapX, mapY, areaCode, sigunguCode);
 
         // 이미지 저장
         int imageOrder = 1;
