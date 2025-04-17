@@ -20,7 +20,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	    String redirectUrl = "/main"; // 기본값
 
-	    // ✅ JS에서 저장한 세션 우선 확인
+	    // JS에서 저장한 세션 우선 확인
 	    String afterLogin = (String) request.getSession().getAttribute("afterLoginRedirect");
 	    if (afterLogin != null) {
 	        redirectUrl = afterLogin;
