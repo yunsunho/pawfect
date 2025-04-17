@@ -19,6 +19,10 @@
         	</a>
         </h2>
         <ul>
+        	<li><a href="/main">
+        		<i id="home-symbol" class="fa-solid fa-house"></i>
+				&nbsp;${sidebar_home}
+        	</a></li>
         	<li><a href="/admin/user">
         		<i class="fa-solid fa-user"></i>
         		&nbsp;${sidebar_manage_users }
@@ -45,6 +49,7 @@
 			&nbsp;
 			<span id="logout-text">${sidebar_logout}</span>
 		</div>
+		
     </div>
     
     <div class="main-content" id="main-content">
@@ -84,7 +89,7 @@
 		        <p id="commentCount">${totalCommentCount}</p>
 		    </div>
 			<div class="stat-card" style="width: 400px; height: 250px;">
-				<h3 class="chart-title">신규 가입자 수</h3>
+				<h3 class="chart-title">${header_user_growth }</h3>
 				<canvas id="userChart" width="600" height="300"></canvas>
 			</div>
 			<!-- 
@@ -97,12 +102,12 @@
 	</div>
     
     
-	<div id="confirmModal" class="modal">
+	<div id="confirmLogoutModal" class="modal">
 		<div class="modal-content">
-	    	<p id="confirmModalMessage">${modal_confirm_logout}</p>
+	    	<p id="confirmLogoutModalMessage">${modal_confirm_logout}</p>
 		    <div class="modal-buttons">
-		      <button id="btnConfirmYes">${str_confirm}</button>
-		      <button id="btnConfirmNo">${str_cancel}</button>
+		      <button id="btnLogoutConfirmYes">${str_confirm}</button>
+		      <button id="btnLogoutConfirmNo">${str_cancel}</button>
 		    </div>
 		</div>
 	</div>
@@ -145,7 +150,7 @@
             },
             plugins: {
             	legend: {
-                    display: false // ← still keep this if you also don’t want the legend
+                    display: false
                 }
             }
         }

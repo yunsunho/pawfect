@@ -40,6 +40,28 @@ function showConfirmModal(message, onConfirm) {
 		};
 	}
 }
+
+function showLogoutConfirmModal(message, onConfirm) {
+	const modal = document.getElementById("confirmLogoutModal");
+	const msgBox = document.getElementById("confirmLogoutModalMessage");
+	const confirmBtn = document.getElementById("btnLogoutConfirmYes");
+	const cancelBtn = document.getElementById("btnLogoutConfirmNo");
+
+	if (modal && msgBox) {
+		msgBox.innerText = message;
+		modal.style.display = "block";
+		// 확인
+		confirmBtn.onclick = () => {
+			modal.style.display = "none";
+			onConfirm();
+		};
+		// 취소
+		cancelBtn.onclick = () => {
+			modal.style.display = "none";
+		};
+	}
+}
+
 window.addEventListener(
 	"DOMContentLoaded", 
 	() => {
@@ -55,7 +77,7 @@ window.addEventListener(
 		const logoutBtn = document.getElementById("adminLogoutBtn");
 		if (logoutBtn) {
 			logoutBtn.addEventListener("click", () => {
-				showConfirmModal("정말 로그아웃하시겠습니까?", () => {
+				showLogoutConfirmModal("정말 로그아웃하시겠습니까?", () => {
 					location.href = "/logout";
 				});
 			});

@@ -11,6 +11,7 @@
 <c:set var="sidebar_manage_comments" value="댓글 관리"/>
 <c:set var="sidebar_manage_reviews" value="리뷰 관리"/>
 <c:set var="sidebar_manage_qna" value="1:1 문의 처리"/>
+<c:set var="sidebar_home" value="사이트 홈"/>
 <c:set var="sidebar_logout" value="로그아웃"/>
 <c:set var="modal_confirm_logout" value="정말 로그아웃 하시겠습니까?"/>
 
