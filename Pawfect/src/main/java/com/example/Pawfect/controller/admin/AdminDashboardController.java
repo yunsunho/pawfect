@@ -58,6 +58,7 @@ public class AdminDashboardController {
 		}
 		model.addAttribute("userRegistrationData", userRegistrationData);
 		
+		
 		return "admin/dashboard";
 	}
 }

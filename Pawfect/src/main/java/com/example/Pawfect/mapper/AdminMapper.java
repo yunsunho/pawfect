@@ -41,4 +41,6 @@ public interface AdminMapper {
 	public int getTotalBannedUserCount();
 	public int getTotalWithdrawnUserCount();
 	public List<Map<String, Object>> getUserRegistrationCountPerDay();
+	public List<Map<String, Object>> getPostCountByDate(); 
+	public List<Map<String, Object>> getReviewCountByDate(); 
 }

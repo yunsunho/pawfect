@@ -87,6 +87,12 @@
 				<h3 class="chart-title">신규 가입자 수</h3>
 				<canvas id="userChart" width="600" height="300"></canvas>
 			</div>
+			<!-- 
+			<div class="stat-card" style="width: 400px; height: 250px;">
+				<h3 class="chart-title">콘텐츠 수</h3>
+				<canvas id="postReviewChart" width="600" height="300"></canvas>
+			</div>
+			-->
 		</div>
 	</div>
     
@@ -144,4 +150,65 @@
             }
         }
     });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+	const ctx = document.getElementById('postReviewChart').getContext('2d');
+	const postReviewChart = new Chart(ctx, {
+	    type: 'line',
+	    data: {
+	        labels: labels,
+	        datasets: [
+	            {
+	                label: 'Posts',
+	                data: postData,
+	                borderColor: 'rgba(54, 162, 235, 1)',
+	                backgroundColor: 'rgba(54, 162, 235, 0.1)',
+	                tension: 0.3
+	            },
+	            {
+	                label: 'Reviews',
+	                data: reviewData,
+	                borderColor: 'rgba(255, 99, 132, 1)',
+	                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+	                tension: 0.3
+	            }
+	        ]
+	    },
+	    options: {
+	        responsive: true,
+	        plugins: {
+	            title: {
+	                display: true,
+	                text: 'Posts and Reviews Over Time',
+	                font: {
+	                    size: 18
+	                }
+	            },
+	            legend: {
+	                display: true, // Or false if you want to hide
+	                position: 'bottom'
+	            },
+	            tooltip: {
+	                enabled: true // Optional: disable if needed
+	            }
+	        },
+	        scales: {
+	            x: {
+	                title: {
+	                    display: true,
+	                    text: 'Date'
+	                }
+	            },
+	            y: {
+	                beginAtZero: true,
+	                title: {
+	                    display: true,
+	                    text: 'Count'
+	                }
+	            }
+	        }
+	    }
+	});
 </script>
