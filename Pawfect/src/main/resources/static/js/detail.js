@@ -122,9 +122,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	            // 파일 삭제 버튼 클릭 시
 	            deleteBtn.addEventListener("click", function () {
 	                const idx = Array.from(previewContainer.children).indexOf(wrapper);
-	                allFiles.splice(idx, 1); // ✅ 실제 배열에서도 제거
+	                allFiles.splice(idx, 1); // 실제 배열에서도 제거
 	                wrapper.remove();
-	                resetFileInput(); // ✅ input 갱신
+	                resetFileInput(); // input 갱신
 	            });
 
 	            wrapper.appendChild(img);
@@ -134,12 +134,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	        reader.readAsDataURL(file);
 	    });
-		console.log("제출 직전 파일 목록:", fileInput.files);
+		//console.log("제출 직전 파일 목록:", fileInput.files);
 		for (const file of fileInput.files) {
 		  console.log("파일:", file.name, file.size);
 		}
 
-	    resetFileInput(); // ✅ input 갱신
+	    resetFileInput(); 
 	    //fileInput.value = "";
 	});
 
@@ -152,21 +152,40 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 	// 리뷰 폼 제출 시 유효성 검사 + 로그인 체크
 	document.querySelector("form").addEventListener("submit", function (event) {
-		const isLoggedIn = document.body.dataset.loggedIn === "true";
-		
+	    const isLoggedIn = document.body.dataset.loggedIn === "true";
+
 	    // 로그인 확인
-		if (!isLoggedIn) {
+	    if (!isLoggedIn) {
 	        event.preventDefault(); // 제출 막기
+	        const currentUrl = location.href;
+
 	        showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
-	            location.href = "/loginForm";
+	            fetch("/setRedirectUrl", {
+	                method: "POST",
+	                headers: {
+	                    "Content-Type": "application/json"
+	                },
+	                body: JSON.stringify({ url: currentUrl })
+	            }).then(() => {
+	                location.href = "/loginForm";
+	            });
 	        });
+
 	        return;
 	    }
+		// 내용공백
+		const content = document.querySelector("textarea[name='reviewContent']").value.trim();
+		    if (!content) {
+		        event.preventDefault();
+		        showModal("리뷰 내용을 입력해주세요.");
+		        return;
+		    }
 
+	    // 파일 미첨부 검사
 	    if (fileInput.files.length === 0) {
 	        event.preventDefault();
 	        showModal("이미지를 최소 1장 이상 첨부해주세요.");
-			closeModal;
+	        closeModal;
 	        return;
 	    }
 	});
@@ -176,12 +195,23 @@ document.addEventListener("DOMContentLoaded", function () {
 	if (bookmarkBtn) {
 	    bookmarkBtn.addEventListener("click", function () {
 	        const isLoggedIn = document.body.dataset.loggedIn === "true";
-	        if (!isLoggedIn) {
-	            showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
-	                location.href = "/loginForm";
-	            });
-	            return;
-	        }
+			if (!isLoggedIn) {
+			    const currentUrl = location.href;
+
+			    showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
+			        fetch("/setRedirectUrl", {
+			            method: "POST",
+			            headers: {
+			                "Content-Type": "application/json"
+			            },
+			            body: JSON.stringify({ url: currentUrl })
+			        }).then(() => {
+			            location.href = "/loginForm";
+			        });
+			    });
+
+			    return;
+			}
 
 	        const dto = {
 	            contentId: parseInt(this.dataset.contentid),

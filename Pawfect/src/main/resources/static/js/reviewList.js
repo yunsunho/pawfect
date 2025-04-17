@@ -12,11 +12,23 @@ function confirmDelete(reviewId, reviewOwnerId) {
   const loginUserId = document.body.dataset.userId;
 
   if (!isLoggedIn) {
-    showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
-      	location.href = "/loginForm";
-    });
-    return;
+      const currentUrl = location.href;
+
+      showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
+          fetch("/setRedirectUrl", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ url: currentUrl })
+          }).then(() => {
+              location.href = "/loginForm";
+          });
+      });
+
+      return;
   }
+
 
   if (loginUserId !== reviewOwnerId) {
 	showModal("작성자만 삭제할 수 있습니다.");

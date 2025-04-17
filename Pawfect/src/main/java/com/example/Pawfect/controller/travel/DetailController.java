@@ -20,6 +20,8 @@ import com.example.Pawfect.service.ReviewService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class DetailController {
 	
@@ -401,4 +403,11 @@ public class DetailController {
         // 페이지 렌더링
         return "travel/detail";
     }
+    
+    @PostMapping("/setRedirectUrl")
+    @ResponseBody
+    public void setRedirectUrl(@RequestBody Map<String, String> data, HttpSession session) {
+        session.setAttribute("afterLoginRedirect", data.get("url"));
+    }
+    
 }
