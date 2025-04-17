@@ -23,9 +23,9 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		Throwable cause = exception.getCause(); 
 		
 		if (exception instanceof UsernameNotFoundException) {
-			message = "존재하지 않는 아이디입니다. 다시 확인해주세요.";
+			message = "존재하지 않는 아이디입니다.<br>다시 확인해주세요.";
 		} else if (exception instanceof BadCredentialsException) {
-			message = "일치하지 않는 비밀번호입니다. 다시 확인해주세요.";
+			message = "일치하지 않는 비밀번호입니다.<br>다시 확인해주세요.";
 		} else if (exception instanceof DisabledException) {
 			String reason = exception.getMessage();
 			if ("BANNED".equals(reason)) {
