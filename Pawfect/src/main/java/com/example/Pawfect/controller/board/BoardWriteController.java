@@ -52,7 +52,7 @@ public class BoardWriteController {
 		String msg = null;
 		
 		if (result != 1) {
-			msg = "게시물 등록에 실패하였습니다. 다시 시도해주세요.";
+			msg = "게시글 등록에 실패하였습니다. 다시 시도해주세요.";
 		}
 		
 		model.addAttribute("msg", msg);
