@@ -4,6 +4,12 @@
 <!-- 상단 메뉴 -->
 <header class="header">
   <link rel="stylesheet" href="/css/notification.css">
+  <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg" />
+<link rel="shortcut icon" href="/my-favicon/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/my-favicon/apple-touch-icon.png" />
+<link rel="manifest" href="/my-favicon/site.webmanifest" />
+  
 
   <div class="logo"><span>Paw</span>fect Tour</div>
   <nav class="nav">
@@ -24,6 +30,7 @@
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user-round-icon lucide-circle-user-round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
     </a> 
   </div>
+  
 </header>
 
 <jsp:include page="/WEB-INF/views/user/notification.jsp"/>
