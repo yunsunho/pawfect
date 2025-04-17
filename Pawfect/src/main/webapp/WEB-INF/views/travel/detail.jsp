@@ -15,47 +15,45 @@
 <body data-logged-in="${not empty user}" data-user-id="${user.userId}">
 <div class="detail-wrapper">
   <div class="place-header">
-    <h1>
+    <h1 class="place-title">
       <c:choose>
         <c:when test="${not empty common.title}">${common.title}</c:when>
         <c:otherwise>제목 없음</c:otherwise>
       </c:choose>
     </h1>
 
-    <div class="place-meta">
-      <div class="meta-left">
-        ⭐ ${averageRating} / 5
-        <span>(${reviewCount}명)</span>
-      </div>
+    <p class="place-address">
+      <c:choose>
+        <c:when test="${not empty common.addr1}">${common.addr1}</c:when>
+        <c:otherwise>주소 없음</c:otherwise>
+      </c:choose>
+    </p>
 
-      <div class="meta-center">
-        <p>
-          <c:choose>
-            <c:when test="${not empty common.addr1}">${common.addr1}</c:when>
-            <c:otherwise>주소 없음</c:otherwise>
-          </c:choose>
-        </p>
+    <!-- 별점 + 북마크 -->
+    <div class="place-stats">
+      <div class="rating-info">
+        ⭐ ${averageRating} / 5 <span>(${reviewCount}명)</span>
       </div>
-
-      <div class="meta-right">
+      <div class="bookmark-info">
         <button id="bookmarkBtn"
-	        class="${isBookmarked ? 'bookmarked' : ''}"
-	        data-contentid="${contentId}"
-	        data-contenttypeid="${contentTypeId}"
-	        data-title="${common.title}"
-	        data-firstimage="${common.firstimage}"
-	        data-mapx="${common.mapx}"
-	        data-mapy="${common.mapy}"
-	        data-addr1="${common.addr1}">
+          class="${isBookmarked ? 'bookmarked' : ''}"
+          data-contentid="${contentId}"
+          data-contenttypeid="${contentTypeId}"
+          data-title="${common.title}"
+          data-firstimage="${common.firstimage}"
+          data-mapx="${common.mapx}"
+          data-mapy="${common.mapy}"
+          data-addr1="${common.addr1}">
           ${isBookmarked ? '✅' : '🔖'}
         </button>
-		<span id="bookmarkCount">${bookmarkCount}</span>
+        <span id="bookmarkCount">${bookmarkCount}</span>
       </div>
     </div>
 
     <hr class="divider">
   </div>
 </div>
+
 
   <!-- 📸 이미지 슬라이드 -->
 <div class="main-slider-wrapper">
@@ -526,8 +524,14 @@
 		</div>
 
 	    <input type="hidden" name="contentId" value="${contentId}">
-	    <input type="hidden" name="contentTypeId" value="${contentTypeId}">
-	    <input type="hidden" name="title" value="${common.title}">
+		<input type="hidden" name="contentTypeId" value="${contentTypeId}">
+		<input type="hidden" name="title" value="${title}">
+		<input type="hidden" name="firstimage" value="${firstimage}">
+		<input type="hidden" name="addr1" value="${addr1}">
+		<input type="hidden" name="mapX" value="${mapX}">
+		<input type="hidden" name="mapY" value="${mapY}">
+		<input type="hidden" name="areaCode" value="${areaCode}">
+		<input type="hidden" name="sigunguCode" value="${sigunguCode}">
 		
 		<button type="submit" id="submitReviewBtn">등록</button>
 	  </div>
@@ -564,7 +568,10 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("review-box").innerHTML = html;
         });
 });
+
+
 </script>
+
 <script src='/js/reviewList.js'/></script>
 <script src='/js/detail.js'/></script>
 <script src='/js/modal.js'/></script>

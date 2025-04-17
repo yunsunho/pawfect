@@ -59,12 +59,93 @@ public class AreaController {
             @RequestParam(defaultValue = "O") String arrange,
             @RequestParam(defaultValue = "1") int pageNo) throws Exception {
 
+        int pageSize = 20;
+        int offset = (pageNo - 1) * pageSize;
+
+        List<Map<String, Object>> areaList = new ArrayList<>();
+
+        // ⭐ 리뷰순 정렬일 경우 DB 사용
+        if ("review".equals(arrange)) {
+            List<Map<String, Object>> sorted = reviewService.getContentIdsSortedByReviewCountAndArea(areaCode, sigunguCode);
+            int total = sorted.size();
+
+            List<Map<String, Object>> paged = sorted.subList(Math.min(offset, total), Math.min(offset + pageSize, total));
+
+            for (Map<String, Object> row : paged) {
+                int contentId = (int) row.get("contentId");
+
+                areaList.add(Map.of(
+                    "contentid", String.valueOf(contentId),
+                    "contenttypeid", String.valueOf(row.get("contentTypeId")),
+                    "title", String.valueOf(row.get("title")),
+                    "addr1", String.valueOf(row.get("addr1")),
+                    "firstimage", String.valueOf(row.get("firstimage")),
+                    "mapx", String.valueOf(row.get("mapX")),
+                    "mapy", String.valueOf(row.get("mapY")),
+                    "rating", String.format("%.1f", reviewService.getAverageRating(contentId)),
+                    "bookmarkCount", String.valueOf(bookmarkService.countByContentId(contentId)),
+                    "reviewCount", String.valueOf(reviewService.getTotalReviewCount(contentId))
+                ));
+            }
+
+            int totalPages = (int) Math.ceil((double) total / pageSize);
+            return Map.of("list", areaList, "totalPages", totalPages);
+        } else if ("rating".equals(arrange)) {
+            List<Map<String, Object>> sorted = reviewService.getContentIdsSortedByAvgRatingAndArea(areaCode, sigunguCode);
+            int total = sorted.size();
+            List<Map<String, Object>> paged = sorted.subList(Math.min(offset, total), Math.min(offset + pageSize, total));
+
+            for (Map<String, Object> row : paged) {
+                int contentId = (int) row.get("contentId");
+
+                areaList.add(Map.of(
+                    "contentid", String.valueOf(contentId),
+                    "contenttypeid", String.valueOf(row.get("contentTypeId")),
+                    "title", String.valueOf(row.get("title")),
+                    "addr1", String.valueOf(row.get("addr1")),
+                    "firstimage", String.valueOf(row.get("firstimage")),
+                    "mapx", String.valueOf(row.get("mapX")),
+                    "mapy", String.valueOf(row.get("mapY")),
+                    "rating", String.format("%.1f", row.get("avgRating")),
+                    "bookmarkCount", String.valueOf(bookmarkService.countByContentId(contentId)),
+                    "reviewCount", String.valueOf(row.get("reviewCount"))
+                ));
+            }
+
+            int totalPages = (int) Math.ceil((double) total / pageSize);
+            return Map.of("list", areaList, "totalPages", totalPages);
+        } else if ("bookmark".equals(arrange)) {
+            List<Map<String, Object>> sorted = bookmarkService.getContentIdsSortedByBookmarkCountAndArea(areaCode, sigunguCode);
+            int total = sorted.size();
+            List<Map<String, Object>> paged = sorted.subList(Math.min(offset, total), Math.min(offset + pageSize, total));
+
+            for (Map<String, Object> row : paged) {
+                int contentId = (int) row.get("contentId");
+
+                areaList.add(Map.of(
+                    "contentid", String.valueOf(contentId),
+                    "contenttypeid", String.valueOf(row.get("contentTypeId")),
+                    "title", String.valueOf(row.get("title")),
+                    "addr1", String.valueOf(row.get("addr1")),
+                    "firstimage", String.valueOf(row.get("firstimage")),
+                    "mapx", String.valueOf(row.get("mapX")),
+                    "mapy", String.valueOf(row.get("mapY")),
+                    "rating", String.format("%.1f", reviewService.getAverageRating(contentId)),
+                    "bookmarkCount", String.valueOf(row.get("bookmarkCount")),
+                    "reviewCount", String.valueOf(reviewService.getTotalReviewCount(contentId))
+                ));
+            }
+
+            int totalPages = (int) Math.ceil((double) total / pageSize);
+            return Map.of("list", areaList, "totalPages", totalPages);
+        }
+
+        // ⭐ 가나다/기타는 기존 API 방식 유지
         String encoded = URLEncoder.encode(serviceKey, "UTF-8");
-        List<Map<String, String>> areaList = new ArrayList<>();
 
         String url = "https://apis.data.go.kr/B551011/KorPetTourService/petTourSyncList?"
                 + "serviceKey=" + encoded
-                + "&numOfRows=20"
+                + "&numOfRows=" + pageSize
                 + "&pageNo=" + pageNo
                 + "&MobileOS=ETC"
                 + "&MobileApp=PawfectTour"
@@ -77,11 +158,7 @@ public class AreaController {
         ObjectMapper mapper = new ObjectMapper();
 
         ResponseEntity<String> response = restTemplate.exchange(
-                new URI(url),
-                HttpMethod.GET,
-                new HttpEntity<>(new HttpHeaders()),
-                String.class
-        );
+                new URI(url), HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class);
 
         JsonNode body = mapper.readTree(response.getBody()).path("response").path("body");
         JsonNode items = body.path("items").path("item");
@@ -101,15 +178,13 @@ public class AreaController {
                     "mapx", item.path("mapx").asText(),
                     "mapy", item.path("mapy").asText(),
                     "rating", String.format("%.1f", rating),
-                    "bookmarkCount", String.valueOf(bookmarkCount)
+                    "bookmarkCount", String.valueOf(bookmarkCount),
+                    "reviewCount", String.valueOf(reviewService.getTotalReviewCount(contentId))
             ));
         }
 
-        int totalPages = (int) Math.ceil((double) totalCount / 20);
-
-        return Map.of(
-                "list", areaList,
-                "totalPages", totalPages
-        );
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+        return Map.of("list", areaList, "totalPages", totalPages);
     }
+
 }

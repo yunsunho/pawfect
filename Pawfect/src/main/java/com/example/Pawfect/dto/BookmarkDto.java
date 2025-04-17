@@ -14,4 +14,7 @@ public class BookmarkDto {
 	private float mapX;
 	private float mapY;
 	private String addr1;
+	private String areaCode;
+	private String sigunguCode;
+
 }

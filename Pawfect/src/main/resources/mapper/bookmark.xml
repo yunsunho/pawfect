@@ -8,10 +8,12 @@
   <insert id="insertBookmark" parameterType="com.example.Pawfect.dto.BookmarkDto">
     INSERT INTO bookmark (
       userId, contentId, contentTypeId,
-      title, firstimage, mapX, mapY, addr1
+      title, firstimage, mapX, mapY, addr1,
+      areaCode, sigunguCode
     ) VALUES (
       #{userId}, #{contentId}, #{contentTypeId},
-      #{title}, #{firstimage}, #{mapX}, #{mapY}, #{addr1}
+      #{title}, #{firstimage}, #{mapX}, #{mapY}, #{addr1},
+      #{areaCode}, #{sigunguCode}
     )
   </insert>
 
@@ -37,5 +39,41 @@
 	  <select id="countByContentId" resultType="int">
 	    SELECT COUNT(*) FROM bookmark WHERE contentId = #{contentId}
 	</select>
+	
+	<!-- 북마크 수 기준 정렬 -->
+	<select id="selectContentIdsSortedByBookmarkCountAndType" resultType="map">
+	  SELECT contentId,
+	         COUNT(*) AS bookmarkCount,
+	         ANY_VALUE(title) AS title,
+	         ANY_VALUE(firstimage) AS firstimage,
+	         ANY_VALUE(addr1) AS addr1,
+	         ANY_VALUE(mapX) AS mapX,
+	         ANY_VALUE(mapY) AS mapY
+	  FROM bookmark
+	  WHERE contentTypeId = #{contentTypeId}
+	  GROUP BY contentId
+	  ORDER BY bookmarkCount DESC
+	</select>
+	
+	<select id="selectContentIdsSortedByBookmarkCountAndArea" resultType="map">
+	  SELECT contentId,
+	         COUNT(*) AS bookmarkCount,
+	         ANY_VALUE(contentTypeId) AS contentTypeId,
+	         ANY_VALUE(title) AS title,
+	         ANY_VALUE(firstimage) AS firstimage,
+	         ANY_VALUE(addr1) AS addr1,
+	         ANY_VALUE(mapX) AS mapX,
+	         ANY_VALUE(mapY) AS mapY
+	  FROM bookmark
+	  WHERE 1 = 1
+	    <if test="areaCode != null and areaCode != ''">
+	      AND areaCode = #{areaCode}
+	    </if>
+	    <if test="sigunguCode != null and sigunguCode != ''">
+	      AND sigunguCode = #{sigunguCode}
+	    </if>
+	  GROUP BY contentId
+	  ORDER BY bookmarkCount DESC
+	</select>	
 	
 </mapper>
