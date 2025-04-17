@@ -15,9 +15,11 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 <!-- 현재 지도에서 검색 버튼 -->
-<button id="searchByMapBtn">현재 지도에서 검색   <i class="fa-solid fa-magnifying-glass"></i></button>
-<button id="showBookmarkBtn">내 북마크 보기 💖</button>
-<button id="mapSettingsBtn" class="map-settings-button"><i class="fa-solid fa-sliders"></i>️</button>
+<button id="searchByMapBtn">현재 지도에서 검색 <i class="fa-solid fa-magnifying-glass"></i></button>
+<div class="map-top-buttons">
+  <button id="showBookmarkBtn" title="내 북마크 보기">💖</button>
+  <button id="mapSettingsBtn" class="map-settings-button"><i class="fa-solid fa-sliders"></i></button>
+</div>
 <!-- 지도 + 사이드바 전체 wrapper -->
 <div class="map-wrapper">
   <div id="sidebar" class="visible">
@@ -49,7 +51,14 @@
 </div>
 
 
-
+<div id="confirmModal" class="modal">
+  <div class="modal-content">
+    <p id="confirmModalMessage"></p>
+    <button id="btnConfirmYes">예</button>
+    <button id="btnConfirmNo">아니요</button>
+  </div>
+</div>
 <script src="/js/map.js"></script>
+<script src="/js/modal.js"></script>
 </body>
 </html>
