@@ -59,7 +59,6 @@ public class MainController {
                     + "&_type=json"
                     + "&keyword=" + encodedKeyword;
 
-            System.out.println("Request URL: " + url); // Logging
 
             RestTemplate restTemplate = new RestTemplate();
             ObjectMapper mapper = new ObjectMapper();
@@ -91,6 +90,9 @@ public class MainController {
             model.addAttribute("totalCount", totalCount);
             model.addAttribute("keyword", keyword);
             model.addAttribute("pageNo", pageNo);
+            
+            int totalPages = (int) Math.ceil((double) totalCount / 7);
+            model.addAttribute("totalPages", totalPages);
 
         } catch (RestClientException | URISyntaxException | UnsupportedEncodingException e) {
             model.addAttribute("error", "API 호출 중 오류가 발생했습니다: " + e.getMessage());

@@ -15,3 +15,5 @@
 <!-- search.jsp -->
 <c:set var="msg_no_results" value="검색 결과가 없습니다."/>
 <c:set var="str_no_img" value="이미지 없음"/>
+<c:set var="btn_previous" value="이전"/>
+<c:set var="btn_next" value="다음"/>

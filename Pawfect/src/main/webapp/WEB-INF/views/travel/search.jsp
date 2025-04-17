@@ -45,6 +45,14 @@
 			<p style="text-align:center; font-size: 18px; color: #666;">${msg_no_results}</p>
 		</c:if>
 	</div>
-
+	<div class="center">
+		<c:if test="${pageNo ne 1}">
+			<a class="button" id="btn-prev" href="/main?keyword=${keyword}&pageNo=${pageNo-1}">&laquo;&nbsp;${btn_previous}</a>
+		</c:if>
+		<c:if test="${pageNo ne totalPages}">
+			<a class="button" id="btn-next" href="/main?keyword=${keyword}&pageNo=${pageNo+1}">&raquo;&nbsp;${btn_next}</a>
+		</c:if>
+	</div>
+	<br><br><br><br><br>
 </body>
 </html>
