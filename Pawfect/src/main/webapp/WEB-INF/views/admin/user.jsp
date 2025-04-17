@@ -133,11 +133,13 @@
 								</td>
 								<td>
 									<c:if test="${dto.userStatus eq 'ACTIVE' }">
-										<form action="banUser" method="post">
-								        	<input type="hidden" name="userId" value="${dto.userId}">
-								        	<input type="hidden" name="pageNum" value="${pageNum}">
-								        	<button type="button" class="submit-btn" onclick="openConfirmModal(this)">${btn_ban_user}</button>
-								        </form>
+										<c:if test="${not dto.admin}">
+											<form action="banUser" method="post">
+									        	<input type="hidden" name="userId" value="${dto.userId}">
+									        	<input type="hidden" name="pageNum" value="${pageNum}">
+									        	<button type="button" class="submit-btn" onclick="openConfirmModal(this)">${btn_ban_user}</button>
+									        </form>
+								        </c:if>
 							        </c:if>
 								</td>
 							</tr>
