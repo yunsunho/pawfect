@@ -16,6 +16,7 @@
 
 <!-- 현재 지도에서 검색 버튼 -->
 <button id="searchByMapBtn">현재 지도에서 검색   <i class="fa-solid fa-magnifying-glass"></i></button>
+<button id="showBookmarkBtn">내 북마크 보기 💖</button>
 <button id="mapSettingsBtn" class="map-settings-button"><i class="fa-solid fa-sliders"></i>️</button>
 <!-- 지도 + 사이드바 전체 wrapper -->
 <div class="map-wrapper">

@@ -7,6 +7,7 @@
 <title>회원가입</title>
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/signup.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <style>
 .signup-2col {
 	display: flex;
@@ -127,7 +128,7 @@
 						</label> <input type="text" name="userNickname" id="userNickname" required
 							autocomplete="off" maxlength="10">
 						<div class="nickname-warning" style="display: none;">
-							<span class="text-red">*</span> 부적절한 단어나 욕설이 포함될 경우, 운영자에 의해 이용이
+							<span class="text-red">!!</span> 부적절한 단어나 욕설이 포함될 경우, 운영자에 의해 이용이
 							제한될 수 있습니다.
 						</div>
 					</div>
@@ -183,7 +184,7 @@
 
 	<button id="homeBtn" class="home-btn" onclick="location.href='/main'"
 		title="홈으로">
-		<span class="home-icon">🏠</span>
+		<span class="home-icon"><i class="fa-solid fa-house"></i></span>
 	</button>
 </body>
 </html>

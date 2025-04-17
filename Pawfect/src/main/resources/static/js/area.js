@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ? bookmarked.toString().split(",").map(Number)
     : Array.isArray(bookmarked) ? bookmarked : [];
 
-  // ✅ 로그인 후 자동 북마크 실행
+  // 로그인 후 자동 북마크 실행
   const pending = sessionStorage.getItem("pendingBookmark");
   if (pending) {
     const dto = JSON.parse(pending);
@@ -61,16 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	      const index = bookmarkArray.indexOf(contentId);
 		  
 	      if (result === "saved") {
-				showModal("북마크 추가 (자동 실행)");
+				showModal("북마크가 추가되었습니다.");
 			  	closeModal;
 	        if (index === -1) bookmarkArray.push(contentId);
 	      } else if (result === "deleted") {
-				showModal("북마크 삭제 (자동 실행)");
+				showModal("북마크가 삭제되었습니다.");
 			  	closeModal;
 	        if (index > -1) bookmarkArray.splice(index, 1);
 	      }
 	      sessionStorage.removeItem("pendingBookmark");
-	      fetchAndRender(); // 마커 갱신
+	      fetchAndRender(); 
 	    });
   }
 
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	      sessionStorage.setItem("afterLoginRedirect", currentUrl);
 	      sessionStorage.setItem("pendingBookmark", JSON.stringify(dto));
 
-	      // ✅ 모달 띄우기
+	      // 모달 띄우기
 	      showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
 	        location.href = res.url;
 	      });
@@ -112,14 +112,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		  let count = parseInt(btn.textContent.match(/\d+/)) || 0;
 
 		  if (result === "saved") {
-				showModal("북마크 추가");
+				showModal("북마크가 추가되었습니다.");
 			  	closeModal;
-				btn.innerHTML = `✅ ${count + 1}`;
+				btn.innerHTML = `<i class="fa-solid fa-bookmark"></i> ${count + 1}`;
 		       bookmarkArray.push(Number(contentId));
 		  } else if (result === "deleted") {
-				showModal("북마크 삭제");
+				showModal("북마크가 삭제되었습니다.");
 			  	closeModal;
-				btn.innerHTML = `🔖 ${count - 1}`;
+				btn.innerHTML = `<i class="fa-regular fa-bookmark"></i> ${count - 1}`;
 	        	bookmarkArray = bookmarkArray.filter(id => id !== Number(contentId));
 		  }
 		});
@@ -131,13 +131,12 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(`/api/areaData?areaCode=${selectedAreaCode}&sigunguCode=${selectedSigunguCode || ""}&arrange=${selectedArrange}&pageNo=${currentPage}`);
       const result = await response.json();
-	  console.log("🎯 서버 응답:", result); // ⭐ 1. 응답 내용 콘솔 확인
-	  const data = result.list ?? [];       // ⭐ 2. list가 undefined면 빈 배열로 대체
-	  const totalPages = result.totalPages ?? 1; // ⭐ 3. 총 페이지도 기본값 1 설정
+	  const data = result.list ?? [];    
+	  const totalPages = result.totalPages ?? 1; 
 
-	  // ⭐ 4. 방어 코드로 배열 여부 확인
+	  // 방어 코드로 배열 여부 확인
 	  if (!Array.isArray(data)) {
-	    console.error("❌ list가 배열이 아님:", data);
+	    console.error("list가 배열이 아님:", data);
 	    return;
 	  }
       container.innerHTML = '';
@@ -147,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.className = "theme-card";
 		card.innerHTML = `
 		  <div class="card-top-bar">
-		    <div class="rating">⭐ ${item.rating ?? '-'}</div>
+		    <div class="rating"><i class="fa-solid fa-star"></i> ${item.rating ?? '-'}</div>
 		    <div class="bookmark"
 		         data-contentid="${item.contentid}"
 		         data-contenttypeid="${item.contenttypeid}"
@@ -156,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		         data-mapx="${item.mapx}"
 		         data-mapy="${item.mapy}"
 		         data-addr1="${item.addr1}">
-		      ${isBookmarked ? "✅" : "🔖"} ${item.bookmarkCount ?? 0}
+		      ${isBookmarked ? `<i class="fa-solid fa-bookmark"></i>` : `<i class="fa-regular fa-bookmark"></i>`} ${item.bookmarkCount ?? 0}
 		    </div>
 		  </div>
 

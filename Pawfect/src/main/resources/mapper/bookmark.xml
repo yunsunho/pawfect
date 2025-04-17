@@ -75,5 +75,17 @@
 	  GROUP BY contentId
 	  ORDER BY bookmarkCount DESC
 	</select>	
-	
+	<select id="selectBookmarksByUserId" resultType="com.example.Pawfect.dto.BookmarkDto">
+	    SELECT 
+	        contentId,
+	        contentTypeId,
+	        userId,
+	        title,
+	        firstimage,
+	        addr1,
+	        mapX,
+	        mapY
+	    FROM bookmark
+	    WHERE userId = #{userId}
+	</select>
 </mapper>

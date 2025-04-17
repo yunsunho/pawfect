@@ -18,5 +18,6 @@ public interface BookmarkMapper {
 	int countByContentId(int contentId);
 	List<Map<String, Object>> selectContentIdsSortedByBookmarkCountAndType(int contentTypeId);
 	List<Map<String, Object>> selectContentIdsSortedByBookmarkCountAndArea(String areaCode, String sigunguCode);
+	List<BookmarkDto> selectBookmarksByUserId(String userId);
 
 }
