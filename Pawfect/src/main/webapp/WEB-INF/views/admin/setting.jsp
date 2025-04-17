@@ -13,7 +13,7 @@
 <c:set var="sidebar_manage_qna" value="1:1 문의 처리"/>
 <c:set var="sidebar_home" value="사이트 홈"/>
 <c:set var="sidebar_logout" value="로그아웃"/>
-<c:set var="modal_confirm_logout" value="정말 로그아웃 하시겠습니까?"/>
+<c:set var="modal_confirm_logout" value="정말 로그아웃하시겠습니까?"/>
 
 <!-- DASHBOARD -->
 <c:set var="str_admin_page" value="관리자 페이지"/>
@@ -45,7 +45,7 @@
 
 <c:set var="msg_no_user" value="회원이 없습니다."/>
 <c:set var="btn_ban_user" value="회원 정지"/>
-<c:set var="modal_confirm_ban" value="정말 회원을 정지 시키겠습니까?"/>
+<c:set var="modal_confirm_ban" value="회원 정지처리를 하시겠습니까?"/>
  
 <!-- 게시물 관리 -->
 <c:set var="page_post" value="게시물 관리"/>
@@ -56,7 +56,7 @@
 
 <c:set var="msg_no_post" value="게시물이 없습니다."/>
 <c:set var="btn_delete_post" value="게시물 삭제"/>
-<c:set var="modal_confirm_delete_post" value="정말 게시물을 삭제하시겠습니까?"/>
+<c:set var="modal_confirm_delete_post" value="정말 게시글을 삭제하시겠습니까?"/>
 
 <!-- 댓글 관리 -->
 <c:set var="page_comment" value="댓글 관리"/>
@@ -106,6 +106,6 @@
 <c:set var="btn_respond" value="보내기"/>
 <c:set var="btn_cancel" value="취소"/>
 <!-- modal -->
-<c:set var="modal_confirm_reply" value="정말 답변을 전송하시겠습니까?"/>
+<c:set var="modal_confirm_reply" value="답변을 전송하시겠습니까?"/>
 <c:set var="str_confirm" value="확인"/>
 <c:set var="str_cancel" value="취소"/>
