@@ -5,6 +5,7 @@ import com.example.Pawfect.mapper.BookmarkMapper;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,14 @@ public class BookmarkService {
 
 	public int countByContentId(int contentId) {
 	    return bookmarkMapper.countByContentId(contentId);
+	}
+	
+	public List<Map<String, Object>> getContentIdsSortedByBookmarkCountAndType(int contentTypeId) {
+	    return bookmarkMapper.selectContentIdsSortedByBookmarkCountAndType(contentTypeId);
+	}
+	
+	public List<Map<String, Object>> getContentIdsSortedByBookmarkCountAndArea(String areaCode, String sigunguCode) {
+	    return bookmarkMapper.selectContentIdsSortedByBookmarkCountAndArea(areaCode, sigunguCode);
 	}
 
 

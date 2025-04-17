@@ -37,10 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const arrangeMap = {
     '제목순': 'O',
-    '리뷰순': '',
-    '별점순': '',
-    '북마크순': ''
+    '리뷰순': 'review',
+    '별점순': 'rating',
+    '북마크순': 'bookmark'
   };
+
   
   let selectedContentTypeId = parseInt(new URLSearchParams(location.search).get("contentTypeId")) || 12;
   let selectedArrange = 'O';
@@ -153,7 +154,9 @@ document.addEventListener('DOMContentLoaded', () => {
         card.className = "theme-card";
 		card.innerHTML = `
 		  <div class="card-top-bar">
-		    <div class="rating">⭐ ${item.rating ?? '-'}</div>
+		    <div class="rating">
+			⭐ ${item.rating ?? '-'} (${item.reviewCount ?? 0})
+			</div>
 			<div class="bookmark"
 			     data-contentid="${item.contentid}"
 			     data-contenttypeid="${item.contenttypeid}"
@@ -250,18 +253,20 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchAndRender();
 
   tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      selectedContentTypeId = contentTypeMap[tab.textContent.trim()];
-      currentPage = 1;
-      fetchAndRender();
-    });
+	tab.addEventListener('click', () => {
+	  tabs.forEach(t => t.classList.remove('active'));
+	  tab.classList.add('active');
+	  selectedContentTypeId = contentTypeMap[tab.textContent.trim()];
+	  selectedArrange = 'O'; // 정렬 초기화
+	  sortSelect.value = 'O'; // 셀렉트 
+	  currentPage = 1;
+	  fetchAndRender();
+	});
+
   });
 
   sortSelect.addEventListener('change', () => {
-    const selectedText = sortSelect.options[sortSelect.selectedIndex].text;
-    selectedArrange = arrangeMap[selectedText] || 'O';
+    selectedArrange = sortSelect.value;
     currentPage = 1;
     fetchAndRender();
   });

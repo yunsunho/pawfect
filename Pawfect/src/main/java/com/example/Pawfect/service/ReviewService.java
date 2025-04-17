@@ -1,6 +1,7 @@
 package com.example.Pawfect.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -38,17 +39,27 @@ public class ReviewService {
     }
 
     // 리뷰와 이미지 저장
-    public int saveReview(int contentId, String userId, String reviewContent, int reviewRating, String title, int contentTypeId) {
-        ReviewDto review = new ReviewDto();
-        review.setContentId(contentId);
-        review.setUserId(userId);
-        review.setTitle(title);
-        review.setReviewContent(reviewContent);
-        review.setReviewRating(reviewRating);
-        review.setContentTypeId(contentTypeId);
-        reviewMapper.insertReview(review); // INSERT + reviewId 세팅됨
-        return review.getReviewId();       // 여기서 제대로 된 값 나옴
-    }
+    public int saveReview(int contentId, String userId, String reviewContent, int reviewRating,
+        String title, int contentTypeId, String firstimage,
+        String addr1, float mapX, float mapY, String areaCode, String sigunguCode) {
+
+		ReviewDto review = new ReviewDto();
+		review.setContentId(contentId);
+		review.setUserId(userId);
+		review.setReviewContent(reviewContent);
+		review.setReviewRating(reviewRating);
+		review.setTitle(title);
+		review.setContentTypeId(contentTypeId);
+		review.setFirstimage(firstimage);
+		review.setAddr1(addr1);
+		review.setMapX(mapX);
+		review.setMapY(mapY);
+		review.setAreaCode(areaCode);
+		review.setSigunguCode(sigunguCode);
+		
+		reviewMapper.insertReview(review);
+		return review.getReviewId();
+		}
 
     
     // 리뷰 이미지 저장
@@ -96,6 +107,25 @@ public class ReviewService {
     public double getAverageRating(int contentId) {
         return reviewMapper.getAverageRating(contentId);
     }
+    
+    public List<Map<String, Object>> getContentIdsSortedByReviewCountAndType(int contentTypeId) {
+        return reviewMapper.selectContentIdsSortedByReviewCountAndType(contentTypeId);
+    }
+
+    public List<Map<String, Object>> getContentIdsSortedByAvgRatingAndType(int contentTypeId) {
+        return reviewMapper.selectContentIdsSortedByAvgRatingAndType(contentTypeId);
+    }
+
+    public List<Map<String, Object>> getContentIdsSortedByReviewCountAndArea(String areaCode, String sigunguCode) {
+        return reviewMapper.selectContentIdsSortedByReviewCountAndArea(areaCode, sigunguCode);
+    }
+    
+    public List<Map<String, Object>> getContentIdsSortedByAvgRatingAndArea(String areaCode, String sigunguCode) {
+        return reviewMapper.selectContentIdsSortedByAvgRatingAndArea(areaCode, sigunguCode);
+    }
+
+
+
 
 }
 

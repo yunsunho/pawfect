@@ -20,10 +20,10 @@
 <!-- 정렬 셀렉트박스 -->
 <div class="sort-box">
   <select>
-    <option selected value="O">가나다순</option>
-    <option value="">리뷰순</option>
-    <option value="">별점순</option>
-    <option value="">북마크순</option>
+	  <option value="O" selected>가나다순</option>
+	  <option value="review">리뷰순</option>
+	  <option value="rating">별점순</option>
+	  <option value="bookmark">북마크순</option>
   </select>
 </div>
 

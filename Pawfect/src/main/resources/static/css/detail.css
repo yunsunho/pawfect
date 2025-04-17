@@ -324,27 +324,31 @@ select {
   color: #666;
 }
 
-.place-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 5px;
-}
-
-.meta-left,
-.meta-right {
-  flex: 1;
-  font-size: 14px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.meta-center {
-  flex: 2;
+.place-title {
   text-align: center;
-  font-size: 15px;
+  font-size: 24px;
+  margin: 12px 0;
+}
+
+.place-address {
+  text-align: center;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.place-stats {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+  margin-right: 10px;
+}
+
+.rating-info,
+.bookmark-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 #bookmarkBtn {

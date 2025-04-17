@@ -20,6 +20,12 @@ public class ReviewDto {
     private int contentTypeId;
     private String title;
     private String userId;
+    private String firstimage;
+    private float mapX;
+    private float mapY;
+    private String addr1;
+    private String areaCode;
+    private String sigunguCode;
     private String imgpath;
     private String reviewContent;
     private int reviewRating;

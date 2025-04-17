@@ -54,7 +54,7 @@ public class DetailController {
                 + "serviceKey=" + encodedKey
                 + "&MobileOS=ETC&MobileApp=Pawfect"
                 + "&contentId=" + contentId
-                + "&defaultYN=Y&firstImageYN=N&areacodeYN=N&catcodeYN=N"
+                + "&defaultYN=Y&firstImageYN=Y&areacodeYN=N&catcodeYN=N"
                 + "&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&_type=json";
         ResponseEntity<String> commonResponse = restTemplate.exchange(
                 new URI(commonUrl), HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class);
@@ -72,16 +72,24 @@ public class DetailController {
                 "mapy", "0"
             ));
         } else {
-        	Map<String, String> detailCommon = new HashMap<>();
-        	detailCommon.put("title", common.path("title").asText());
-        	detailCommon.put("homepage", common.path("homepage").asText());
-        	detailCommon.put("addr1", common.path("addr1").asText());
-        	detailCommon.put("overview", common.path("overview").asText());
-        	detailCommon.put("tel", common.path("tel").asText());
-        	detailCommon.put("mapx", common.path("mapx").asText());
-        	detailCommon.put("mapy", common.path("mapy").asText());
+            Map<String, String> detailCommon = new HashMap<>();
+            detailCommon.put("title", common.path("title").asText());
+            detailCommon.put("homepage", common.path("homepage").asText());
+            detailCommon.put("addr1", common.path("addr1").asText());
+            detailCommon.put("overview", common.path("overview").asText());
+            detailCommon.put("tel", common.path("tel").asText());
+            detailCommon.put("mapx", common.path("mapx").asText());
+            detailCommon.put("mapy", common.path("mapy").asText());
+            detailCommon.put("firstimage", common.path("firstimage").asText());
+
             model.addAttribute("common", detailCommon);
-        }   
+            
+            model.addAttribute("title", common.path("title").asText());
+            model.addAttribute("firstimage", common.path("firstimage").asText());
+            model.addAttribute("addr1", common.path("addr1").asText());
+            model.addAttribute("mapX", common.path("mapx").asText());
+            model.addAttribute("mapY", common.path("mapy").asText());
+        }
         
         // ✅ 이미지 API
         String imageUrl = "https://apis.data.go.kr/B551011/KorPetTourService/detailImage?"
