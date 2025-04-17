@@ -9,7 +9,7 @@
   <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=53058506472e68663c191f4ba75fc7b0&libraries=clusterer"></script>
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/map.css">
-  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -17,7 +17,7 @@
 <!-- 현재 지도에서 검색 버튼 -->
 <button id="searchByMapBtn">현재 지도에서 검색 <i class="fa-solid fa-magnifying-glass"></i></button>
 <div class="map-top-buttons">
-  <button id="showBookmarkBtn" title="내 북마크 보기">💖</button>
+  <button id="showBookmarkBtn" title="내 북마크 보기"> <i class="fa-solid fa-bookmark"></i></button>
   <button id="mapSettingsBtn" class="map-settings-button"><i class="fa-solid fa-sliders"></i></button>
 </div>
 <!-- 지도 + 사이드바 전체 wrapper -->
