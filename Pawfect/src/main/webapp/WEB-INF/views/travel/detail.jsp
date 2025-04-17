@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/css/detail.css">
   <link rel="stylesheet" href="/css/reviewList.css">
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=53058506472e68663c191f4ba75fc7b0"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 
 <body data-logged-in="${not empty user}" data-user-id="${user.userId}">
@@ -33,8 +34,7 @@
     <!-- 별점 + 북마크 -->
     <div class="place-stats">
       <div class="rating-info">
-        ⭐ <fmt:formatNumber value="${averageRating}" type="number" maxFractionDigits="2" /> / 5
-<span>(${reviewCount}명)</span>
+        <i class="fa-solid fa-star"></i> ${averageRating} / 5 <span>(${reviewCount}명)</span>
       </div>
       <div class="bookmark-info">
         <button id="bookmarkBtn"
@@ -46,7 +46,7 @@
           data-mapx="${common.mapx}"
           data-mapy="${common.mapy}"
           data-addr1="${common.addr1}">
-          ${isBookmarked ? '✅' : '🔖'}
+          <i class="${isBookmarked ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
         </button>
         <span id="bookmarkCount">${bookmarkCount}</span>
       </div>
@@ -57,7 +57,7 @@
 </div>
 
 
-  <!-- 📸 이미지 슬라이드 -->
+  <!-- 이미지 슬라이드 -->
 <div class="main-slider-wrapper">
   <button class="main-prev" onclick="changeMainSlide(-1)">&#10094;</button>
 
@@ -75,7 +75,7 @@
 	<!-- 구분선 -->
 	<hr class="section-divider" />
 
-  <!-- 📝 소개글 + 지도 -->
+  <!-- 소개글 + 지도 -->
   
    <div class="overview">
      <h3>상세정보</h3>
@@ -85,7 +85,7 @@
      <div id="map" data-mapx="${common.mapx}" data-mapy="${common.mapy}" style="height:300px;"></div>
    </div>
 
-  <!-- 📋 이용 정보 -->
+  <!-- 이용 정보 -->
   <div class="extra-info">
     <h3>이용 안내</h3>
     <ul>
