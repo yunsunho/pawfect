@@ -204,10 +204,19 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("showBookmarkBtn").addEventListener("click", () => {
     fetch("/user/bookmarks", {
       method: "GET",
-      credentials: "include" // 🔥 로그인 세션 유지
+      credentials: "include"
     })
       .then(res => {
-        if (!res.ok) throw new Error("로그인 필요");
+        if (res.status === 401) {
+          showConfirmModal("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?", () => {
+            location.href = "/loginForm";
+          });
+          // 👇 이후 then으로 넘어가지 않게 처리
+          throw new Error("UNAUTHORIZED");
+        }
+
+        if (!res.ok) throw new Error("FAILED");
+
         return res.json();
       })
       .then(data => {
@@ -218,12 +227,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch(err => {
+        if (err.message === "UNAUTHORIZED") return;
         alert("북마크 정보를 불러오지 못했습니다.");
         console.error(err);
       });
   });
-
-
 });  
 
 function renderUserBookmarks(bookmarks) {
@@ -288,12 +296,9 @@ function renderUserBookmarks(bookmarks) {
 		
         const iwContent = `
 		<div class="info-window" style="width: 230px; font-family: sans-serif;">
-	        <img src="${bookmark.firstimage || '/images/no-image.png'}" alt="썸네일" style="width: 100%; height: 120px; object-fit: cover; cursor: pointer;" onclick="window.location.href='/detail/${bookmark.contentid}/${bookmark.contenttypeid}'"/>
+	        <img src="${bookmark.firstimage || '/images/no-image.png'}" alt="썸네일" style="width: 100%; height: 120px; object-fit: cover; cursor: pointer;" onclick="window.location.href='/detail/${bookmark.contentId}/${bookmark.contentTypeId}'"/>
 	        <h4 style="margin: 8px 0 4px; font-size: 16px; cursor: pointer;" onclick="window.location.href='/detail/${bookmark.contentId}/${bookmark.contentTypeId}'">${bookmark.title}</h4>
 	        <p style="margin: 0; font-size: 14px; color: #555;">${bookmark.addr1}</p>
-	        <div style="margin-top: 8px; text-align: right;">
-	          <span class="bookmark" onclick="toggleBookmark('${bookmark.contentId}')" style="cursor: pointer;"></span>
-	        </div>
 	      </div>
         `;
 		
