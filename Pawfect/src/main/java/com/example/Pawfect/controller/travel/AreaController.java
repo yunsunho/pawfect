@@ -168,7 +168,7 @@ public class AreaController {
             int contentId = item.path("contentid").asInt();
             double rating = reviewService.getAverageRating(contentId);
             int bookmarkCount = bookmarkService.countByContentId(contentId);
-
+            int reviewCount = reviewService.getTotalReviewCount(contentId);
             areaList.add(Map.of(
                     "contentid", String.valueOf(contentId),
                     "contenttypeid", item.path("contenttypeid").asText(),
@@ -179,7 +179,7 @@ public class AreaController {
                     "mapy", item.path("mapy").asText(),
                     "rating", String.format("%.1f", rating),
                     "bookmarkCount", String.valueOf(bookmarkCount),
-                    "reviewCount", String.valueOf(reviewService.getTotalReviewCount(contentId))
+                    "reviewCount", String.valueOf(reviewCount)
             ));
         }
 

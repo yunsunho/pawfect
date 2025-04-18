@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.className = "theme-card";
 		card.innerHTML = `
 		  <div class="card-top-bar">
-		    <div class="rating"><i class="fa-solid fa-star"></i> ${item.rating ?? '-'}</div>
+		    <div class="rating"><i class="fa-solid fa-star"></i> ${item.rating ?? '-'} (${item.reviewCount ?? 0})</div>
 		    <div class="bookmark"
 		         data-contentid="${item.contentid}"
 		         data-contenttypeid="${item.contenttypeid}"
